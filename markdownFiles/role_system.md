@@ -33,7 +33,6 @@ than 30 responsibilty points.
 # Project Elements 
 ## Weeks 2 - 10 
 * User Engineering 
-> [!NOTE]
 > For this project, user engineering is specifying and designing the user-facing application \
 > at a higher level.  Those who assist are responsible for addressing all user experience issues. 
 * Database Engineering
