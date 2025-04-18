@@ -33,24 +33,19 @@ than 30 responsibilty points.
 # Project Elements 
 ## Weeks 2 - 10 
 * User Engineering 
-> [!NOTE]
 > For this project, user engineering is specifying and designing the user-facing application \
 > at a higher level.  Those who assist are responsible for addressing all user experience issues. 
 * Database Engineering
-> [!NOTE] 
 > For this project, database engineering is specifying and designing the database system.  
 * System Security Engineering
-> [!NOTE]
-> For this project, System security engin
+> For this project, system security engineering is ensuring that all other engineering is safe \
+> and user data is protected 
 * Technical writing
-> [!NOTE]
 > For this project, technical writing is the clear communication of the project's specifications \
 > with the client. 
 ## Weeks 5 - 10
 * Implementation
-> [!NOTE]
 > Responsible for implementing the systems as specified by the engineers.
 * Refactoring and Testing
-> [!NOTE]
 > For this project, refactoring is rewriting  code to optimize it or improve readability as desired. \ 
 > For this project, testing is designing, implementing, and carrying out tests of the project artifacts.
