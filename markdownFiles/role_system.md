@@ -1,3 +1,4 @@
+# Overiew of Role System
 At each progress report, every member shall list their roles.
 A role is comprised of a single project element descriptor 
 paired with a single control level. *For instance, "frontend engineering lead"
@@ -13,6 +14,7 @@ No member can have more
 than 30 responsibilty points.
 
 # Control Levels 
+> [!IMPORTANT]
 > **Hierarchy of control levels list below in descending order of priority
 > (1 is highest degree of control, 4 is lowest).**
 ## 1. Lead:  *(10 responsiblity points per descriptor)*
