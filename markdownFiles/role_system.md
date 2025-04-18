@@ -40,7 +40,7 @@ than 30 responsibilty points.
 >    in absence of a lead.
 >  - Responsible for ensuring that all modifications do not conflict with 
 >    the decisions of members in roles with higher control priority.
-## 4. Active Follower: *5 responsibility points per descriptor*
+## 4. Active Follower: *(5 responsibility points per descriptor)*
 >  [!NOTE]
 >  - Listens to all individuals in the project element of higher control.
 >  - Makes only changes approved by those of higher control.
