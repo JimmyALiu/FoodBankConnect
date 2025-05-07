@@ -1,5 +1,6 @@
 // Import the express in typescript file
 import express from 'express';
+import foodbankManagerRoutes from './routes/foodbankManager';
  
 // Initialize the express engine
 const app: express.Application = express();
@@ -13,7 +14,10 @@ const corsOptions = {
     origin: ["http://localhost:5173"],
 }
 app.use(cors(corsOptions));
- 
+
+// Mount routes here
+app.use('/api/fbm', foodbankManagerRoutes);
+
 // Handling '/' Request
 app.get('/', (_req, _res) => {
     _res.send("TypeScript With Express");
