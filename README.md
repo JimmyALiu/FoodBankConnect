@@ -3,7 +3,7 @@
 ## Welcome
 Welcome to the repository for Food Bank Connect: a CSE 403 project in collaboration with Lynnwood Food Bank.
 To get started, see the following **Usage** section. 
-> [!WARN]
+> [!WARNING]
 > This project in an incomplete, insecure state and is **NOT** to be used with real personally identifiable information.
 > To gaurentee safety, we require of form submissions that a secure server be run from the integragining food bank 
 > or a trusted partner. 
