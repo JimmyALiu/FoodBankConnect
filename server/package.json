@@ -6,17 +6,22 @@
   "scripts": {
     "test": "jest",
     "start": "ts-node index.ts",
-    "dev": "nodemon index.ts"
+    "dev": "nodemon index.ts",
+    "build": "tsc -b",
+    "start:intake": "npm run build && node dist/client_intake.js"
   },
+  "type": "module",
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
   "dependencies": {
     "@types/express": "^5.0.1",
     "@types/node": "^22.15.12",
     "cors": "^2.8.5",
-    "express": "^5.1.0"
+    "express": "^5.1.0",
+    "gaxios": "^6.7.1",
+    "google-auth-library": "^9.15.1",
+    "googleapis": "^148.0.0"
   },
   "devDependencies": {
     "@types/cors": "^2.8.17",
