@@ -12,9 +12,6 @@
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.5",
-    "gaxios": "^6.7.1",
-    "google-auth-library": "^9.15.1",
-    "googleapis": "^148.0.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "tailwindcss": "^4.1.5"

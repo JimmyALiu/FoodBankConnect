@@ -8,6 +8,7 @@
       "path": "./tsconfig.node.json"
     }
   ],
+  // need to compile the types apparently by specifying the typeroots
   "compilerOptions": {
     "typeRoots": [
       "./node_modules/@types"
