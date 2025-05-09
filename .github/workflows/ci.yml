@@ -2,7 +2,7 @@ name: Client and Server Tests
 
 on:
   push:
-    branches: [main]
+    branches: [ci-setup-update]
   pull_request:
     branches: [main]
   workflow_dispatch:
