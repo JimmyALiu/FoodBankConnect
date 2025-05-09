@@ -1,16 +1,18 @@
 {
-  "files": [],
-  "references": [
-    {
-      "path": "./tsconfig.app.json"
-    }
-  ],
   "compilerOptions": {
-    "target": "es6",
-    "module": "commonjs",
-    "rootDir": "./",
-    "outDir": "./build",
+    "module": "ESNext",
+    "target": "ES2020",
+    "moduleResolution": "bundler",
+    "strict": true,
     "esModuleInterop": true,
-    "strict": true
-  }
+    "isolatedModules": true,
+    "allowImportingTsExtensions": true,
+    "noEmit": true,
+    "outDir": "./build",
+    "allowSyntheticDefaultImports": true
+  },
+  "include": [
+    "src/**/*.ts",
+    "__tests__/**/*.ts"
+  ]
 }
