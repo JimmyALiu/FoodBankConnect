@@ -9,7 +9,10 @@
     "allowImportingTsExtensions": true,
     "noEmit": true,
     "outDir": "./build",
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "types": [
+      "jest"
+    ]
   },
   "include": [
     "src/**/*.ts",
