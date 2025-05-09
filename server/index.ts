@@ -25,8 +25,3 @@ app.listen(port, () => {
     console.log(`TypeScript with Express 
          http://localhost:${port}/`);
 });
-
-// Kyle's server test
-export function multiply(a: number, b: number): number {
-    return a * b;
-}
