@@ -23,7 +23,7 @@ const auth = new JWT({
  * @async
  * @returns {Promise<boolean>} - Returns true if the sheet is read successfully, false otherwise.
  */
-export async function readSheet(): Promise<boolean> {
+export async function testSheet(): Promise<boolean> {
     // Create a JWT client
     if (!fs.existsSync(keyPath)) {
         console.error(`Key file not found at path: ${keyPath}`);
@@ -45,5 +45,3 @@ export async function readSheet(): Promise<boolean> {
         return false;
     }
 }
-
-readSheet().catch(console.error);
