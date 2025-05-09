@@ -4,24 +4,50 @@
   "description": "",
   "main": "index.ts",
   "scripts": {
-    "test": "jest",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "start": "ts-node index.ts",
-    "dev": "nodemon index.ts"
+    "dev": "nodemon index.ts",
+    "build": "tsc -b",
+    "start:intake": "npm run build && node dist/client_intake.js"
   },
+  "jest": {
+    "preset": "ts-jest/presets/default-esm",
+    "testEnvironment": "node",
+    "transform": {
+      "^.+\\.ts$": [
+        "ts-jest",
+        {
+          "useESM": true
+        }
+      ]
+    },
+    "extensionsToTreatAsEsm": [
+      ".ts"
+    ],
+    "moduleNameMapper": {
+      "^(\\.{1,2}/.*)\\.ts$": "$1"
+    }
+  },
+  "type": "module",
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
   "dependencies": {
     "@types/express": "^5.0.1",
     "@types/node": "^22.15.12",
     "cors": "^2.8.5",
-    "express": "^5.1.0"
+    "express": "^5.1.0",
+    "gaxios": "^6.7.1",
+    "google-auth-library": "^9.15.1",
+    "googleapis": "^148.0.0"
   },
   "devDependencies": {
+    "@babel/preset-env": "^7.27.2",
+    "@babel/preset-typescript": "^7.27.1",
+    "@jest/globals": "^29.7.0",
     "@types/cors": "^2.8.17",
     "@types/jest": "^29.5.14",
-    "jest": "^29.7.0",
+    "babel-jest": "^29.7.0",
     "nodemon": "^3.1.10",
     "ts-jest": "^29.3.2",
     "ts-node": "^10.9.2",
