@@ -16,14 +16,15 @@ To install requried dependencies, use `npm install` from the server
 directory and from the client directory.
 
 ### Building
-To build the project use `npm build` from server. Then, use `npm build` from the client directory. 
+To build the project use `npm run build` from server. Then, use `npm build` from the client directory. 
 
 ### Running
 To run the project, first ensure that a server is active by using `npm run` from the server directory.
 Then, use `npm run` from the client directory.
 
 ### Testing
-To run the automated tests manually, use `npm run` from the test folders.
+To run the automated tests do `npm test` from server and client folders respectively.
+'npm start:intake' for the server side allow you to see what the output of the current database is. A manual test to alleviate fears lmao.
 
 ## Repository Layout
 There are two directories:
@@ -40,6 +41,7 @@ Contains both dependency information for the **Volunteer Hub** server and the co
 Includes:
 - `server/package.json` to specify the dependencies of the local website.
 - `server/__test__` contains automated tests of the local website.
+- 'server/src' contains non trivial code for running calls to the spreadsheet and other complex functions such as flagging.
 
 
 ## About Us
