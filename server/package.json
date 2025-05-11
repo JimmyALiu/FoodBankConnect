@@ -7,8 +7,9 @@
     "test": "node run-jest.cjs",
     "start": "ts-node index.ts",
     "dev": "nodemon index.ts",
-    "build": "tsc -b",
-    "start:intake": "npm run build && node dist/client_intake.js"
+    "clean": "tsc -b --clean",
+    "build": "tsc -b --clean && tsc -b",
+    "start:intake": "node build/retrieve_intake_data.js"
   },
   "type": "module",
   "keywords": [],

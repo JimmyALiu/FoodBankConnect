@@ -6,8 +6,8 @@
     "strict": true,
     "esModuleInterop": true,
     "isolatedModules": true,
-    "allowImportingTsExtensions": true,
-    "noEmit": true,
+    //"allowImportingTsExtensions": true,
+    //"noEmit": true,
     "outDir": "./build",
     "allowSyntheticDefaultImports": true,
     "types": [
@@ -18,6 +18,10 @@
     ]
   },
   "include": [
-    "**/__test__/*.ts"
-  ]
+    "src/**/*.ts",
+    "__tests__/**/*.ts"
+  ],
+  "exclude": [
+    "build"
+  ],
 }
