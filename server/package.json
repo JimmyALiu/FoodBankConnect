@@ -4,38 +4,12 @@
   "description": "",
   "main": "index.ts",
   "scripts": {
-    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "test": "node run-jest.cjs",
     "start": "ts-node index.ts",
     "dev": "nodemon index.ts",
-    "build": "tsc -b",
-    "start:intake": "npm run build && node dist/client_intake.js"
-  },
-  "jest": {
-    "preset": "ts-jest/presets/default-esm",
-    "testEnvironment": "node",
-    "transform": {
-      "^.+\\.ts$": [
-        "ts-jest",
-        {
-          "useESM": true
-        }
-      ]
-    },
-    "extensionsToTreatAsEsm": [
-      ".ts"
-    ],
-    "globals": {
-      "ts-jest": {
-        "useESM": true
-      }
-    },
-    "testMatch": [
-      "**/__test__/**/*.ts",
-      "**/?(*.)+(spec|test).ts"
-    ],
-    "moduleNameMapper": {
-      "^(\\.{1,2}/.*)\\.ts$": "$1"
-    }
+    "clean": "tsc -b --clean",
+    "build": "tsc -b --clean && tsc -b",
+    "start:intake": "node build/retrieve_intake_data.js"
   },
   "type": "module",
   "keywords": [],
@@ -57,6 +31,7 @@
     "@types/cors": "^2.8.17",
     "@types/jest": "^29.5.14",
     "babel-jest": "^29.7.0",
+    "jest-cli": "^29.7.0",
     "nodemon": "^3.1.10",
     "ts-jest": "^29.3.2",
     "ts-node": "^10.9.2",
