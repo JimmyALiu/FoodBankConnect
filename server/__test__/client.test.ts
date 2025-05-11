@@ -460,6 +460,26 @@ describe.each([
         ])
 
     },
+
+
+
+
+    {
+        description: 'ignores columns with empty headers',
+        rows: [
+            ['John', 'Doe', '30', 'Male', '123 Main St', 'City', 'State', '12345', 'USA']
+        ],
+        rawHeaders: [
+            'First Name', 'Last Name', '', 'Gender', 'Address', '', 'State/Province', 'Postal Code', 'Country'
+        ],
+        expectedResult: new Set([
+            new Map([
+                ['First Name', 'John'], ['Last Name', 'Doe'], ['Gender', 'Male'],
+                ['Address', '123 Main St'], ['State/Province', 'State'],
+                ['Postal Code', '12345'], ['Country', 'USA']
+            ])
+        ])
+    },
     // {
     //     description: 'has an empty row right after the header',
     //     rows: [[undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined], ['John', 'Doe', '30', '15', '123 Main St', 'City', 'State', '12345', 'USA']],

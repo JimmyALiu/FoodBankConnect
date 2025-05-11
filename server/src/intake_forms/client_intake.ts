@@ -106,7 +106,7 @@ export function aggregateFamilyMemberData(rawHeaders: string[], rows: string[][]
     const allFamilyIndexs: number[] = Array.from(familyMemberIndexes.values()).reduce((acc, val) => acc.concat(val), []);
 
     //just need to grab the non family member data straight up
-    const nonFamilyMemberHeaders: string[] = rawHeaders.filter((_, index) => !allFamilyIndexs.includes(index));
+    const nonFamilyMemberHeaders: string[] = rawHeaders.filter((header, index) => !allFamilyIndexs.includes(index) && header !== ''); // Filter out family member headers and empty strings
     //should still work as rows.length<= rawHeaders.length
     const nonFamilyMemberData: Array<Map<string, string | null>> = rows.map((row) =>
         new Map(
@@ -147,6 +147,7 @@ export function aggregateFamilyMemberData(rawHeaders: string[], rows: string[][]
     nonFamilyMemberData.forEach((row) => {
         clientSet.add(row);
     });
+
     return clientSet;
 
 }
