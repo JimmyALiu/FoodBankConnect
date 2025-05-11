@@ -12,10 +12,12 @@
     "allowSyntheticDefaultImports": true,
     "types": [
       "jest"
+    ],
+    "typeRoots": [
+      "./node_modules/@types"
     ]
   },
   "include": [
-    "src/**/*.ts",
-    "__tests__/**/*.ts"
+    "**/__test__/*.ts"
   ]
 }
