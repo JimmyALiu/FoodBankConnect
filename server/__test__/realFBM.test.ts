@@ -7,14 +7,20 @@ app.use(express.json());
 app.use('/', guestsRouter);
 
 describe('Real FBM Integration Test', () => {
-  beforeAll(() => {
-    // Allow real HTTP requests (disable any mocking)
-    try {
-      const nock = require('nock');
-      nock.restore();
-      nock.enableNetConnect();
-    } catch (_) {}
-  });
+    beforeAll(() => {
+        try {
+          const nock = require('nock');
+      
+          // This disables all mocking and allows real HTTP connections in CI
+          nock.cleanAll();            // remove any pending mocks
+          nock.enableNetConnect();    // allow external calls
+          nock.restore();             // reset internal interceptor state
+      
+          console.log("✅ Nock is disabled and real network access is enabled.");
+        } catch (err) {
+          console.warn("⚠️ Could not configure nock:", err);
+        }
+      });
 
   it('adds a real guest to FoodBank Manager', async () => {
     const newGuest = {
