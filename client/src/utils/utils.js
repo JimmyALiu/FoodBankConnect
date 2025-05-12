@@ -1,1 +1,0 @@
-// contains utility functions for the client side
