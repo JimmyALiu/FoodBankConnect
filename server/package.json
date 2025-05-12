@@ -18,6 +18,7 @@
   "dependencies": {
     "@types/express": "^5.0.1",
     "@types/node": "^22.15.12",
+    "axios": "^1.9.0",
     "cors": "^2.8.5",
     "express": "^5.1.0",
     "gaxios": "^6.7.1",
