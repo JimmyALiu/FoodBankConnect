@@ -1,5 +1,6 @@
 //import { } from 'jest'; // Ensure Jest types are available
-import { testSheet, getSheetData, naiveFamilyMemberIndexes, getFamilyMemberIndexes, findFamilyData, getClients, aggregateFamilyMemberData } from '../src/intake_forms/client_intake'; // Adjust the import path as necessary
+import assert from 'assert';
+import { testSheet, getSheetData, naiveFamilyMemberIndexes, getFamilyMemberIndexes, findFamilyData, getClients, aggregateFamilyMemberData, removeEmptyStringsAndRows } from '../src/intake_forms/client_intake'; // Adjust the import path as necessary
 import { Clients } from '../src/intake_forms/custom_types';
 import { describe, test, expect } from '@jest/globals';
 
@@ -19,14 +20,96 @@ test('getsheetdata test', async () => {
  * @returns {Clients} - Returns a set of clients or null if there was an error.
  */
 test('get Clients data', async () => {
-    const result = await getClients();
+    const result: Clients = await getClients();
     expect(result).toBeDefined();
     expect(result).toBeInstanceOf(Set<Map<String, any>>);
+    //check if there are any maps with all null fields in the set
+    result?.forEach(async (client) => {
+        expect(client).toBeInstanceOf(Map);
+        expect(client.size).toBeGreaterThan(0);
+        let count: number = 0;
+        await client.forEach((value, key) => {
+            //should be null or string
+            expect(value).not.toEqual('');
+            expect(value).not.toEqual(undefined);
+            expect(value).not.toEqual('');
+            expect(value).not.toEqual(undefined);
+            if (key === 'Timestamp') {
+                expect(value).not.toEqual(null);
+            }
+            //check that no other fields are null
+            if (value === null) {
+                count++;
+            }
+        });
+        //check to see that there are at least one null field than timestamp
+        expect(count).not.toBe(client.size - 1);
+
+    });
 });
 
 
 
+describe.each([
+    {
+        description: 'removes empty strings and rows with all empty values',
+        clients: new Set([
+            new Map([['Timestamp', 'John'], ['Last Name', 'Doe'], ['Age', '']]),
+            new Map([['Timestamp', ''], ['Last Name', ''], ['Age', '']]),
+            new Map([['Timestamp', 'Jane'], ['Last Name', 'Smith'], ['Age', '25']]),
+        ]),
+        expectedResult: new Set([
+            new Map([['Timestamp', 'John'], ['Last Name', 'Doe'], ['Age', null]]),
+            new Map([['Timestamp', 'Jane'], ['Last Name', 'Smith'], ['Age', '25']]),
+        ]),
+    },
+    {
+        description: 'handles empty set of clients',
+        clients: new Set(),
+        expectedResult: new Set(),
+    },
+    {
+        description: 'removes rows with all empty values but keeps rows with at least one non-empty value',
+        clients: new Set([
+            new Map([['Timestamp', ''], ['Last Name', ''], ['Age', '']]),
+            new Map([['Timestamp', 'Alice'], ['Last Name', ''], ['Age', '']]),
+        ]),
+        expectedResult: new Set([
+            new Map([['Timestamp', 'Alice'], ['Last Name', null], ['Age', null]]),
+        ]),
+    },
+    {
+        description: 'does not modify rows with no empty strings',
+        clients: new Set([
+            new Map([['Timestamp', 'Bob'], ['Last Name', 'Brown'], ['Age', '40']]),
+        ]),
+        expectedResult: new Set([
+            new Map([['Timestamp', 'Bob'], ['Last Name', 'Brown'], ['Age', '40']]),
+        ]),
+    },
+    {
+        description: 'converts empty strings to null but keeps rows with at least one non-empty value',
+        clients: new Set([
+            new Map([['Timestamp', 'Charlie'], ['Last Name', ''], ['Age', '50']]),
+        ]),
+        expectedResult: new Set([
+            new Map([['Timestamp', 'Charlie'], ['Last Name', null], ['Age', '50']]),
+        ]),
+    },
+])('$description', ({ clients, expectedResult }) => {
+    test('removeEmptyStringsAndRows test', () => {
+        expect(clients).toBeInstanceOf(Set);
+        assert(clients instanceof Set);
+        const typedClients: Clients = clients as Clients;
+        const result = removeEmptyStringsAndRows(typedClients);
 
+        expect(result).toBeInstanceOf(Set);
+        if (result) {
+            expect(result.size).toBe(expectedResult.size);
+            expect(result).toEqual(expectedResult);
+        }
+    });
+});
 
 
 
@@ -460,10 +543,6 @@ describe.each([
         ])
 
     },
-
-
-
-
     {
         description: 'ignores columns with empty headers',
         rows: [
