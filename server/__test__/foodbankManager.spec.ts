@@ -76,7 +76,7 @@ describe('POST /guests/add', () => {
   });
 });
 
-describe('POST /guest/search', () => {
+describe('GET /guest/search', () => {
   it('returns guests that match firstname, lastname, street_address, or phone (including othersHousehold)', async () => {
     // Mock token fetch
     nock('https://fbc403.soxbox.co')
