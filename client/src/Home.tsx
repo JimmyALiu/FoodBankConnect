@@ -7,7 +7,7 @@ function Home({ setCurrentPage }: { setCurrentPage: (page: string) => void }) {
       {/* Sidebar */}
       <Dashboard setCurrentPage={setCurrentPage} />
       {/* Main Content */}
-      <main className="flex flex-col items-center justify-center p-6 -mt-100">
+      <main className="flex flex-col items-center justify-center p-6 mb-[10%]">
         <h1 className="text-3xl font-semibold mb-12 text-black">
           Welcome to Volunteer Hub
         </h1>
