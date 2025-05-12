@@ -20,9 +20,9 @@
   },
   "include": [
     "src/**/*.ts",
-    "__tests__/**/*.ts"
+    "__test__/**/*.ts"
   ],
   "exclude": [
     "build"
-  ],
+  ]
 }
