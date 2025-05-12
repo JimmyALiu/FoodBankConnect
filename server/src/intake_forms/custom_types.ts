@@ -1,1 +1,1 @@
-export type Clients = Set<Map<string, any>> | undefined;
+export type Clients = Set<Map<string, string | null>> | undefined;

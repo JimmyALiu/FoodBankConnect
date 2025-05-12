@@ -2,7 +2,7 @@ import { google, sheets_v4 } from 'googleapis';
 import { JWT } from 'google-auth-library';
 import type { GaxiosResponse } from 'gaxios';
 import path from 'path';
-import fs from 'fs';
+import fs, { rm } from 'fs';
 import { Clients } from './custom_types.js'; // Import the Clients type
 
 // For ESModule support
@@ -60,8 +60,46 @@ export async function getClients(): Promise<Clients> {
         throw new Error('No data found in the sheet');
     }
     const rawHeaders: string[] = raw[0]; // First row is headers
-    return aggregateFamilyMemberData(rawHeaders, raw.slice(1)); // Remaining rows are data
+    const clients: Clients = aggregateFamilyMemberData(rawHeaders, raw.slice(1)); // Remaining rows are data
 
+    return removeEmptyStringsAndRows(clients);
+
+}
+
+/**
+ * Function to change empty strings to null and remove rows with no timestamp from the set of clients
+ * @param {Clients} clients - The set of clients
+ * @returns {Clients} - Returns a set of clients with empty strings and rows removed
+ */
+export function removeEmptyStringsAndRows(clients: Clients): Clients {
+    if (clients === undefined) {
+        throw new Error('No data found in the sheet');
+    }
+    const filteredClients: Clients = new Set<Map<string, any>>();
+    clients.forEach((client) => {
+        const filteredClient: Map<string, any> = new Map<string, any>();
+        let hasData: boolean = true;
+        if (!client.has('Timestamp')) {
+            //should never happen
+            throw new Error('No Timestamp found in the client data, check to see if spreadsheet header is missing timestamp column');
+        }
+        client.forEach((value, key) => {
+            if (value === '' || value === undefined) {
+                filteredClient.set(key, null);
+            } else {
+                filteredClient.set(key, value);
+            }
+            if (key === 'Timestamp' && (value === '' || value === null || value === undefined)) {
+                // Means the row is empty so discard it
+                hasData = false;
+            }
+        });
+        // If it has data then add it to the set
+        if (hasData) {
+            filteredClients.add(filteredClient);
+        }
+    });
+    return filteredClients;
 }
 
 /**
