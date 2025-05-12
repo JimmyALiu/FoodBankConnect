@@ -8,16 +8,39 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "test": "jest"
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
   },
   "dependencies": {
+    "@tailwindcss/vite": "^4.1.5",
     "react": "^19.1.0",
-    "react-dom": "^19.1.0"
+    "react-dom": "^19.1.0",
+    "tailwindcss": "^4.1.5"
+  },
+  "jest": {
+    "preset": "ts-jest/presets/default-esm",
+    "testEnvironment": "node",
+    "transform": {
+      "^.+\\.ts$": [
+        "ts-jest",
+        {
+          "useESM": true
+        }
+      ]
+    },
+    "extensionsToTreatAsEsm": [
+      ".ts"
+    ],
+    "moduleNameMapper": {
+      "^(\\.{1,2}/.*)\\.ts$": "$1"
+    }
   },
   "devDependencies": {
     "@eslint/js": "^9.25.0",
     "@testing-library/react": "^16.3.0",
+    "@types/babel__generator": "^7.27.0",
+    "@types/babel__traverse": "^7.20.7",
     "@types/jest": "^29.5.14",
+    "@types/node": "^22.15.16",
     "@types/react": "^19.1.2",
     "@types/react-dom": "^19.1.2",
     "@vitejs/plugin-react": "^4.4.1",
@@ -26,6 +49,7 @@
     "eslint-plugin-react-refresh": "^0.4.19",
     "globals": "^16.0.0",
     "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
     "ts-jest": "^29.3.2",
     "typescript": "~5.8.3",
     "typescript-eslint": "^8.30.1",
