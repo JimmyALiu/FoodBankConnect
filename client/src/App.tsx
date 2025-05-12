@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Dashboard from './components/Dashboard'
 import Home from "./Home";
 import Flagged from "./Flagged";
 import Search from "./Search";
@@ -19,7 +20,14 @@ function App() {
     }
   };
 
-  return <div>{renderPage()}</div>;
+  return (
+  <div className="flex flex-auto w-[100vw]">
+    <Dashboard setCurrentPage={setCurrentPage} />
+    <div className="flex-auto items-center justify-center pt-[5%]">
+      {renderPage()}
+    </div>
+  </div>
+  );
 }
 
 export default App;

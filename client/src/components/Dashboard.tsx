@@ -11,7 +11,7 @@ function Dashboard({
   ];
 
   return (
-    <aside className="bg-blue-800 shadow-lg flex flex-col px-4">
+    <aside className="bg-blue-800 shadow-lg flex flex-col px-4 h-[100vh] w-[16vw]">
       <div className="py-6 flex items-center justify-center">
         <span className="text-white text-xl font-bold">
           🍎 Foodbank Connect

@@ -1,12 +1,10 @@
-import Dashboard from "./components/Dashboard";
 function Search({
   setCurrentPage,
 }: {
   setCurrentPage: (page: string) => void;
 }) {
   return (
-    <div className="fixed inset-0 grid grid-cols-[16rem_1fr] bg-white">
-      <Dashboard setCurrentPage={setCurrentPage} />
+    <div className="bg-white">
       <main className="flex flex-col items-center justify-center p-6">
         <h1 className="text-3xl font-semibold mb-6">Search Clients</h1>
         <p className="mb-6 text-lg text-gray-700">
