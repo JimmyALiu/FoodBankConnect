@@ -126,9 +126,9 @@ describe('POST /guest/search', () => {
 
     const res = await request(app)
       .get('/guest/search')
-      .send({ firstname: "alice" });
-
+      .query({ firstname: "alice" });
     expect(res.status).toBe(200);
+
     expect(res.body.results.length).toBe(2);
     const resultIDs = res.body.results.map((g: any) => g.id);
     expect(resultIDs).toContain(1); // direct firstname match

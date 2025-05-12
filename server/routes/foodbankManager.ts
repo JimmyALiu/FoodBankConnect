@@ -136,14 +136,14 @@ router.post('/guests/add', async (req, res) => {
   }
 });
 
-
+// Route to search for a guest by firstname, lastname, street_address, and/or phone fields
 router.get('/guest/search', async (req, res) => {
   try {
     const token = await getToken();
 
     const { firstname, lastname, street_address, phone } = req.query;
 
-    // Fetch all guests (in practice, you may want to paginate/filter on backend)
+    // Fetch all guests (may want to filter on backend if address or phone is included)
     const guestsRes = await axios.get(`${API_BASE}/rest-api/clients`, {
       headers: {
         Authorization: `Bearer ${token}`,
