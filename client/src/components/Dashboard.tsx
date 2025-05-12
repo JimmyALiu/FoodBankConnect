@@ -23,7 +23,7 @@ function Dashboard({
             <li key={label}>
               <button
                 onClick={() => setCurrentPage(page)}
-                className="px-6 py-2 text-white text-xl hover:bg-blue-500 rounded-lg transition duration-200"
+                className="px-6 py-2 text-blue-500 text-xl hover:bg-blue-500 hover:text-blue-800 rounded-lg transition duration-200"
               >
                 {label}
               </button>
