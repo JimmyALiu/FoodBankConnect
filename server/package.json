@@ -8,8 +8,8 @@
     "start": "node --loader ts-node/esm index.ts",
     "dev": "nodemon index.ts",
     "clean": "tsc -b --clean",
-    "build": "tsc -b --clean && tsc -b",
-    "start:intake": "node build/retrieve_intake_data.js"
+    "build": "tsc -b",
+    "start:intake": "node build/src/intake_forms/retrieve_intake_data.js"
   },
   "type": "module",
   "keywords": [],

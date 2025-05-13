@@ -1,3 +1,4 @@
+import { getSystemErrorMap } from 'util';
 import { getClients } from './client_intake.js';
 import { Clients } from './custom_types.js';
 
@@ -10,6 +11,8 @@ async function retrieveClientData() {
         console.error('Failed to retrieve client data');
     }
 }
+
+
 
 
 try {
