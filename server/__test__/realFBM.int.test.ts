@@ -2,17 +2,16 @@ import request from 'supertest';
 import express from 'express';
 import guestsRouter from '../routes/foodbankManager';
 
-// Disable nock if available (using ESM-safe import)
+// ESM-safe nock disabling function
 const disableNock = async () => {
   try {
     const nock = await import('nock');
-    if (nock.isActive()) {
-      nock.restore();
-    }
-    nock.enableNetConnect();
-    console.log("Nock disabled for integration test");
+    // Just call restore directly
+    nock.restore(); // restore HTTP overrides if any
+    nock.enableNetConnect(); // allow real HTTP calls
+    console.log("✅ Nock disabled for integration test");
   } catch (err) {
-    console.warn("Could not disable nock:", err);
+    console.warn("⚠️ Could not disable nock:", err);
   }
 };
 
