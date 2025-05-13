@@ -111,18 +111,18 @@ function Search({
         </form>
 
         {/* search results */}
-        <table className='border border-collapse table-auto'>
-          <thead>
+        <table className='border border-blue-500 border-collapse mt-10 table-auto'>
+          <thead className='bg-[#ecf5fc]'>
             <tr>
-              <th className="border border-gray-500 py-2 px-5">ID</th>
-              <th className="border border-gray-500 py-2 px-5">First Name</th>
-              <th className="border border-gray-500 py-2 px-5">Last Name</th>
-              <th className="border border-gray-500 py-2 px-5">Address</th>
-              <th className="border border-gray-500 py-2 px-5">Phone</th>
-              <th className="border border-gray-500 py-2 px-5">Other Households</th>
+              <th className="border border-blue-500 py-2 px-5">ID</th>
+              <th className="border border-blue-500 py-2 px-5">First Name</th>
+              <th className="border border-blue-500 py-2 px-5">Last Name</th>
+              <th className="border border-blue-500 py-2 px-5">Address</th>
+              <th className="border border-blue-500 py-2 px-5">Phone</th>
+              <th className="border border-blue-500 py-2 px-5">Other Households</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className="bg-[#f2f6fa]">
             {clients.map((el, id) => {
               let others: string = "";
 
@@ -141,12 +141,12 @@ function Search({
 
               return (
                 <tr key={id}>
-                  <td className="border border-gray-500 py-2 px-5">{el.id}</td>
-                  <td className="border border-gray-500 py-2 px-5">{el.firstname}</td>
-                  <td className="border border-gray-500 py-2 px-5">{el.lastname}</td>
-                  <td className="border border-gray-500 py-2 px-5">{el.street_address}</td>
-                  <td className="border border-gray-500 py-2 px-5">{el.phone}</td>
-                  <td className="border border-gray-500 py-2 px-5">{others}</td>
+                  <td className="border border-blue-400 py-2 px-5">{el.id}</td>
+                  <td className="border border-blue-400 py-2 px-5">{el.firstname}</td>
+                  <td className="border border-blue-400 py-2 px-5">{el.lastname}</td>
+                  <td className="border border-blue-400 py-2 px-5">{el.street_address}</td>
+                  <td className="border border-blue-400 py-2 px-5">{el.phone}</td>
+                  <td className="border border-blue-400 py-2 px-5">{others}</td>
                 </tr>
               )
             })}
