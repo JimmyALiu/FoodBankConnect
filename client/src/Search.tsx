@@ -6,35 +6,15 @@ function Search({
 }: {
   setCurrentPage: (page: string) => void;
 }) {
-
   const [clients, setClients] = useState([
     {
-      id: "1",
-      firstname: "Alice",
-      lastname: "Smith",
-      street_address: "123 Main St",
-      phone: "555-1234",
+      id: "",
+      firstname: "",
+      lastname: "",
+      street_address: "",
+      phone: "",
       othersHousehold: [
-        { name: "Charlie" },
-        { name: "Daisy" }
-      ]
-    },
-    {
-      id: "2",
-      firstname: "Bob",
-      lastname: "Jones",
-      street_address: "456 Oak Ave",
-      phone: "555-5678",
-      othersHousehold: []
-    },
-    {
-      id: "3",
-      firstname: "Carol",
-      lastname: "Brown",
-      street_address: "789 Pine Rd",
-      phone: "555-0000",
-      othersHousehold: [
-        { name: "alice" }
+        { name: "" }
       ]
     }
   ])
