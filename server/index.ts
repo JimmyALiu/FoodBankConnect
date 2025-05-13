@@ -1,31 +1,27 @@
-// Import the express in typescript file
 import express from 'express';
-import foodbankManagerRoutes from './routes/foodbankManager';
- 
-// Initialize the express engine
+import cors from 'cors';
+import foodbankManagerRoutes from './routes/foodbankManager.js';
+
 const app: express.Application = express();
 
-const clientPort: number = 5173;
-const port: number = 3000;
+const clientPort = 5173;
+const port = 3000;
 
-// set up CORS to only allow requests from our frontend and nowhere else
-const cors = require("cors");
+// CORS config to allow frontend
 const corsOptions = {
-    origin: ["http://localhost:5173"],
-}
+  origin: [`http://localhost:${clientPort}`],
+};
 app.use(cors(corsOptions));
 
-// Mount routes here
+// Mount your routes
 app.use('/api/fbm', foodbankManagerRoutes);
 
-// Handling '/' Request
+// Test endpoint
 app.get('/', (_req, _res) => {
-    _res.send("TypeScript With Express");
-}); 
- 
-// Server setup
-// will run once the server starts
+  _res.send("TypeScript With Express");
+});
+
+// Start server
 app.listen(port, () => {
-    console.log(`TypeScript with Express 
-         http://localhost:${port}/`);
+  console.log(`Server is running at http://localhost:${port}/`);
 });
