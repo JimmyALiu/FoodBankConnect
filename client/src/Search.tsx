@@ -1,8 +1,30 @@
+import { useState } from "react"
+
 function Search({
   setCurrentPage,
 }: {
   setCurrentPage: (page: string) => void;
 }) {
+
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    address: '',
+    phone: ''
+  });
+
+  function handleChange(e: React.ChangeEvent<HTMLInputElement>): void {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  }
+
+  function searchDatabase(): void {
+    
+  }
+
+
   return (
     <div className="bg-white">
       <main className="flex flex-col items-center justify-center p-6">
@@ -24,6 +46,17 @@ function Search({
             View Flagged Entries
           </button>
         </div>
+        <form action={searchDatabase}>
+          <label htmlFor="fname">First name:</label>
+          <input id="fname" name="firstName" type="text" value={formData.firstName} onChange={handleChange} className="border" />
+          <label htmlFor="lname">Last name:</label>
+          <input id="lname" name="lastName" type="text" value={formData.lastName} onChange={handleChange} className="border" />
+          <label htmlFor="address">Address:</label>
+          <input id="address" name="address" type="text" value={formData.address} onChange={handleChange} className="border" />
+          <label htmlFor="phone">Phone:</label>
+          <input id="phone" name="phone" type="text" value={formData.phone} onChange={handleChange} className="border" />
+          <input type="submit" value="Search" />
+        </form>
       </main>
     </div>
   );
