@@ -23,7 +23,11 @@ export default {
     {
       ...common,
       displayName: 'unit',
-      testMatch: ['<rootDir>/__test__/**/*.test.ts', '<rootDir>/__test__/**/*.spec.ts'],
+      testMatch: [
+        '<rootDir>/__test__/**/*.test.ts',
+        '<rootDir>/__test__/**/*.spec.ts',
+      ],
+      testPathIgnorePatterns: ['\\.int\\.test\\.ts$'], // ✅ ignore integration tests in unit config
     },
     {
       ...common,
