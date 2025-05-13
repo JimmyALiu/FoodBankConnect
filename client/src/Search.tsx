@@ -1,4 +1,5 @@
 import { useState } from "react"
+import axios from 'axios'
 
 function Search({
   setCurrentPage,
@@ -8,7 +9,7 @@ function Search({
 
   const [clients, setClients] = useState([
     {
-      id: 1,
+      id: "1",
       firstname: "Alice",
       lastname: "Smith",
       street_address: "123 Main St",
@@ -19,7 +20,7 @@ function Search({
       ]
     },
     {
-      id: 2,
+      id: "2",
       firstname: "Bob",
       lastname: "Jones",
       street_address: "456 Oak Ave",
@@ -27,7 +28,7 @@ function Search({
       othersHousehold: []
     },
     {
-      id: 3,
+      id: "3",
       firstname: "Carol",
       lastname: "Brown",
       street_address: "789 Pine Rd",
@@ -54,10 +55,40 @@ function Search({
 
   function searchDatabase(): void {
     console.log("click!");
+    setClients([]);
 
     // should send a request to the database
-    
-    // populate results from the request into clients
+    const url = "http://localhost:3000/api/fbm";
+    axios.get(url + "/guests/search")
+      .then(response => {
+        // populate results from the request into clients
+        console.log(response.data);
+        let len: number = response.data.items.length;
+        console.log(len + "HI");
+
+        let newClients: any = [];
+        for (let i = 0; i < len; i++) {
+          console.log("iteration: " + i);
+          newClients = [
+            ...newClients, 
+            {
+              id: response.data.items[i].id,
+              firstname: response.data.items[i].firstname,
+              lastname: response.data.items[i].lastname,
+              street_address: response.data.items[i].street_address,
+              phone: response.data.items[i].phone,
+              othersHousehold: response.data.items[i].othersHousehold
+            }
+          ]
+          console.log("client: " + newClients);
+        }
+
+        setClients(newClients);
+      })
+      .catch(error => {
+        console.log(error);
+      })
+
   }
 
 
@@ -109,13 +140,18 @@ function Search({
           <tbody>
             {clients.map((el, id) => {
               let others: string = "";
-              for (let i = 0; i < el.othersHousehold.length - 1; i++) {
-                others += el.othersHousehold[i].name;
-                others += ", ";
-              }
 
-              if (el.othersHousehold.length > 0) {
-                others += el.othersHousehold[el.othersHousehold.length - 1].name;
+              if (el.othersHousehold !== null) { 
+                for (let i = 0; i < el.othersHousehold.length - 1; i++) {
+                  others += el.othersHousehold[i].name;
+                  others += ", ";
+                }
+
+                if (el.othersHousehold.length > 0) {
+                  others += el.othersHousehold[el.othersHousehold.length - 1].name;
+                }
+              } else {
+                others = "null";
               }
 
               return (
