@@ -49,11 +49,9 @@ function Search({
         // populate results from the request into clients
         console.log(response.data);
         let len: number = response.data.results.length;
-        console.log(len + "HI");
 
         let newClients: any = [];
         for (let i = 0; i < len; i++) {
-          console.log("iteration: " + i);
           newClients = [
             ...newClients, 
             {
@@ -65,7 +63,6 @@ function Search({
               othersHousehold: response.data.results[i].othersHousehold
             }
           ]
-          console.log("client: " + newClients);
         }
 
         setClients(newClients);
