@@ -1,13 +1,10 @@
 import { FaSearch, FaFlag } from "react-icons/fa";
-import Dashboard from "./components/Dashboard";
 
 function Home({ setCurrentPage }: { setCurrentPage: (page: string) => void }) {
   return (
-    <div className="fixed inset-0 grid grid-cols-[16rem_1fr] bg-white">
-      {/* Sidebar */}
-      <Dashboard setCurrentPage={setCurrentPage} />
+    <div className="bg-white flex-auto">
       {/* Main Content */}
-      <main className="flex flex-col items-center justify-center p-6 -mt-100">
+      <main className="flex flex-col items-center justify-center p-6 mb-[10%]">
         <h1 className="text-3xl font-semibold mb-12 text-black">
           Welcome to Volunteer Hub
         </h1>

@@ -11,7 +11,7 @@ function Dashboard({
   ];
 
   return (
-    <aside className="bg-blue-800 shadow-lg flex flex-col px-4">
+    <aside className="bg-blue-800 shadow-lg flex flex-col px-4 h-[100vh] w-[16vw]">
       <div className="py-6 flex items-center justify-center">
         <span className="text-white text-xl font-bold">
           🍎 Foodbank Connect
@@ -23,7 +23,7 @@ function Dashboard({
             <li key={label}>
               <button
                 onClick={() => setCurrentPage(page)}
-                className="px-6 py-2 text-white text-xl hover:bg-blue-500 rounded-lg transition duration-200"
+                className="px-6 py-2 text-blue-500 text-xl hover:bg-blue-500 hover:text-blue-800 rounded-lg transition duration-200"
               >
                 {label}
               </button>
