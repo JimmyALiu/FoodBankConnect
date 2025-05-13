@@ -6,6 +6,38 @@ function Search({
   setCurrentPage: (page: string) => void;
 }) {
 
+  const [clients, setClients] = useState([
+    {
+      id: 1,
+      firstname: "Alice",
+      lastname: "Smith",
+      street_address: "123 Main St",
+      phone: "555-1234",
+      othersHousehold: [
+        { name: "Charlie" },
+        { name: "Daisy" }
+      ]
+    },
+    {
+      id: 2,
+      firstname: "Bob",
+      lastname: "Jones",
+      street_address: "456 Oak Ave",
+      phone: "555-5678",
+      othersHousehold: []
+    },
+    {
+      id: 3,
+      firstname: "Carol",
+      lastname: "Brown",
+      street_address: "789 Pine Rd",
+      phone: "555-0000",
+      othersHousehold: [
+        { name: "alice" }
+      ]
+    }
+  ])
+
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -21,7 +53,11 @@ function Search({
   }
 
   function searchDatabase(): void {
+    console.log("click!");
+
+    // should send a request to the database
     
+    // populate results from the request into clients
   }
 
 
@@ -57,6 +93,44 @@ function Search({
           <input id="phone" name="phone" type="text" value={formData.phone} onChange={handleChange} className="border-2 border-blue-300 rounded-md focus:border-blue-400 focus:outline-none transition duration-250" />
           <input type="submit" value="Search" className="specialBtn text-blue-500 font-semibold hover:text-blue-700 py-2 my-5 rounded-lg" />
         </form>
+
+        {/* search results */}
+        <table className='border border-collapse table-auto'>
+          <thead>
+            <tr>
+              <th className="border border-gray-500 py-2 px-5">ID</th>
+              <th className="border border-gray-500 py-2 px-5">First Name</th>
+              <th className="border border-gray-500 py-2 px-5">Last Name</th>
+              <th className="border border-gray-500 py-2 px-5">Address</th>
+              <th className="border border-gray-500 py-2 px-5">Phone</th>
+              <th className="border border-gray-500 py-2 px-5">Other Households</th>
+            </tr>
+          </thead>
+          <tbody>
+            {clients.map((el, id) => {
+              let others: string = "";
+              for (let i = 0; i < el.othersHousehold.length - 1; i++) {
+                others += el.othersHousehold[i].name;
+                others += ", ";
+              }
+
+              if (el.othersHousehold.length > 0) {
+                others += el.othersHousehold[el.othersHousehold.length - 1].name;
+              }
+
+              return (
+                <tr key={id}>
+                  <td className="border border-gray-500 py-2 px-5">{el.id}</td>
+                  <td className="border border-gray-500 py-2 px-5">{el.firstname}</td>
+                  <td className="border border-gray-500 py-2 px-5">{el.lastname}</td>
+                  <td className="border border-gray-500 py-2 px-5">{el.street_address}</td>
+                  <td className="border border-gray-500 py-2 px-5">{el.phone}</td>
+                  <td className="border border-gray-500 py-2 px-5">{others}</td>
+                </tr>
+              )
+            })}
+          </tbody>
+        </table>
       </main>
     </div>
   );
