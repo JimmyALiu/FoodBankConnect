@@ -59,11 +59,16 @@ function Search({
 
     // should send a request to the database
     const url = "http://localhost:3000/api/fbm";
-    axios.get(url + "/guests/search")
+    axios.get(url + "/guest/search" +
+        `?firstname=${formData.firstName}&` +
+        `lastname=${formData.lastName}&` +
+        `street_address=${formData.address}&` +
+        `phone=${formData.phone}`
+    )
       .then(response => {
         // populate results from the request into clients
         console.log(response.data);
-        let len: number = response.data.items.length;
+        let len: number = response.data.results.length;
         console.log(len + "HI");
 
         let newClients: any = [];
@@ -72,12 +77,12 @@ function Search({
           newClients = [
             ...newClients, 
             {
-              id: response.data.items[i].id,
-              firstname: response.data.items[i].firstname,
-              lastname: response.data.items[i].lastname,
-              street_address: response.data.items[i].street_address,
-              phone: response.data.items[i].phone,
-              othersHousehold: response.data.items[i].othersHousehold
+              id: response.data.results[i].id,
+              firstname: response.data.results[i].firstname,
+              lastname: response.data.results[i].lastname,
+              street_address: response.data.results[i].street_address,
+              phone: response.data.results[i].phone,
+              othersHousehold: response.data.results[i].othersHousehold
             }
           ]
           console.log("client: " + newClients);
