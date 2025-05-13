@@ -37,7 +37,7 @@ describe('Real FBM Integration Test', () => {
       race: "0",
       household_total: 1,
       language: "English",
-      cf_guests_45ae5f86e4: "In Country",
+      cf_guests_45ae5f86e4: "In City",
       cf_guests_8e6f172090: "Small- 1 to 3",
       cf_guests_e8827ca4cf: "0",
       cf_guests_459373e1d1: [],
