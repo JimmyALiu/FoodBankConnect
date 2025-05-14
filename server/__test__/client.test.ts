@@ -1,8 +1,20 @@
 //import { } from 'jest'; // Ensure Jest types are available
 import assert from 'assert';
 import { testSheet, getSheetData, naiveFamilyMemberIndexes, getFamilyMemberIndexes, findFamilyData, getClients, aggregateFamilyMemberData, removeEmptyStringsAndRows } from '../src/intake_forms/client_intake'; // Adjust the import path as necessary
-import { Clients } from '../src/intake_forms/custom_types';
-import { describe, test, expect } from '@jest/globals';
+import { Clients, headers } from '../src/intake_forms/custom_types';
+import { describe, test, expect, beforeAll } from '@jest/globals';
+import nock from 'nock';
+
+beforeAll(() => {
+    nock.cleanAll();
+    nock.disableNetConnect();
+    nock.enableNetConnect();
+});
+
+afterAll(() => {
+    nock.restore(); // restore to default state
+});
+
 
 // unmocked testing connection to google sheets
 test('client intake test, spreadsheet connection working', async () => {
@@ -14,11 +26,7 @@ test('getsheetdata test', async () => {
     const result = await getSheetData();
     expect(result).toBeDefined();
 });
-/**
- * Function to get all data from the sheet and process it into a set of hashmaps so it becomes a client object
- * @throws {Error} - Throws an error if the request fails. should never happen, but if it does, we want to know about it.
- * @returns {Clients} - Returns a set of clients or null if there was an error.
- */
+
 test('get Clients data', async () => {
     const result: Clients = await getClients();
     expect(result).toBeDefined();
@@ -28,13 +36,14 @@ test('get Clients data', async () => {
         expect(client).toBeInstanceOf(Map);
         expect(client.size).toBeGreaterThan(0);
         let count: number = 0;
+        //check if all clients have the same keys
+        expect(new Set(Array.from(client.keys()))).toEqual(headers);
+
         await client.forEach((value, key) => {
             //should be null or string
             expect(value).not.toEqual('');
             expect(value).not.toEqual(undefined);
-            expect(value).not.toEqual('');
-            expect(value).not.toEqual(undefined);
-            if (key === 'Timestamp') {
+            if (key === 'Timestamp' || key === 'Head of Household Date of Birth' || key === 'Head of Household Zip code:' || key === 'Head of Household City:' || key === 'Head of Household First Name' || key === 'Head of Household Last Name' || key === 'Other than the Head of Household, how many people in their/your household?' || key === 'Do you have a baby and want extra services?' || key === 'Head of Household County:') {
                 expect(value).not.toEqual(null);
             }
             //check that no other fields are null
