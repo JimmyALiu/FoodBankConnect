@@ -38,15 +38,33 @@ Begin by cloning or forking this repository. There is sufficient documentation f
 To install requried dependencies:
 1. `cd server` to enter the server directory
 2. `npm install` to install all server dependencies
-3. `cd ../client` to enter the client directory
+3. `cd ../client` to enter the client directory (this assumes you are currently in server, modify this command depending on your current directory to take you to the client directory)
 4. `npm install` to install all client dependencies
 
+### Development
+For development, if you want to work on this project.
+1. `cd` into the server directory
+2. run `npm run start`
+The server should now be running on port 3000. Note that this port is required or the frontend requests will fail.
+
+3. `cd` into the client directory
+4. run `npm run dev`
+The website should be hosted on localhost:5173. Note that it is required to be on this port or CORS will block requests to the server. 
+
+
 ### Building
+For building, if you want to build and deploy.
+1. `cd` into the server directory
+2. run `npm run build`
+3. run `npm run start`
+The server should now be running on port 3000. Note that this port is required or the frontend requests will fail.
 
-
-### Running
+4. `cd` into the client directory
+5. run `npm run build`
+6. run `npm run preview`
+The website should be hosted on localhost:5173. Note that it is required to be on this port or CORS will block requests to the server. 
 
 
 ### Testing
-To run the automated tests do `npm test` from server and client folders respectively.
+To run the automated tests, `cd` into the server or client folder and run `npm test`.
 'npm start:intake' for the server side allow you to see what the output of the current database is. A manual test to alleviate fears lmao.
