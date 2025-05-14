@@ -21,7 +21,8 @@
   "include": [
     "src/**/*.ts",
     "__test__/**/*.ts",
-    "./**/*.ts"
+    "./**/*.ts",
+    "secrets/**/*.json"
   ],
   "exclude": [
     "build",

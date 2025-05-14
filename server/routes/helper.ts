@@ -50,7 +50,7 @@ export function buildFullGuestPayload(overrides = {}) {
   };
 }
 
-interface HouseholdMember {
+export interface HouseholdMember {
   id?: string;
   name: string;
   age: string; // yyyy-mm-dd format
@@ -62,7 +62,7 @@ interface HouseholdMember {
   updated_at?: string;
 }
 
-interface FBMGuest {
+export interface FBMGuest {
   firstname: string;
   middlename?: string;
   lastname: string;
@@ -122,7 +122,7 @@ interface FBMGuest {
   | "No-Cook Bag"
   | "Com-Coll Box"
   | "Elem School Box";
-  cf_guests_e8827ca4cf: "0" | "1"; // Baby servie
+  cf_guests_e8827ca4cf: "0" | "1"; // Baby service
   cf_guests_459373e1d1?: string[]; // e.g., ["No Pork", "No Beef", "No Meat", "No Fish/Seafood",
   // "Halal Only", "No Dairy", "No Regular Milk", "Add Alternative Milk", "No Canned Food",
   // "No Bread", "No Deserts", "Gluten Free Food ONLY", "Add Gluten Free", "Add Sugar Free",

@@ -1,7 +1,7 @@
 export type Clients = Set<Map<string, string | null>>;
 
 export const headers: Set<string> = new Set([
-    'Timestamp',
+    'Timestamp', 'Head of Household County:',
     'Head of Household First Name',
     'Head of Household Last Name',
     'Head of Household Date of Birth',
@@ -46,7 +46,7 @@ export const headers: Set<string> = new Set([
     "6th member's last name",
     "6th member's age",
     "7th member's first name",
-    "7th member's second name",
+    "7th member's last name",
     "7th member's age",
     "8th member's first name",
     "8th member's last name",
