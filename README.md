@@ -8,46 +8,45 @@ To get started, see the following **Usage** section.
 > To gaurentee safety, we require of form submissions that a secure server be run from the integragining food bank 
 > or a trusted partner. 
 
-## Usage
-First, install depencencies.  Then, use `npm` to build. Finally, run the code.
-
-### Dependencies
-To install requried dependencies, use `npm install` from the server
-directory and from the client directory.
-
-### Building
-To build the project use `npm run build` from server. Then, use `npm build` from the client directory. 
-
-### Running
-To run the project, first ensure that a server is active by using `npm run` from the server directory.
-Then, use `npm run` from the client directory.
-
-### Testing
-To run the automated tests do `npm test` from server and client folders respectively.
-'npm start:intake' for the server side allow you to see what the output of the current database is. A manual test to alleviate fears lmao.
-
-## Repository Layout
-There are two directories:
-
-### client/
-Contains both dependency information for the **Volunteer Hub local website**  and the corresponding code.
-Includes:
-- `client/package.json` to specify the dependencies of the local website.
-- `client/src` to contain the source code.
-  - `client/__test__` contains automated tests for the local website.
-
-### server/
-Contains both dependency information for the **Volunteer Hub** server and the corresponding code.
-Includes:
-- `server/package.json` to specify the dependencies of the local website.
-- `server/__test__` contains automated tests of the local website.
-- 'server/src' contains non trivial code for running calls to the spreadsheet and other complex functions such as flagging.
-
-
 ## About Us
 The Lynnwood Food Bank currently serves over 4,000 households and 17,400 individuals, providing vital support to our community's most vulnerable populations. However, their intake and volunteer registration processes are largely manual, relying on paper forms and in-person submissions. Food Bank Connect aims to modernize these workflows by introducing a secure, user-friendly web application that allows clients and volunteers to submit necessary forms online ahead of time. By streamlining intake procedures, we not only help those in need with more convenient and intuitive access to the food bank but also help volunteers focus on direct service rather than paperwork. 
 
 [See our living document for more about our project.](https://docs.google.com/document/d/14ZCmqzvU7z0FwthmpE_hgo6zpr88JpUWLSTOOTxHNHk/edit?usp=sharing)
 
+## Repository Layout
+There are two directories, a frontend client and a backend server. Each is it's own project.
 
-# trigger
+### client/
+This is a React/TypeScript application that represents our frontend. It is an interface for users to interact with the SoxBox interface that the Lynnwood Foodbank uses. Contains both dependency information for the **Volunteer Hub local website**  and the corresponding code.
+Includes:
+- `client/package.json` to specify the dependencies of the local website.
+- `client/src` to contain the source code.
+- `client/__test__` contains automated tests for the local website.
+
+### server/
+This is a Node.js server that abstracts away all the interactions with our Google Form and our SoxBox database into API routes. Contains both dependency information for the **Volunteer Hub** server and the corresponding code.
+Includes:
+- `server/package.json` to specify the dependencies of the local website.
+- `server/__test__` contains automated tests of the local website.
+- `server/src` contains non trivial code for running calls to the spreadsheet and other complex functions such as flagging.
+
+
+## Usage
+Begin by cloning or forking this repository. There is sufficient documentation for this process online.
+
+### Dependencies
+To install requried dependencies:
+1. `cd server` to enter the server directory
+2. `npm install` to install all server dependencies
+3. `cd ../client` to enter the client directory
+4. `npm install` to install all client dependencies
+
+### Building
+
+
+### Running
+
+
+### Testing
+To run the automated tests do `npm test` from server and client folders respectively.
+'npm start:intake' for the server side allow you to see what the output of the current database is. A manual test to alleviate fears lmao.
