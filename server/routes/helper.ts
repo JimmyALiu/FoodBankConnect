@@ -102,7 +102,7 @@ export interface FBMGuest {
   // Custom fields
   custom1Field?: string; // "Ethnic Food Added" checkbox, can leave blank
   cf_guests_901d83d3c7?: "African Foods" | "Middle Eastern Foods" | "Latin American / Hispanic Foods" | "Asian Foods";
-  cf_guests_1fb4745f10: "Provided"; // Should always include ["Provided"]
+  cf_guests_1fb4745f10: ["Provided"]; // Should always include ["Provided"]
   // NOT USED BY US:
   cf_guests_b70a510d7c?: string;
   cf_guests_7d69b8c4d5?: string[];

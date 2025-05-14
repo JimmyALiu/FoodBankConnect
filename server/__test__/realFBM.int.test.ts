@@ -2,6 +2,9 @@ import request from 'supertest';
 import express from 'express';
 import guestsRouter from '../routes/foodbankManager';
 import { FBMGuest, HouseholdMember } from "../routes/helper";
+import { Clients } from '../src/intake_forms/custom_types';
+import { getClients } from '../src/intake_forms/client_intake';
+import { convertClientsToFBM } from '../src/intake_forms/translate_to_FBM';
 
 const app = express();
 app.use(express.json());
@@ -100,7 +103,7 @@ describe('Real FBMGuest Integration Test', () => {
       incomeTotal: "0.00",
       expenseTotal: "0.00",
       netTotal: "0.00",
-      cf_guests_1fb4745f10: "Provided",
+      cf_guests_1fb4745f10: ["Provided"],
     };
 
     //console.log("SENDING TO FBM:", JSON.stringify(newGuest, null, 2));
@@ -113,7 +116,34 @@ describe('Real FBMGuest Integration Test', () => {
 
     expect(res.status).toBe(201);
     expect(res.body).toHaveProperty('id');
-    expect(res.body.firstname).toBe("Sheldon");
-    expect(res.body.lastname).toBe("Plankton");
+    expect(res.body.firstname).toBe("FBMGuest");
+    expect(res.body.lastname).toBe("PleaseWork");
+  });
+});
+
+describe('Real FBMGuest Integration Test', () => {
+  beforeAll(async () => {
+    if (runTest) await disableNockIfNeeded();
+  });
+
+  const testFn = runTest ? test : test.skip;
+
+  testFn('From the spread sheet, adds a real FBMGuest to FoodBank Manager', async () => {
+    const clients: Clients = await getClients();
+    const result: FBMGuest[] = convertClientsToFBM(clients);
+
+    //console.log("SENDING TO FBM:", JSON.stringify(newGuest, null, 2));
+    result.forEach(async (guest, index) => {
+      const res = await request(app)
+        .post('/guests/add')
+        .send(guest);
+
+      //console.log("FBM API response:", res.body);
+
+      expect(res.status).toBe(201);
+      expect(res.body).toHaveProperty('id');
+      expect(res.body.firstname).toBe(guest.firstname);
+      expect(res.body.lastname).toBe(guest.lastname);
+    });
   });
 });

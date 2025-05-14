@@ -43,8 +43,6 @@ test('get Clients data', async () => {
             //should be null or string
             expect(value).not.toEqual('');
             expect(value).not.toEqual(undefined);
-            expect(value).not.toEqual('');
-            expect(value).not.toEqual(undefined);
             if (key === 'Timestamp' || key === 'Head of Household Date of Birth' || key === 'Head of Household Zip code:' || key === 'Head of Household City:' || key === 'Head of Household First Name' || key === 'Head of Household Last Name' || key === 'Other than the Head of Household, how many people in their/your household?' || key === 'Do you have a baby and want extra services?' || key === 'Head of Household County:') {
                 expect(value).not.toEqual(null);
             }

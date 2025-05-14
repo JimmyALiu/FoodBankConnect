@@ -10,7 +10,6 @@ export function convertClientsToFBM(clients: Clients): FBMGuest[] {
         // baby services
         // and each person has a first name, last name, and age, 
         //assert(Array.from(clientMap.keys()).toString() === headers.toString(), 'Missing required fields');
-        let number;
         clientMap.forEach((value, key) => {
             if (key === 'Head of Household Date of Birth' || key === 'Head of Household Zip code:' || key === 'Head of Household City:' || key === 'Head of Household First Name' || key === 'Head of Household Last Name' || key === 'Other than the Head of Household, how many people in their/your household?' || key === 'Do you have a baby and want extra services?' || key === 'Head of Household County:') {
                 assert(value !== null && value !== '', `Missing required field: ${key}`);
@@ -51,7 +50,7 @@ export function convertClientsToFBM(clients: Clients): FBMGuest[] {
             cf_guests_45ae5f86e4: clientMap.get('Head of Household City:') === 'Lynnwood' ? 'In City' : 'Out of City', //TODO: need to do better checking
             cf_guests_e8827ca4cf: clientMap.get('Do you have a baby and want extra services?') === 'Yes' ? '1' : '0',
             cf_guests_459373e1d1: clientMap.get('Do you or members of your family not eat...')?.split(', ') || undefined, //TODO: add other fields as questions
-            cf_guests_1fb4745f10: "Provided",
+            cf_guests_1fb4745f10: ["Provided"],
             cf_guests_8e6f172090: householdSizeCategory,
         };
 
