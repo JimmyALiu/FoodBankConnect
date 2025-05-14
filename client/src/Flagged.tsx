@@ -8,22 +8,42 @@ function Flagged({
 }) {
   // State to hold the fetched guests data
   const [guests, setGuests] = useState<any>(null);
+
   // State to hold the flagged clients
   const [flaggedEntries, setEntries] = useState<{ [key: string]: string }[]>(
     []
   );
-  // State to hold the fading index when a client is dismissed
+
+  // State to hold the index of the dismissed client to fade out
   const [fadingIndex, setFadingIndex] = useState<number | null>(null);
+
   // State to hold the index of the expanded entry when the review button is clicked
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
 
-  // Flagged entry is removed when dismissed
+  // Helper function to remove the entry from the flagged clients and fade it out
   function onDismiss(index: number) {
     setFadingIndex(index);
     setTimeout(() => {
       setEntries((prev) => prev.filter((_, i) => i !== index));
       setFadingIndex(null);
     }, 300);
+  }
+
+  // Helper function to find duplicates in the clients data
+  function findDuplicates(
+    clients: Array<{ [key: string]: string }>
+  ): Array<{ [key: string]: string }> {
+    const duplicates: Array<{ [key: string]: string }> = [];
+    const seen = new Set<string>();
+    clients.forEach((client) => {
+      const identifier = `${client["First Name"]} ${client["Last Name"]} ${client["Address"]} ${client["City"]} ${client["State"]}`;
+      if (seen.has(identifier)) {
+        duplicates.push({ ...client, Issue: "Duplicate Entry" });
+      } else {
+        seen.add(identifier);
+      }
+    });
+    return duplicates;
   }
 
   // Fetch guests data from the API
@@ -146,23 +166,6 @@ function Flagged({
       </div>
     );
   }
-}
-
-// Checks for duplicates in the FBM
-function findDuplicates(
-  clients: Array<{ [key: string]: string }>
-): Array<{ [key: string]: string }> {
-  const duplicates: Array<{ [key: string]: string }> = [];
-  const seen = new Set<string>();
-  clients.forEach((client) => {
-    const identifier = `${client["First Name"]} ${client["Last Name"]} ${client["Address"]} ${client["City"]} ${client["State"]}`;
-    if (seen.has(identifier)) {
-      duplicates.push({ ...client, Issue: "Duplicate Entry" });
-    } else {
-      seen.add(identifier);
-    }
-  });
-  return duplicates;
 }
 
 export default Flagged;
