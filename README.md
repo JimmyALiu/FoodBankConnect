@@ -66,5 +66,4 @@ The website should be hosted on localhost:5173. Note that it is required to be o
 
 
 ### Testing
-To run the automated tests, `cd` into the server or client folder and run `npm test`.
-'npm start:intake' for the server side allow you to see what the output of the current database is. A manual test to alleviate fears lmao.
+To run the automated tests, `cd` into the server or client folder and run `npm run test`.
