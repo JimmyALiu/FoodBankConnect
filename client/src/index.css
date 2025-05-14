@@ -36,7 +36,7 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
+  background-color: #ecf5fc;
   cursor: pointer;
   transition: border-color 0.25s;
 }
@@ -46,6 +46,17 @@ button:hover {
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
+}
+
+.specialBtn {
+  background: white;
+  box-shadow: 0px 10px 20px rgba(75, 136, 216, 0.35);
+  transition-duration: 200ms;
+}
+
+.specialBtn:hover {
+  box-shadow: 0px 10px 25px rgba(54, 111, 186, 0.35);
+  opacity: 0.8;
 }
 
 @media (prefers-color-scheme: light) {
