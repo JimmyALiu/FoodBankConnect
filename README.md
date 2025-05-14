@@ -21,7 +21,7 @@ This is a React/TypeScript application that represents our frontend. It is an in
 Includes:
 - `client/package.json` to specify the dependencies of the local website.
 - `client/src` to contain the source code.
-- `client/__test__` contains automated tests for the local website.
+- `client/test` contains automated tests for the local website.
 
 ### server/
 This is a Node.js server that abstracts away all the interactions with our Google Form and our SoxBox database into API routes. Contains both dependency information for the **Volunteer Hub** server and the corresponding code.
