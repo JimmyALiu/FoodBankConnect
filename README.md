@@ -44,24 +44,24 @@ To install requried dependencies:
 ### Development
 For development, if you want to work on this project.
 1. `cd` into the server directory
-2. run `npm run start`
+2. run `npm run start`. 
 The server should now be running on port 3000. Note that this port is required or the frontend requests will fail.
 
 3. `cd` into the client directory
-4. run `npm run dev`
+4. run `npm run dev`. 
 The website should be hosted on localhost:5173. Note that it is required to be on this port or CORS will block requests to the server. 
 
 
 ### Building
-For building, if you want to build and deploy.
+For building, if you want to build and deploy or just test the project.
 1. `cd` into the server directory
 2. run `npm run build`
-3. run `npm run start`
+3. run `npm run start`. 
 The server should now be running on port 3000. Note that this port is required or the frontend requests will fail.
 
 4. `cd` into the client directory
 5. run `npm run build`
-6. run `npm run preview`
+6. run `npm run preview`. 
 The website should be hosted on localhost:5173. Note that it is required to be on this port or CORS will block requests to the server. 
 
 
