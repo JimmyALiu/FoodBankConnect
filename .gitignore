@@ -137,5 +137,3 @@ build
 .pnp.*
 
 #keys
-
-server/secrets/food-bank-connect-01057aac4b82.json
