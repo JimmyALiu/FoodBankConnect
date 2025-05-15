@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest'
-import { parseSearchResponseData } from '../utils/utils.ts'
+import { parseSearchResponseData } from '../utils/utils'
 
 test('parseSearchResponseData simple test - parse a search request with a single entry.', () => {
     // entry
