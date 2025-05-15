@@ -15,7 +15,6 @@ interface table_entry {
 
 interface response_data {
     results: table_entry[],
-    length: number
 }
 
 export function parseSearchResponseData(response: response_data) {
