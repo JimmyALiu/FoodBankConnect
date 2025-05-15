@@ -19,7 +19,7 @@ test('translate client data to FBMGuest', async () => {
             const ageRegex = /^\d{4}-\d{2}-\d{2}$/;
             assert.ok(
                 ageRegex.test(member.age),
-                `❌ Invalid age format for household member at index ${memberIndex} in guest ${index}`
+                `❌ Invalid age format for household member at index ${memberIndex} in guest ${index} with age ${member.age}`
             );
         });
     });
