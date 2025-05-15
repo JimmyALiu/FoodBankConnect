@@ -1,5 +1,6 @@
 import { useState } from "react"
 import axios from 'axios'
+import { parseSearchResponseData } from './utils/utils.ts'
 
 function Search({
   setCurrentPage,
@@ -48,24 +49,8 @@ function Search({
       .then(response => {
         // populate results from the request into clients
         console.log(response.data);
-        let len: number = response.data.results.length;
 
-        let newClients: any = [];
-        for (let i = 0; i < len; i++) {
-          newClients = [
-            ...newClients, 
-            {
-              id: response.data.results[i].id,
-              firstname: response.data.results[i].firstname,
-              lastname: response.data.results[i].lastname,
-              street_address: response.data.results[i].street_address,
-              phone: response.data.results[i].phone,
-              othersHousehold: response.data.results[i].othersHousehold
-            }
-          ]
-        }
-
-        setClients(newClients);
+        setClients(parseSearchResponseData(response.data));
       })
       .catch(error => {
         console.log(error);
