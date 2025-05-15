@@ -81,8 +81,13 @@ export function convertClientsToFBM(clients: Clients): FBMGuest[] {
 }
 /*
 * converts the age of the person to a date (yyyy-mm-dd) which goes on the database
+* returns a 0000-00-00 if the age is invalid if its greater than the current year or if the age is negative
 */
 export function convertAgeToDate(age: number): string {
+    if (age < 0 || age > new Date().getFullYear()) {
+        return '0000-00-00'; // Invalid age, return a placeholder date
+    }
+
     const today: Date = new Date();
     const birthYear: number = today.getFullYear() - age;
     const birthDate: Date = new Date(birthYear, today.getMonth(), today.getDate());
