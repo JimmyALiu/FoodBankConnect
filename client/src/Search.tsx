@@ -1,6 +1,6 @@
 import { useState } from "react"
 import axios from 'axios'
-import { parseSearchResponseData } from './utils/utils.ts'
+import { parseSearchResponseData } from './utils/utils'
 
 function Search({
   setCurrentPage,
