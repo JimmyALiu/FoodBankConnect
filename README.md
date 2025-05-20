@@ -2,7 +2,6 @@
 
 ## Welcome
 Welcome to the repository for Food Bank Connect: a CSE 403 project in collaboration with Lynnwood Food Bank.
-To get started, see the following [Usage](#Usage) section. 
 > [!WARNING]
 > This project in an incomplete, insecure state and is **NOT** to be used with real personally identifiable information.
 > To guarentee safety, we require a secure server be run from the integrating food bank 
@@ -13,7 +12,8 @@ The Lynnwood Food Bank currently serves over 4,000 households and 17,400 individ
 
 [See our living document for more about our project.](https://docs.google.com/document/d/14ZCmqzvU7z0FwthmpE_hgo6zpr88JpUWLSTOOTxHNHk/edit?usp=sharing)
 
-To see more about the tools we're using check out our [client](#client) and [server](#server) documentation.
+## Tools
+The only requirement for this project is to have [Node.js](https://nodejs.org/en/download) installed. Instructions on how to install dependencies are under [Usage](#Usage)
 
 ## Core Functionality
 Our 4 core features are
