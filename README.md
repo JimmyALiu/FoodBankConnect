@@ -13,7 +13,7 @@ The Lynnwood Food Bank currently serves over 4,000 households and 17,400 individ
 [See our living document for more about our project.](https://docs.google.com/document/d/14ZCmqzvU7z0FwthmpE_hgo6zpr88JpUWLSTOOTxHNHk/edit?usp=sharing)
 
 ## Tools
-The only requirement for this project is to have [Node.js](https://nodejs.org/en/download) installed. Instructions on how to install dependencies are under [Usage](#Usage)
+The only requirement for this project is to have [Node.js](https://nodejs.org/en/download) installed. Instructions can be found in the link. Our project uses version 11.3.0 and has no guarantees for other versions, though higher versions should work. Instructions on how to install dependencies are under [Usage](#Usage)
 
 ## Core Functionality
 Our 4 core features are
@@ -77,4 +77,11 @@ The website should be hosted on localhost:5173. Note that it is required to be o
 
 
 ### Testing
-To run the automated tests, `cd` into the server or client folder and run `npm run test`.
+For testing, our client side uses Vitest and our server uses Jest.To run the automated tests, `cd` into the server or client folder and run `npm run test`.
+
+## Report a Bug
+Bugs will be tracked within the Github Issues tab. Go to issues -> New issue -> Bug report, and fill out the template provided with the necessary information. Please ensure that you provide information on the following:
+- Clear and concise high level description of the bug
+- Steps to reproduce it
+- Screenshots if possible/relevant
+- Device information
