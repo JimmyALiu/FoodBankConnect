@@ -80,8 +80,10 @@ The website should be hosted on localhost:5173. Note that it is required to be o
 For testing, our client side uses Vitest and our server uses Jest.To run the automated tests, `cd` into the server or client folder and run `npm run test`.
 
 ## Report a Bug
-Bugs will be tracked within the Github Issues tab. Go to issues -> New issue -> Bug report, and fill out the template provided with the necessary information. Please ensure that you provide information on the following:
+Bugs will be tracked within the Github Issues tab. Go to Issues -> New issue -> Bug report, and fill out the template provided with the necessary information. Please ensure that you provide information on the following:
 - Clear and concise high level description of the bug
 - Steps to reproduce it
 - Screenshots if possible/relevant
 - Device information
+
+Please also ensure that the bug has not already been reported. Known bugs can be found under the same Issues tab.
