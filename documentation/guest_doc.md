@@ -5,7 +5,7 @@ Thank you for filling out our intake form online.
 By following these steps on the day before your first visit, 
 you will help volunteers serve you and others faster:
 1. Ask members of your household if they have already filled out the form in the past 10 days.
-> [NOTE!]
+> [!NOTE]
 > Lynnwood currently distributes food on a per-household basis.  If another member of your household
 > has already submitted the form, then it will be flagged by our system and volunteers will need
 > to assist you in person. 
@@ -16,7 +16,7 @@ You should see this Google Form:
 <image>
 
 3. Fill out the form with data pertaining to your household. 
-> [CAUTION!]
+> [!CAUTION]
 > If you find yourself vulnerable to government actors in any way,
 > please do not use our online intake form.  Volunteers will be able to assist
 > you in person.
