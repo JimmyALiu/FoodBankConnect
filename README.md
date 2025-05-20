@@ -33,7 +33,7 @@ This is a React/TypeScript application that represents our frontend. It is an in
 Includes:
 - `client/package.json` to specify the dependencies of the local website.
 - `client/src` to contain the source code.
-- `client/test` contains automated tests for the local website.
+- `client/src/__test__` contains automated tests for the local website.
 
 ### server/
 This is a Node.js server that abstracts away all the interactions with our Google Form and our SoxBox database into API routes. Contains both dependency information for the **Volunteer Hub** server and the corresponding code.
@@ -77,7 +77,48 @@ The website should be hosted on localhost:5173. Note that it is required to be o
 
 
 ### Testing
-For testing, our client side uses Vitest and our server uses Jest.To run the automated tests, `cd` into the server or client folder and run `npm run test`.
+For testing, our client side uses Vitest and our server uses Jest. To run the automated tests, `cd` into the server or client folder and run `npm run test` to run tests. For the client you can also run `npm run coverage` for a code coverage report.
+
+To write your own client side Vitest tests:
+- Locate that `__test__` folder under `client/src/__test__`
+- If you wish to set up your own tests, right click the `__test__` folder and select New File. Otherwise edit or add to the existing tests we have.
+- Use this template to write your tests. We do not require any specific guidelines, but your tests should be modular, readable, and well documented. 
+
+```Javascript
+import {expect, test} from 'vitest';
+import { demo_sum } from '../utils/utils';  // import what you want to test
+
+test('A descriptive test name', () => {
+  expect(demo_sum(1, 2)).toBe(3)  // expects the return value of demo_sum(1, 2) to be 3
+
+  // similar tests should be grouped together
+})
+
+// other related but different tests
+
+```
+
+To write your own server side Jest tests:
+- Locate that `__test__` folder under `server/__test__`
+- If you wish to set up your own tests, right click the `__test__` folder and select New File. Otherwise edit or add to the existing tests we have.
+- Use this template to write your tests. We do not require any specific guidelines, but your tests should be modular, readable, and well documented. 
+
+```Javascript
+import assert from 'assert';
+import { describe, test, expect, beforeAll } from '@jest/globals';
+import nock from 'nock';  // we use nock for mock http requests
+
+// sync tests
+test('A descriptive test name', () => {
+    expect(1 + 1).toBe(2);
+});
+
+// async test
+test('A descriptive async test name', async () => {
+    const result = await foo();
+    expect(result).toBe(true);
+});
+```
 
 ## Report a Bug
 Bugs will be tracked within the Github Issues tab. Go to Issues -> New issue -> Bug report, and fill out the template provided with the necessary information. Please ensure that you provide information on the following:
