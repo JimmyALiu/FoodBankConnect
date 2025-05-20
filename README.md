@@ -14,7 +14,7 @@ The Lynnwood Food Bank currently serves over 4,000 households and 17,400 individ
 [See our living document for more about our project.](https://docs.google.com/document/d/14ZCmqzvU7z0FwthmpE_hgo6zpr88JpUWLSTOOTxHNHk/edit?usp=sharing)
 
 ## Repository Layout
-There are two directories, a frontend client and a backend server. Each is it's own project.
+There are two directories, a frontend `client` and a `backend server`. Each is it's own project, detailed below. In addition, there is a `documentation` folder that provides further details about our project. Development, building, and testing will be detailed below under [Usage](#Usage).
 
 ### client/
 This is a React/TypeScript application that represents our frontend. It is an interface for users to interact with the SoxBox interface that the Lynnwood Foodbank uses. Contains both dependency information for the **Volunteer Hub local website**  and the corresponding code.
