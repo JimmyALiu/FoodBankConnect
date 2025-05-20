@@ -13,7 +13,7 @@ The Lynnwood Food Bank currently serves over 4,000 households and 17,400 individ
 
 [See our living document for more about our project.](https://docs.google.com/document/d/14ZCmqzvU7z0FwthmpE_hgo6zpr88JpUWLSTOOTxHNHk/edit?usp=sharing)
 
-To see more about the tools we're using check out our [client](#client/) and [server](#server/) documentation.
+To see more about the tools we're using check out our [client](#client) and [server](#server) documentation.
 
 ## Core Functionality
 Our 4 core features are
