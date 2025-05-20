@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { findDuplicates } from "./utils/utils.ts";
 
 function Flagged({
   setCurrentPage,
@@ -27,23 +28,6 @@ function Flagged({
       setEntries((prev) => prev.filter((_, i) => i !== index));
       setFadingIndex(null);
     }, 300);
-  }
-
-  // Helper function to find duplicates in the clients data
-  function findDuplicates(
-    clients: Array<{ [key: string]: string }>
-  ): Array<{ [key: string]: string }> {
-    const duplicates: Array<{ [key: string]: string }> = [];
-    const seen = new Set<string>();
-    clients.forEach((client) => {
-      const identifier = `${client["First Name"]} ${client["Last Name"]} ${client["Address"]} ${client["City"]} ${client["State"]}`;
-      if (seen.has(identifier)) {
-        duplicates.push({ ...client, Issue: "Duplicate Entry" });
-      } else {
-        seen.add(identifier);
-      }
-    });
-    return duplicates;
   }
 
   // Fetch guests data from the API
@@ -85,7 +69,7 @@ function Flagged({
     return (
       <div>
         <main className="flex flex-col items-center justify-center p-6">
-          <h1>loading...</h1>
+          <h1>Loading...</h1>
         </main>
       </div>
     );
