@@ -22,7 +22,7 @@ const __dirname: string = path.resolve();
 test('client intake test, spreadsheet connection working', async () => {
     //if .env file is not present, skip this test
     if (!fs.existsSync(path.resolve(__dirname, '../.env/food-bank-connect-b725637de6a2.json'))) {
-        console.warn('Skipping test: .env file not found');
+        console.log('Skipping test: .env file not found');
         return;
     }
     const result = await testSheet();
@@ -32,7 +32,7 @@ test('client intake test, spreadsheet connection working', async () => {
 test('getsheetdata test', async () => {
     //if .env file is not present, skip this test
     if (!fs.existsSync(path.resolve(__dirname, '../.env/food-bank-connect-b725637de6a2.json'))) {
-        console.warn('Skipping test: .env file not found');
+        console.log('Skipping test: .env file not found');
         return;
     }
     const result = await getSheetData();
@@ -42,7 +42,7 @@ test('getsheetdata test', async () => {
 test('get Clients data', async () => {
     //if .env file is not present, skip this test
     if (!fs.existsSync(path.resolve(__dirname, '../.env/food-bank-connect-b725637de6a2.json'))) {
-        console.warn('Skipping test: .env file not found');
+        console.log('Skipping test: .env file not found');
         return;
     }
     const result: Clients = await getClients();

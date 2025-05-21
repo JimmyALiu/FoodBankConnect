@@ -9,27 +9,33 @@ import { Clients } from './custom_types.js'; // Import the Clients type
 const __dirname: string = path.resolve();
 
 // Construct path relative to project root or wherever your `src` is
-const keyPath: string = path.resolve(__dirname, '../.env/food-bank-connect-b725637de6a2.json');
+let keyPath: string;
+let auth: JWT;
+let sheets: sheets_v4.Sheets;
+
+const sheetName: string = 'Form Responses 1';
+const range: string = sheetName + '!A1:D10';
+const spreadsheetId: string = '1DXaJkja09LL5AMpoNKFsxeJfx8GcNZ1v9qzPYzDlvW0';
+
+try {
+    keyPath = path.resolve(__dirname, '../.env/food-bank-connect-b725637de6a2.json');
+    auth = new JWT({
+        keyFile: keyPath, // key file path
+        scopes: ['https://www.googleapis.com/auth/spreadsheets.readonly'],//read only access alter to write access by deleting readonly
+    });
+    sheets = google.sheets({ version: 'v4', auth });
+
+
+
+} catch (error) {
+    console.log('Key doesnt exist in current .env');
+}
 
 //check if the file exists
 
 
 // Load credentials from service account JSON
-const auth: JWT = new JWT({
-    keyFile: keyPath, // key file path
-    scopes: ['https://www.googleapis.com/auth/spreadsheets.readonly'],//read only access alter to write access by deleting readonly
-});
 
-const sheetName: string = 'Form Responses 1'; // ← replace with the name of your sheet
-const sheets: sheets_v4.Sheets = google.sheets({ version: 'v4', auth });
-
-const spreadsheetId: string = '1DXaJkja09LL5AMpoNKFsxeJfx8GcNZ1v9qzPYzDlvW0';
-const range: string = sheetName + '!A1:D10'; // ← replace with the range you want to read
-
-// Check if the key file exists
-if (!fs.existsSync(keyPath)) {
-    console.error(`Key file not found at path: ${keyPath}`);
-}
 
 /**  Function to test reading from a Google Sheets document.*/
 export async function testSheet(): Promise<boolean> {
