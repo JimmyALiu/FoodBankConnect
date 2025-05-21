@@ -20,14 +20,31 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(express.json());
 
-// Public endpoint — no authentication required
-app.get('/public', (_req, res) => {
-  res.send('This is a public endpoint.');
+
+// Login route (optional, usually frontend handles this)
+app.get('/login', (_req, res) => {
+  const domain = process.env.AUTH0_DOMAIN;
+  const clientId = process.env.AUTH0_CLIENT_ID;
+  const redirectUri = process.env.AUTH0_CALLBACK_URL || 'http://localhost:5173';
+
+  const loginUrl = `https://${domain}/authorize?response_type=token&client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&scope=openid profile email`;
+  res.redirect(loginUrl);
 });
 
-// Protected endpoint — requires a valid JWT (access token)
+// Logout route
+app.get('/logout', (req, res) => {
+  res.clearCookie('token'); // if you use cookies
+  const domain = process.env.AUTH0_DOMAIN;
+  const clientId = process.env.AUTH0_CLIENT_ID;
+  const returnTo = process.env.AUTH0_LOGOUT_REDIRECT_URI || 'http://localhost:5173';
+
+  const logoutUrl = `https://${domain}/v2/logout?client_id=${clientId}&returnTo=${encodeURIComponent(returnTo)}`;
+  res.redirect(logoutUrl);
+});
+
+// Protected route
 app.get('/protected', checkJwt, (req, res) => {
-  res.send('You are accessing a protected endpoint!');
+  res.send('This is a protected route.');
 });
 
 // Mount your routes
