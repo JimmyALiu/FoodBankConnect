@@ -72,42 +72,42 @@ router.get('/guests', async (req, res) => {
   }
 });
 
-// Route to search for a guest, including non-head of household
-router.get('/guests/search', async (req, res) => {
-  try {
-    const token = await getToken();
+// // Route to search for a guest, including non-head of household
+// router.get('/guests/search', async (req, res) => {
+//   try {
+//     const token = await getToken();
 
-    // Build the filters object from query parameters
-    const filters: Record<string, string> = {};
-    for (const [key, value] of Object.entries(req.query)) {
-      filters[`filters[${key}]`] = value as string;
-    }
+//     // Build the filters object from query parameters
+//     const filters: Record<string, string> = {};
+//     for (const [key, value] of Object.entries(req.query)) {
+//       filters[`filters[${key}]`] = value as string;
+//     }
 
-    // Add a filter to search across all individuals, not just head of household
-    if (req.query.name) {
-      filters['filters[allIndividuals]'] = 'true'; // Custom filter to include all individuals
-      filters['filters[name]'] = req.query.name as string; // Search by name
-    }
+//     // Add a filter to search across all individuals, not just head of household
+//     if (req.query.name) {
+//       filters['filters[allIndividuals]'] = 'true'; // Custom filter to include all individuals
+//       filters['filters[name]'] = req.query.name as string; // Search by name
+//     }
     
-    const guestsRes = await axios.get(`${API_BASE}/rest-api/clients`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      },
-      params: filters
-    });
+//     const guestsRes = await axios.get(`${API_BASE}/rest-api/clients`, {
+//       headers: {
+//         Authorization: `Bearer ${token}`,
+//         'Content-Type': 'application/json'
+//       },
+//       params: filters
+//     });
 
-    res.json(guestsRes.data);
-  } catch (err) {
-    const error = err as AxiosError;
-    console.error('Search error:', error.message);
-    if (error.response) {
-      console.error('Status:', error.response.status);
-      console.error('Data:', error.response.data);
-    }
-    res.status(500).json({ error: 'Failed to search guest records' });
-  }
-});
+//     res.json(guestsRes.data);
+//   } catch (err) {
+//     const error = err as AxiosError;
+//     console.error('Search error:', error.message);
+//     if (error.response) {
+//       console.error('Status:', error.response.status);
+//       console.error('Data:', error.response.data);
+//     }
+//     res.status(500).json({ error: 'Failed to search guest records' });
+//   }
+// });
 
 // Route to add a new guest to FBM database
 router.post('/guests/add', async (req, res) => {

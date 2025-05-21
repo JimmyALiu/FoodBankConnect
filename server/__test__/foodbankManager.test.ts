@@ -135,3 +135,9 @@ describe('GET /guest/search', () => {
     expect(resultIDs).toContain(3); // member name match
   });
 });
+
+describe('Tests', () => {
+  it('test1', () => {
+    expect(true).toBe(true);
+  });
+});
