@@ -129,4 +129,14 @@ export interface FBMGuest {
   // "Add Low Sodium Foods", "Peanut Allergy", "Diaper Wipes", "Diaper size 1", "Diaper size 2",
   // "Diaper size 3", "Diaper size 4", "Diaper size 5", "Diaper size 6", "Pull-ups",
   // "Adult Diapers M/L", "Baby Food", "Baby Formula", "Dog Food", "Cat Food"]
+
+  //TODO:  noCannedfood, Peanut Allergy
+  //No and add, not boolean
+  //gluten free only versus add
+}
+export type FBMGuestFlagged = {
+  description: string;//Todo: maybe put all the possible flags here
+  guest: FBMGuest;
+  created_at: Date;
+  updated_at: Date;
 }

@@ -131,6 +131,9 @@ describe('Real FBMGuest Integration Test', () => {
   testFn('From the spread sheet, adds a real FBMGuest to FoodBank Manager', async () => {
     const clients: Clients = await getClients();
     const result: FBMGuest[] = convertClientsToFBM(clients);
+    //test to make sure convertClientsToFBM is not empty
+    //console.log("RESULT:", result);
+    expect(result.length).toBeGreaterThan(0);
 
     //console.log("SENDING TO FBM:", JSON.stringify(newGuest, null, 2));
     result.forEach(async (guest, index) => {

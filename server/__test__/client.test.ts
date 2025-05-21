@@ -1,5 +1,7 @@
 //import { } from 'jest'; // Ensure Jest types are available
 import assert from 'assert';
+import fs from 'fs';
+import path from 'path';
 import { testSheet, getSheetData, naiveFamilyMemberIndexes, getFamilyMemberIndexes, findFamilyData, getClients, aggregateFamilyMemberData, removeEmptyStringsAndRows } from '../src/intake_forms/client_intake'; // Adjust the import path as necessary
 import { Clients, headers } from '../src/intake_forms/custom_types';
 import { describe, test, expect, beforeAll } from '@jest/globals';
@@ -15,19 +17,34 @@ afterAll(() => {
     nock.restore(); // restore to default state
 });
 
-
+const __dirname: string = path.resolve();
 // unmocked testing connection to google sheets
 test('client intake test, spreadsheet connection working', async () => {
+    //if .env file is not present, skip this test
+    if (!fs.existsSync(path.resolve(__dirname, '../.env/food-bank-connect-b725637de6a2.json'))) {
+        console.log('Skipping test: .env file not found');
+        return;
+    }
     const result = await testSheet();
     expect(result).toBe(true);
 });
 
 test('getsheetdata test', async () => {
+    //if .env file is not present, skip this test
+    if (!fs.existsSync(path.resolve(__dirname, '../.env/food-bank-connect-b725637de6a2.json'))) {
+        console.log('Skipping test: .env file not found');
+        return;
+    }
     const result = await getSheetData();
     expect(result).toBeDefined();
 });
 
 test('get Clients data', async () => {
+    //if .env file is not present, skip this test
+    if (!fs.existsSync(path.resolve(__dirname, '../.env/food-bank-connect-b725637de6a2.json'))) {
+        console.log('Skipping test: .env file not found');
+        return;
+    }
     const result: Clients = await getClients();
     expect(result).toBeDefined();
     expect(result).toBeInstanceOf(Set<Map<String, any>>);
