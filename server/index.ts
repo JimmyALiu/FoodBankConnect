@@ -20,7 +20,6 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(express.json());
 
-
 // Login route (optional, usually frontend handles this)
 app.get('/login', (_req, res) => {
   const domain = process.env.AUTH0_DOMAIN;
