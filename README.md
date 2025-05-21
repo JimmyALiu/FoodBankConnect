@@ -26,7 +26,14 @@ Our 4 core features are
 We are actively working on a smarter search feature. We are also working on a feature that allows for editing entries within the Volunteer Hub. 
 
 ## Repository Layout
-There are two directories, a frontend `client` and a `backend server`. Each is it's own project, detailed below. In addition, there is a `documentation` folder that provides further details about our project. Development, building, and testing will be detailed below under [Usage](#Usage).
+There are two directories, a frontend `client` and a `backend server`. Each is it's own project, detailed below. In addition, there is a `documentation` directory that provides further details about our project. Development, building, and testing will be detailed below under [Usage](#Usage).
+
+### documentation/
+This is a container for documentation useful to those that interact with the repository.  Includes:
+- `documentation/guest_doc.md` to act as a user guide for guests of the foodbank.
+- `documentation/volunteer_doc.md` to be an instruction manual for volunteers.
+- `documentation/dev_doc.md` to include further specifications for developers.
+- `documentation/threat_assessment` to include an assessment of the specific security risks we have identified.
 
 ### client/
 This is a React/TypeScript application that represents our frontend. It is an interface for users to interact with the SoxBox interface that the Lynnwood Foodbank uses. Contains both dependency information for the **Volunteer Hub local website**  and the corresponding code.
@@ -43,7 +50,7 @@ Includes:
 - `server/src` contains non trivial code for running calls to the spreadsheet and other complex functions such as flagging.
 
 ## Usage
-Begin by cloning or forking this repository. There is sufficient documentation for this process online.
+Begin by cloning or forking this repository. There is sufficient documentation for this process online. Install npm on the machine containing the repository; you will need to invoke commands of the form `npm ...` to use this project. If warnings appear while using npm, try running `npm doctor`.
 
 ### Dependencies
 To install requried dependencies:
