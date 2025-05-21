@@ -9,7 +9,7 @@ import { Clients } from './custom_types.js'; // Import the Clients type
 const __dirname: string = path.resolve();
 
 // Construct path relative to project root or wherever your `src` is
-const keyPath: string = path.resolve(__dirname, './secrets/food-bank-connect-01057aac4b82.json');
+const keyPath: string = path.resolve(__dirname, '../.env/food-bank-connect-b725637de6a2.json');
 
 //check if the file exists
 
