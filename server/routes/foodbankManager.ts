@@ -10,11 +10,13 @@ import axios, { AxiosError } from 'axios';
 
 const router = express.Router();
 
-// Real plain text domain and credentials, need to replace with user input during login!!!
-const API_BASE = 'https://fbc403.soxbox.co';
-const API_USERNAME = 'cse403';
-const API_PASSWORD = 'connect403';
-const LOCATION_ID = 1;
+import dotenv from 'dotenv';
+dotenv.config();
+
+const API_BASE = process.env.API_BASE!;
+const API_USERNAME = process.env.API_USERNAME!;
+const API_PASSWORD = process.env.API_PASSWORD!;
+const LOCATION_ID = Number(process.env.LOCATION_ID);
 
 interface HouseholdMember {
   name?: string;
