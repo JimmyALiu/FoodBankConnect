@@ -17,7 +17,7 @@ afterAll(() => {
     nock.restore(); // restore to default state
 });
 
-
+const __dirname: string = path.resolve();
 // unmocked testing connection to google sheets
 test('client intake test, spreadsheet connection working', async () => {
     //if .env file is not present, skip this test
