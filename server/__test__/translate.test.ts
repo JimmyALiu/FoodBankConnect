@@ -4,8 +4,14 @@ import { Clients } from '../src/intake_forms/custom_types';
 import { FBMGuest } from "../routes/helper";
 import { getClients } from "../src/intake_forms/client_intake";
 import { convertClientsToFBM, convertAgeToDate } from "../src/intake_forms/translate_to_FBM";
+import fs from 'fs';
+import path from 'path';
 
 test('translate client data to FBMGuest', async () => {
+    if (!fs.existsSync(path.resolve(__dirname, '../.env/food-bank-connect-b725637de6a2.json'))) {
+        console.log('Skipping test: .env file not found');
+        return;
+    }
     const clients: Clients = await getClients();
     const result: FBMGuest[] = convertClientsToFBM(clients);
 
