@@ -4,7 +4,7 @@ FoodBank Connect for Volunteers
 1. [Overview](#overview)
 2. [Start-Up](#start-up)
 3. [Logging In](#logging-in)
-4. [Finding a Household](#finding-a-household)
+4. [Finding a Specific Household](#finding-a-specific-household)
 5. [Resolving Suspicious entries](#resolving-suspicious-entries)
 
 # Overview
