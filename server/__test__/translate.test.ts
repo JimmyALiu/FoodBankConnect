@@ -6,6 +6,7 @@ import { getClients } from "../src/intake_forms/client_intake";
 import { convertClientsToFBM, convertAgeToDate } from "../src/intake_forms/translate_to_FBM";
 import fs from 'fs';
 import path from 'path';
+const __dirname: string = path.resolve();
 
 test('translate client data to FBMGuest', async () => {
     if (!fs.existsSync(path.resolve(__dirname, '../.env/food-bank-connect-b725637de6a2.json'))) {
