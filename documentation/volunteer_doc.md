@@ -1,13 +1,13 @@
-FoodBank Connect for Volunteers
+#FoodBank Connect for Volunteers
 
-# Table of Contents
+## Table of Contents
 1. [Overview](#overview)
 2. [Start-Up](#start-up)
 3. [Logging In](#logging-in)
 4. [Finding a Specific Household](#finding-a-specific-household)
 5. [Resolving Suspicious entries](#resolving-suspicious-entries)
 
-# Overview
+## Overview
 Welcome to the documentation of FoodBank Connect, a tool designed to
 ease your interaction with foodbank guests.  This tool is integrated with 
 FoodBank Manager, Lynnwood's database of choice.  Currently, these goals
@@ -20,7 +20,7 @@ There are two features that let you complete these goals:
 - A flagging system.
 
 
-# Start-Up
+## Start-Up
 If FoodBank Connect is not currently running, perform these steps:
 1. Obtain necessary API keys from administration:
    - *Google* key
@@ -31,12 +31,15 @@ If FoodBank Connect is not currently running, perform these steps:
 
 
 
-# Logging In
-TODO
+## Logging In
+This feature is not currently supported.
+
+<!--
 To log-in:
 1. ...
+-->
 
-# Finding a Specific Household
+## Finding a Specific Household
 1. Identify the search button, it looks like this:
 ![A red square with rounded edges labeled "search" is outlined in red.](./images/volunteer/volunteer-hub-home-screen-search.jpg)
 2. Click the search button, you should see this:
@@ -59,7 +62,7 @@ You should see something like this:
 
 Congradulations, you have found the household to serve.
 
-# Resolving Suspicious Entries
+## Resolving Suspicious Entries
 1. Identify the `View Flagged Entries` button, it looks like this:
 ![A red square labeled "View Flagged Entries" is outlined in red.](./images/volunteer/volunteer-hub-home-screen-flagged.jpg)
 2. Click the `View Flagged Entries` button, you should see something like this:
