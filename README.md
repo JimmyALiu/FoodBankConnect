@@ -12,6 +12,17 @@ The Lynnwood Food Bank currently serves over 4,000 households and 17,400 individ
 
 [See our living document for more about our project.](https://docs.google.com/document/d/14ZCmqzvU7z0FwthmpE_hgo6zpr88JpUWLSTOOTxHNHk/edit?usp=sharing)
 
+
+## Client Intake
+
+Clients can be intaken using this form here: https://docs.google.com/forms/d/e/1FAIpQLSfVYKqAYVBPiMxV9BJ9w2ZPpfeaxsHHF6lIUMbLH_WcyGvC9Q/viewform
+
+For demoing purposes, please note that the form is not currently connected to the database (almost there), but the UI is finalized
+
+
+
+## Developers Manual
+
 ## Tools
 The only requirement for this project is to have [Node.js](https://nodejs.org/en/download) installed. Instructions can be found in the link. Our project uses version 11.3.0 and has no guarantees for other versions, though higher versions should work. Instructions on how to install dependencies are under [Usage](#Usage)
 
