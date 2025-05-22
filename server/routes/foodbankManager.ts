@@ -7,12 +7,13 @@
 
 import express from 'express';
 import axios, { AxiosError } from 'axios';
+import dotenv from 'dotenv';
 
 const router = express.Router();
 
-import dotenv from 'dotenv';
 dotenv.config();
 
+console.log('API_BASE:', process.env.API_BASE);
 const API_BASE = process.env.API_BASE!;
 const API_USERNAME = process.env.API_USERNAME!;
 const API_PASSWORD = process.env.API_PASSWORD!;
