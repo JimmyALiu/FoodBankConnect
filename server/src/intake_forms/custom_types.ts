@@ -1,32 +1,39 @@
 export type Clients = Set<Map<string, string | null>>;
+export type Client = Map<string, string | null>;
+
+export type FlagRecord = {
+    client: Client;
+    description: string;
+    timestamp: Date;
+};
 
 export const headers: Set<string> = new Set([
-    'Timestamp', 'Head of Household County:',
-    'Head of Household First Name',
-    'Head of Household Last Name',
-    'Head of Household Date of Birth',
-    'Head of Household City:',
-    'Head of Household Zip code:',
-    'Other than the Head of Household, how many people in their/your household?',
-    'What size diapers does your baby need?',
-    'How much dog food do you need?',
-    'I acknowledge',
-    'Yes, I have over 10 individuals in my household',
-    'Head of Household House Number:',
-    'Head of Household Street:',
-    'Head of Household APT # (if Applicable):',
-    'How many people in your household need gluten free food?',
-    'How many people in your household need sugar free food?',
-    'How many people in your household need low sodium food?',
-    'How many people in your household need alternate milk?',
-    'Do you or members of your family not eat...',
-    'If yes, what type?',
-    'Do You Need Baby Food?',
-    'Do You Need Baby Formula?',
-    'How much cat food do you need?',
-    'Any other dietary/ food choice information you would like us to add to your file:',
-    'Do you have a baby and want extra services?',
-    'Do you have any pets, if so, do you want any service for them?',
+    "Timestamp",
+    "Head of Household First Name",
+    "Head of Household Last Name",
+    "Head of Household Date of Birth",
+    "Head of Household House Number:",
+    "Head of Household Street:",
+    "Head of Household APT # (if Applicable):",
+    "Head of Household City:",
+    "Head of Household Zip code:",
+    "Head of Household County:",
+    "Other than the Head of Household, how many people in their/your household?",
+    "In terms of meat, does your family eat...",
+    "Does your family have a preference for any of the following types of cultural or ethnic foods? ",
+    "Pick up food modification:",
+    "Allergies: please denote foods that should not appear in your ready to pick up bags",
+    "I have a life threatening Allergy and need individualized assistance to avoid cross contamination. (will follow up in person)",
+    "Any other dietary/ food choice information you would like us to add to your file (add notes about allergens not listed here)",
+    "Do you have a baby and want extra services?",
+    "Do you need adult diapers?",
+    "What size diapers does your baby(s) need?",
+    "Do You Need Baby Food?",
+    "Do You Need Baby Formula?",
+    "If yes, what type?",
+    "Do you need dog food?",
+    "Do you need cat food?",
+    "I acknowledge",
     "1st member's first name",
     "1st member's last name",
     "1st member's age",
@@ -56,5 +63,18 @@ export const headers: Set<string> = new Set([
     "9th member's age",
     "10th member's first name",
     "10th member's last name",
-    "10th member's age"
+    "10th member's age",
+    "Yes, I have over 10 individuals in my household"
 ]);
+
+
+export const requiredFields = [
+    'Timestamp',
+    'Head of Household County:',
+    'Head of Household First Name',
+    'Head of Household Last Name',
+    'Head of Household Date of Birth',
+    'Head of Household City:',
+    'Head of Household Zip code:',
+    'Other than the Head of Household, how many people in their/your household?'
+];
