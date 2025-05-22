@@ -1,7 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import foodbankManagerRoutes from './routes/foodbankManager.js';
-import checkJwt from './routes/authentication';
+import checkJwt from './routes/authentication.js';
 import dotenv from 'dotenv';
 import { Request, Response } from 'express';
 

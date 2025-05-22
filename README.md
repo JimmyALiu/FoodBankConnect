@@ -52,6 +52,29 @@ Includes:
 ## Usage
 Begin by cloning or forking this repository. There is sufficient documentation for this process online. Install npm on the machine containing the repository; you will need to invoke commands of the form `npm ...` to use this project. If warnings appear while using npm, try running `npm doctor`.
 
+### .env
+You will need to set up .env files. If you believe that you should have access to our authentication tokens (for example, if you are course staff for CSE 403 or a student peer reviewing our project) please reach out to us and we will provide you with a .env setup that gives you access to our SoxBox database as well as the backend to our google form handling. Otherwise you will need to set up your own intake forms
+
+If you wish to set up your own intake process you will need to set up your own form, database, and .env files. Since this project is specifically for the Lynnwood Food Bank and not for general use, it will be up to you to decide what kind of process, tools, and setup is required for your needs.
+
+Here is our .env setup for reference. There are two parts to it, one connecting to a google spreadsheet for intake, and one connected to our SoxBox database.
+
+1. Within the root directory there is a .env folder that contains a JSON file with an API key to a google spreadsheet where our form data is stored.
+
+2. Within the server directory you will need a .env file filled out with this information for your SoxBox database and setup.
+```
+PORT=
+AUTH0_DOMAIN=
+AUTH0_AUDIENCE=
+AUTH0_CLIENT_ID=
+AUTH0_CALLBACK_URL=
+AUTH0_LOGOUT_REDIRECT_URI=
+API_BASE=
+API_USERNAME=
+API_PASSWORD=
+LOCATION_ID=
+```
+
 ### Dependencies
 To install requried dependencies:
 1. `cd server` to enter the server directory
