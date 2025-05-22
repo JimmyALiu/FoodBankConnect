@@ -3,7 +3,6 @@
 // //import { saveFlagRecord } from './flagRecordService'; // Assume this saves flag records to your server
 // //import { sendToFBM } from './fbmService'; // Assume this sends clients to FBM
 
-// type Erroneous = { FBMGuest: FBMGuest; fields_erroneous: string[] };
 
 // /**simply check to see if required fields are there
 //  * @param {Client} client - The client to be checked.
