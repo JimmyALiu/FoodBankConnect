@@ -221,7 +221,12 @@ export function findFamilyData(familyMemberIndexes: Map<string, number[]>, rows:
             values.forEach((index) => {
                 if (row[index] !== null && row[index] !== '' && row[index] !== undefined) {
                     if (familyMemberData.has(key)) {
-                        throw new Error('More than one family member data found for row ' + i + ' error occured at column ' + index + 'uid (timestamp):' + row[0] + 'the key is: ' + key + 'the map is:' + familyMemberData);
+                        //could have the same value at multiple indexes, only an error if the value is not the same
+
+                        if (row[familyMemberData.get(key)!] !== row[index]) {
+                            throw new Error('inconsistent family data, ' + row[familyMemberData.get(key)!] + ', ' + row[index]);
+                        }
+                        //means the family member
                     }
                     familyMemberData.set(key, index);
                 }

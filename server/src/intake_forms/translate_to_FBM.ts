@@ -84,7 +84,7 @@ export function convertClientsToFBM(clients: Clients): FBMGuest[] {
 * returns a 0000-00-00 if the age is invalid if its greater than the current year or if the age is negative
 */
 export function convertAgeToDate(age: number): string {
-    if (age < 0 || age > new Date().getFullYear()) {
+    if (age < 0 || age > new Date().getFullYear() || isNaN(age)) {
         return '0000-00-00'; // Invalid age, return a placeholder date
     }
 
