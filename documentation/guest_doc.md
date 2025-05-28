@@ -10,10 +10,11 @@ you will help volunteers serve you and others faster:
 > has already submitted the form, then it will be flagged by our system and volunteers will need
 > to assist you in person. 
 
-2. Navigate to [<addr>](<link>).
+2. Navigate to [<https://docs.google.com/forms/d/e/1FAIpQLSfVYKqAYVBPiMxV9BJ9w2ZPpfeaxsHHF6lIUMbLH_WcyGvC9Q/viewform>](<link>).
 
 You should see this Google Form:
-<image>
+![image](https://github.com/user-attachments/assets/d76acf61-2342-4b6f-b9c6-75736ca1cdfe)
+
 
 3. Fill out the form with data pertaining to your household. 
 > [!CAUTION]
@@ -25,11 +26,13 @@ You should see this Google Form:
 > less likely to find your data leaked.  The privacy of the form is not currently adequate
 > to protect you from data leakage, especially when sought by government actors.
 
-4. Click submit, found here:
-<annotated image>
+4. Click submit, found on bottom right:
+![image](https://github.com/user-attachments/assets/9b9e28cd-6fae-4efc-945e-2f0b3c96a02c)
+
 
 5. You should see this page:
-<image>
+![image](https://github.com/user-attachments/assets/164ff5c8-d50f-4abb-9461-8a9380512ae7)
+
 If you do not see this page, you have not submitted the form and should try again.
 If you see this page, you have submitted the online intake form, thank you and congradulations!
 
