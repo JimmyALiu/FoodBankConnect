@@ -103,11 +103,11 @@ function Flagged({
           </div>
           {/* Flagged entries*/}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-6xl">
-            {flaggedEntries.map((entry, activeClientIndex) => (
+            {flaggedEntries.map((entry, index) => (
               <div
-                key={activeClientIndex}
+                key={index}
                 className={`bg-red-50 border-l-4 border-red-500 p-4 rounded-lg shadow transform transition-opacity duration-300 ${
-                  fadingIndex === activeClientIndex ? "opacity-0" : "opacity-100"
+                  fadingIndex === index ? "opacity-0" : "opacity-100"
                 }`}
               >
                 <p className="text-red-600 font-semibold mb-2">
@@ -127,15 +127,21 @@ function Flagged({
                 <div className="mt-3 flex gap-2">
                   <button
                     className="bg-blue-500 text-blue-500 px-3 py-1 rounded hover:bg-blue-600"
-                    onClick={() => setActiveClientIndex(activeClientIndex)}
+                    onClick={() => setActiveClientIndex(index)}
                   >
                     Review
                   </button>
                   <button
                     className="bg-gray-300 text-blue-500 px-3 py-1 rounded hover:bg-gray-400"
-                    onClick={() => fadingIndex !== null && onDismiss(fadingIndex)}
+                    onClick={() => onDismiss(index)}
                   >
                     Dismiss
+                  </button>
+                  <button
+                    className="bg-gray-300 text-blue-500 px-3 py-1 rounded hover:bg-gray-400"
+                    onClick={() => onDismiss(index)}
+                  >
+                    Add
                   </button>
                 </div>
               </div>
@@ -144,6 +150,12 @@ function Flagged({
               <Modal isOpen={true} onClose={() => setActiveClientIndex(null)}>
                 <EditClientForm
                   client={flaggedEntries[activeClientIndex]}
+                  onSave={(updatedClient) => {
+                    const updatedEntries = [...flaggedEntries];
+                    updatedEntries[activeClientIndex] = updatedClient;
+                    setEntries(updatedEntries);
+                    setActiveClientIndex(null); 
+                  }}
                 />
               </Modal>
             )}
