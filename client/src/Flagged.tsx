@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { findDuplicates } from "./utils/utils";
+import Modal from "./components/Modal";
+import EditClientForm from "./components/EditClientForm";
 
 function Flagged({
   setCurrentPage,
@@ -15,11 +17,12 @@ function Flagged({
     []
   );
 
+  // Controls popup modal for client review
+  const [activeClientIndex, setActiveClientIndex] = useState<number | null>(null);
+
+
   // State to hold the index of the dismissed client to fade out
   const [fadingIndex, setFadingIndex] = useState<number | null>(null);
-
-  // State to hold the index of the expanded entry when the review button is clicked
-  const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
 
   // Helper function to remove the entry from the flagged clients and fade it out
   function onDismiss(index: number) {
@@ -100,11 +103,11 @@ function Flagged({
           </div>
           {/* Flagged entries*/}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-6xl">
-            {flaggedEntries.map((entry, index) => (
+            {flaggedEntries.map((entry, activeClientIndex) => (
               <div
-                key={index}
+                key={activeClientIndex}
                 className={`bg-red-50 border-l-4 border-red-500 p-4 rounded-lg shadow transform transition-opacity duration-300 ${
-                  fadingIndex === index ? "opacity-0" : "opacity-100"
+                  fadingIndex === activeClientIndex ? "opacity-0" : "opacity-100"
                 }`}
               >
                 <p className="text-red-600 font-semibold mb-2">
@@ -124,30 +127,26 @@ function Flagged({
                 <div className="mt-3 flex gap-2">
                   <button
                     className="bg-blue-500 text-blue-500 px-3 py-1 rounded hover:bg-blue-600"
-                    onClick={() =>
-                      setExpandedIndex(expandedIndex === index ? null : index)
-                    }
+                    onClick={() => setActiveClientIndex(activeClientIndex)}
                   >
-                    {expandedIndex === index ? "Close" : "Review"}
+                    Review
                   </button>
                   <button
                     className="bg-gray-300 text-blue-500 px-3 py-1 rounded hover:bg-gray-400"
-                    onClick={() => onDismiss(index)}
+                    onClick={() => fadingIndex !== null && onDismiss(fadingIndex)}
                   >
                     Dismiss
                   </button>
                 </div>
-                {expandedIndex === index && (
-                  <div className="mt-2 text-sm text-gray-700 transition-all duration-300 ease-in-out">
-                    <p>📋 Review</p>
-                    <p>Name: {entry["First Name"]}</p>
-                    <p>Address: {entry["Address"]}</p>
-                    <p>City: {entry["City"]}</p>
-                    <p>State: {entry["State"]}</p>
-                  </div>
-                )}
               </div>
             ))}
+            {activeClientIndex !== null && (
+              <Modal isOpen={true} onClose={() => setActiveClientIndex(null)}>
+                <EditClientForm
+                  client={flaggedEntries[activeClientIndex]}
+                />
+              </Modal>
+            )}
           </div>
         </main>
       </div>
