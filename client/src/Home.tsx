@@ -17,7 +17,7 @@ function Home({ setCurrentPage }: { setCurrentPage: (page: string) => void }) {
               rounded-xl border
               shadow-md hover:shadow-lg transition
               bg-gradient-to-br from-blue-300 to-blue-500
-              hover:from-blue-500 hover:to-blue-300
+              hover:from-blue-300 hover:to-blue-600
             "
             onClick={() => setCurrentPage("Search")}
           >
@@ -33,7 +33,7 @@ function Home({ setCurrentPage }: { setCurrentPage: (page: string) => void }) {
               rounded-xl border
               shadow-md hover:shadow-lg transition
               bg-gradient-to-br from-rose-300 to-red-500
-              hover:from-red-500 hover:to-rose-300
+              hover:from-red-300 hover:to-rose-600
             "
             onClick={() => setCurrentPage("Flagged")}
           >
