@@ -21,9 +21,9 @@ function App() {
   };
 
   return (
-  <div className="flex flex-col w-[100vw]">
+  <div className="flex flex-col w-[100%]">
     <Dashboard setCurrentPage={setCurrentPage} />
-    <div className="flex-auto items-center justify-center pt-[5%]">
+    <div className="flex-auto items-center justify-center pt-[5%] px-0">
       {renderPage()}
     </div>
   </div>

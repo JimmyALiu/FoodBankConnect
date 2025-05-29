@@ -11,7 +11,7 @@ function Dashboard({
   ];
 
   return (
-    <aside className="shadow-lg flex flex-row w-[100vw] h-20 sticky top-0 bg-white">
+    <aside className="shadow-lg flex flex-row w-[100%] h-20 sticky top-0 bg-white">
       <div className="w-[20%] px-6 py-6 flex items-center justify-start">
         <img src="/logo.svg" className="h-6 px-1"></img>
         <span className="text-blue-400 text-xl font-bold">
