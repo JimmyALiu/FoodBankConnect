@@ -1,3 +1,4 @@
+import { FBMGuest } from "../../routes/helper";
 export type Clients = Set<Map<string, string | null>>;
 export type Client = Map<string, string | null>;
 
@@ -78,3 +79,17 @@ export const requiredFields = [
     'Head of Household Zip code:',
     'Other than the Head of Household, how many people in their/your household?'
 ];
+
+/**
+ * @fields_invalid is a set of field names that are invalid, basically means the form messed up
+ * @FBMGuest will have '\0' for keys which are required but not present
+ * @fields_erroneous_n_description is a map of field name to description of the error, 
+ *     could be empty or more than one this may have unrequired fields, 
+ *     but only fields that have data. Perhaps have volunteers decide to discard invalid fields
+ *     note: description is for developer, will be subject to change
+ */
+export type Erroneous = {
+    FBMGuest: FBMGuest;
+    fields_invalid: Set<string>;
+    fields_erroneous_n_description: Map<string, string>;
+};
