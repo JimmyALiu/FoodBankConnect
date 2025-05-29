@@ -21,7 +21,7 @@ function App() {
   };
 
   return (
-  <div className="flex flex-auto w-[100vw]">
+  <div className="flex flex-col w-[100vw]">
     <Dashboard setCurrentPage={setCurrentPage} />
     <div className="flex-auto items-center justify-center pt-[5%]">
       {renderPage()}
