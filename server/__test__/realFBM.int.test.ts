@@ -25,8 +25,17 @@ async function disableNockIfNeeded() {
   }
 }
 
-const envExists = fs.existsSync(path.resolve(__dirname, '../.env/food-bank-connect-b725637de6a2.json'));
-const runTest = process.env.CI !== 'true' && envExists;
+let envExists = false;
+let runTest = null;
+
+//beforeAll(() => {
+  try { 
+    envExists = fs.existsSync(path.resolve(__dirname, '../.env'));
+    runTest = envExists;
+  } catch (err) {
+    console.error('Error checking for .env file:', err);
+  }
+//});
 
 (runTest ? describe : describe.skip)('Real FBM Integration Tests', () => {
   beforeAll(async () => {
