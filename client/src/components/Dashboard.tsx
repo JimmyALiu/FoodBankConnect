@@ -1,13 +1,17 @@
+import { useAuth0 } from '@auth0/auth0-react';
+
 function Dashboard({
   setCurrentPage,
 }: {
   setCurrentPage: (page: string) => void;
 }) {
+  // authentication
+  const { logout } = useAuth0();
+
   const pages = [
     { label: "Dashboard", page: "Home" },
     { label: "Search Clients", page: "Search" },
     { label: "Flagged Entries", page: "Flagged" },
-    { label: "Log Out", page: "Home" },
   ];
 
   return (
@@ -30,6 +34,14 @@ function Dashboard({
               </button>
             </li>
           ))}
+          <li>
+            <button
+              onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })}
+              className="navBtn px-6 py-2 text-blue-500 text-xl hover:text-blue-800 rounded-lg transition duration-200"
+            >
+              Log Out
+            </button>
+          </li>
         </ul>
       </nav>
     </aside>
