@@ -1,4 +1,5 @@
 // utility file that contains helper functions for the client
+import type { FBMGuest } from "../../../server/routes/helper.ts";
 
 export function demo_sum(a: number, b: number) {
     return a + b
@@ -39,18 +40,45 @@ export function parseSearchResponseData(response: response_data) {
 }
 
 // Helper function to find duplicates in the clients data
-export function findDuplicates(
-    clients: Array<{ [key: string]: string }>
-  ): Array<{ [key: string]: string }> {
-    const duplicates: Array<{ [key: string]: string }> = [];
-    const seen = new Set<string>();
-    clients.forEach((client) => {
-      const identifier = `${client["First Name"]} ${client["Last Name"]} ${client["Address"]} ${client["City"]} ${client["State"]}`;
-      if (seen.has(identifier)) {
-        duplicates.push({ ...client, Issue: "Duplicate Entry" });
-      } else {
-        seen.add(identifier);
-      }
-    });
-    return duplicates;
+export function findDuplicates(guests: FBMGuest[]): FBMGuest[] {
+  const duplicates: FBMGuest[] = [];
+  const seen = new Set<string>();
+
+  guests.forEach((guest) => {
+    const identifier = `${guest.firstname} ${guest.lastname} ${guest.street_address} ${guest.city} ${guest.state}`;
+    if (seen.has(identifier)) {
+      duplicates.push({
+        ...guest,
+        notes: guest.notes ? `${guest.notes} | Duplicate Entry` : "Duplicate Entry", // Add a note for duplicates
+      });
+    } else {
+      seen.add(identifier);
+    }
+  });
+
+  return duplicates;
+}
+
+export function isValidGuest(guest: FBMGuest): boolean {
+  if (typeof guest.firstname !== "string" || guest.firstname.trim() === "") {
+    console.error("Invalid firstname:", guest.firstname);
+    return false;
+  }
+  if (typeof guest.lastname !== "string" || guest.lastname.trim() === "") {
+    console.error("Invalid lastname:", guest.lastname);
+    return false;
+  }
+  if (typeof guest.street_address !== "string" || guest.street_address.trim() === "") {
+    console.error("Invalid street_address:", guest.street_address);
+    return false;
+  }
+  if (typeof guest.city !== "string" || guest.city.trim() === "") {
+    console.error("Invalid city:", guest.city);
+    return false;
+  }
+  if (typeof guest.state !== "string" || guest.state.trim() === "") {
+    console.error("Invalid state:", guest.state);
+    return false;
+  }
+  return true;
 }
