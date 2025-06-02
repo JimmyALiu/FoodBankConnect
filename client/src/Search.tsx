@@ -103,7 +103,7 @@ function Search({
           <label htmlFor="address">Address:</label>
           <input id="address" name="address" type="text" value={formData.address} onChange={handleChange} className="px-2 py-1 border-2 border-blue-300 rounded-md focus:border-blue-400 focus:outline-none transition duration-250" />
           <label htmlFor="phone">Phone:</label>
-          <input id="phone" name="phone" type="text" value={formData.phone} onChange={handleChange} className="px-2 py-1 border-2 border-blue-300 rounded-md focus:border-blue-400 focus:outline-none transition duration-250" />
+          <input id="phone" name="phone" type="text" value={formData.phone} placeholder="123-456-7890" onChange={handleChange} className="px-2 py-1 border-2 border-blue-300 rounded-md focus:border-blue-400 focus:outline-none transition duration-250" />
           <input type="submit" value="Search" className="specialBtn text-blue-500 font-semibold hover:text-blue-700 py-2 my-5 rounded-lg" />
         </form>
 
