@@ -1,12 +1,31 @@
+import { plus } from "googleapis/build/src/apis/plus";
 import { FBMGuest } from "../../routes/helper";
-export type Clients = Set<Map<string, string | null>>;
+export type Clients = Set<Client>;
 export type Client = Map<string, string | null>;
 
-export type FlagRecord = {
-    client: Client;
-    description: string;
-    timestamp: Date;
-};
+/**
+ * Validates that all clients have required fields not null and that headers are located in clients.
+ * @param clients - A set of clients to validate.
+ * @returns A boolean indicating whether all clients are valid.
+ */
+export function validateClients(clients: Clients): boolean {
+    for (const client of clients) {
+        // Check if all required fields are present and not null
+        for (const field of requiredFields) {
+            if (!client.has(field) || client.get(field) === null) {
+                return false;
+            }
+        }
+
+        // Check if all headers are present in the client
+        for (const header of headers) {
+            if (!client.has(header)) {
+                return false;
+            }
+        }
+    }
+    return true;
+}
 
 export const headers: Set<string> = new Set([
     "Timestamp",
@@ -92,4 +111,79 @@ export type Erroneous = {
     FBMGuest: FBMGuest;
     fields_invalid: Set<string>;
     fields_erroneous_n_description: Map<string, string>;
+    flags: {
+        duplicate: boolean; // indicates if the client is a duplicate
+        severeAllergy: boolean; // indicates if the client has an allergy
+        timestamp_missing: boolean; // indicates if the timestamp is valid, meaning an injection may have occured
+        tenPlus: boolean; // indicates if the client has more than 10 members in the household
+        invalid: boolean; // indicates if the client is invalid
+        erroneous: boolean; // indicates if the client has erroneous fields
+    };
+}
+
+/**the bare minimum guest fields are fille out with no information provided */
+export const emptyFBMGuest: FBMGuest = {
+    firstname: '',
+    lastname: '',
+    dob: '',
+    city: '',
+    zipcode: '',
+    county: '',
+    street_address: '',
+    household_total: 0,
+    state: '',
+    cf_guests_901d83d3c7: undefined,
+    cf_guests_1fb4745f10: ['Provided'],
+    cf_guests_45ae5f86e4: 'Out of County',
+    cf_guests_8e6f172090: 'Small- 1 to 3',
+    cf_guests_e8827ca4cf: '0',
 };
+
+/**
+ * returns a new Erroneous object with empty FBMGuest and no erroneous fields.
+ */
+export function emptyErroneous(): Erroneous {
+    return {
+        FBMGuest: emptyFBMGuest,
+        fields_invalid: new Set<string>(),
+        fields_erroneous_n_description: new Map<string, string>(),
+        flags: {
+            duplicate: false,
+            severeAllergy: false,
+            timestamp_missing: false,
+            tenPlus: false,
+            invalid: false,
+            erroneous: false
+        }
+    };
+}
+
+
+// Standalone function to copy an Erroneous object
+export function copyErroneous(erroneous: Erroneous): Erroneous {
+    return {
+        FBMGuest: { ...erroneous.FBMGuest },
+        fields_invalid: new Set(erroneous.fields_invalid),
+        fields_erroneous_n_description: new Map(erroneous.fields_erroneous_n_description),
+        flags: { ...erroneous.flags }
+    };
+
+
+};
+
+
+export const fieldMap: Record<string, string> = {
+    'Head of Household First Name': 'firstname',
+    'Head of Household Last Name': 'lastname',
+    'Head of Household Date of Birth': 'dob',
+    'Head of Household City:': 'city',
+    'Head of Household Zip code:': 'zipcode',
+    'Head of Household County:': 'county',
+    'Other than the Head of Household, how many people in their/your household?': 'household_total',
+    'Timestamp': 'timestamp',
+};
+
+
+
+
+
