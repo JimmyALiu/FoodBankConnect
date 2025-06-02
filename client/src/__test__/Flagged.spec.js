@@ -1,16 +1,17 @@
 import { expect, test } from 'vitest'
 import { findDuplicates } from '../utils/utils'
+import { FBMGuest } from "../../../server/routes/helper";
 
 
 test('findDuplicates flags exact duplicates', () => {
     const clients = [
-      { "First Name": "John", "Last Name": "Doe", Address: "123 Main", City: "A", State: "X" },
-      { "First Name": "Jim", "Last Name": "Bob", Address: "123 Ave", City: "A", State: "X" },
-      { "First Name": "John", "Last Name": "Doe", Address: "123 Main", City: "A", State: "X" }
+      { firstname: "John", lastname: "Doe", street_address: "123 Main", city: "A", state: "X" },
+      { firstname: "Jim", lastname: "Bob", street_address: "123 Ave", city: "B", state: "Y" },
+      { firstname: "John", lastname: "Doe", street_address: "123 Main", city: "A", state: "X" }
     ]
   
     const result = findDuplicates(clients)
     expect(result).toStrictEqual([
-      { "First Name": "John", "Last Name": "Doe", Address: "123 Main", City: "A", State: "X", Issue: "Duplicate Entry" },
+      { firstname: "John", lastname: "Doe", street_address: "123 Main", city: "A", state: "X", notes: "Duplicate Entry" },
     ])
 })

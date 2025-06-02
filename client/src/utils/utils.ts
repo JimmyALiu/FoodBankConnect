@@ -49,7 +49,7 @@ export function findDuplicates(guests: FBMGuest[]): FBMGuest[] {
     if (seen.has(identifier)) {
       duplicates.push({
         ...guest,
-        notes: guest.notes ? `${guest.notes} | Duplicate Entry` : "Duplicate Entry", // Add a note for duplicates
+        notes: guest.notes ? `${guest.notes} | Duplicate Entry` : "Duplicate Entry", 
       });
     } else {
       seen.add(identifier);
