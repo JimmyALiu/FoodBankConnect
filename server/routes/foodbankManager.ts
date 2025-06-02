@@ -143,14 +143,29 @@ router.get('/guest/search', async (req, res) => {
 
     const { firstname, lastname, street_address, phone } = req.query;
 
-    // Fetch all guests (may want to filter on backend if address or phone is included)
-    const guestsRes = await axios.get(`${API_BASE}/rest-api/clients`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    let allGuests: Guest[] = [];
+    let page = 1;
+    const limit = 100; // Increase per-page size to reduce number of requests
 
-    const guests: Guest[] = guestsRes.data.items;
+    while (true) {
+      const guestsRes = await axios.get(`${API_BASE}/rest-api/clients`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        params: {
+          page,
+          limit,
+        },
+      });
+
+      const data = guestsRes.data;
+      const guests: Guest[] = data.items;
+      allGuests.push(...guests);
+
+      // If we're on the last page, stop
+      if (page >= data.meta.pages) break;
+      page++;
+    }
 
     // Normalize query
     const fName = firstname?.toString().toLowerCase() || '';
@@ -159,7 +174,7 @@ router.get('/guest/search', async (req, res) => {
     const ph = phone?.toString().toLowerCase() || '';
 
     // Filter guests
-    const matches = guests.filter((guest) => {
+    const matches = allGuests.filter((guest) => {
       const guestFirst = (guest.firstname || '').toLowerCase();
       const guestLast = (guest.lastname || '').toLowerCase();
       const guestAddr = (guest.street_address || '').toLowerCase();
@@ -180,7 +195,6 @@ router.get('/guest/search', async (req, res) => {
         );
       });
 
-      // Return true if any criteria matches
       return (
         (!fName || guestFirst.includes(fName) || othersMatch) &&
         (!lName || guestLast.includes(lName) || othersMatch) &&
