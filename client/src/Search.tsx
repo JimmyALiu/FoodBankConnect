@@ -61,8 +61,8 @@ function Search({
     <div className="bg-white">
       <main className="flex flex-col items-center justify-center p-6">
         <h1 className="text-3xl font-semibold mb-6">Search Clients</h1>
-        <p className="mb-6 text-lg text-gray-700">
-          Use this page to search for clients in the system.
+        <p className="mb-10 text-lg text-gray-700 w-[45%] text-center">
+          Use this page to search for clients in the system. <br /> Leave blank to retrieve the whole database, search fields are all optional.
         </p>
         <div className="flex space-x-4">
           <button
