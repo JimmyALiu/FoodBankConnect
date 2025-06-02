@@ -35,7 +35,24 @@ function Search({
   }
 
   function searchDatabase(): void {
-    console.log("click!");
+    // validate form
+    if (formData.firstName != "" && !/^[a-zA-Z]+$/.test(formData.firstName)) {
+      console.log("invalid first name");
+      return;
+    }
+
+    if (formData.lastName != "" && !/^[a-zA-Z]+$/.test(formData.lastName)) {
+      console.log("invalid first name");
+      return;
+    }
+
+    if (formData.phone != "" && !/^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/.test(formData.phone)) {
+      console.log("invalid phone");
+      return;
+    }
+
+    console.log('valid first')
+
     setClients([]);
 
     // should send a request to the database
