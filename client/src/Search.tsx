@@ -27,6 +27,8 @@ function Search({
     phone: ''
   });
 
+  const [errorMsg, setErrorMsg] = useState("");
+
   function handleChange(e: React.ChangeEvent<HTMLInputElement>): void {
     setFormData({
       ...formData,
@@ -35,7 +37,23 @@ function Search({
   }
 
   function searchDatabase(): void {
-    console.log("click!");
+    // validate form
+    if (formData.firstName != "" && !/^[a-zA-Z]+$/.test(formData.firstName)) {
+      setErrorMsg("Please enter a valid first name");
+      return;
+    }
+
+    if (formData.lastName != "" && !/^[a-zA-Z]+$/.test(formData.lastName)) {
+      setErrorMsg("Please enter a valid last name");
+      return;
+    }
+
+    if (formData.phone != "" && !/^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/.test(formData.phone)) {
+      setErrorMsg("Please enter a valid phone number");
+      return;
+    }
+    
+    setErrorMsg("");
     setClients([]);
 
     // should send a request to the database
@@ -61,8 +79,8 @@ function Search({
     <div className="bg-white">
       <main className="flex flex-col items-center justify-center p-6">
         <h1 className="text-3xl font-semibold mb-6">Search Clients</h1>
-        <p className="mb-6 text-lg text-gray-700">
-          Use this page to search for clients in the system.
+        <p className="mb-10 text-lg text-gray-700 w-[45%] text-center">
+          Use this page to search for clients in the system. <br /> Leave blank to retrieve the whole database, search fields are all optional.
         </p>
         <div className="flex space-x-4">
           <button
@@ -86,9 +104,13 @@ function Search({
           <label htmlFor="address">Address:</label>
           <input id="address" name="address" type="text" value={formData.address} onChange={handleChange} className="px-2 py-1 border-2 border-blue-300 rounded-md focus:border-blue-400 focus:outline-none transition duration-250" />
           <label htmlFor="phone">Phone:</label>
-          <input id="phone" name="phone" type="text" value={formData.phone} onChange={handleChange} className="px-2 py-1 border-2 border-blue-300 rounded-md focus:border-blue-400 focus:outline-none transition duration-250" />
+          <input id="phone" name="phone" type="text" value={formData.phone} placeholder="123-456-7890" onChange={handleChange} className="px-2 py-1 border-2 border-blue-300 rounded-md focus:border-blue-400 focus:outline-none transition duration-250" />
           <input type="submit" value="Search" className="specialBtn text-blue-500 font-semibold hover:text-blue-700 py-2 my-5 rounded-lg" />
         </form>
+
+        <div className="mb-3 mt-5">
+          <p className="text-red-600">{errorMsg}</p>
+        </div>
 
         {/* search results */}
         <div className="overflow-hidden mt-10 shadow-md rounded-xl">
