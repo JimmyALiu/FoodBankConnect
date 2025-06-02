@@ -55,7 +55,11 @@ jobs:
           echo "API_USERNAME=${{ secrets.FBM_API_USERNAME }}" >> .env
           echo "API_PASSWORD=${{ secrets.FBM_API_PASSWORD }}" >> .env
           echo "LOCATION_ID=${{ secrets.FBM_LOCATION_ID }}" >> .env
-      
+
+      - name: Debug .env contents (optional)
+        working-directory: ./server
+        run: cat .env
+
       - name: Create service account JSON
         run: |
           mkdir -p env
