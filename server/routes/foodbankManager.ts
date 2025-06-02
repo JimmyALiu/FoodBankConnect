@@ -11,10 +11,10 @@ import axios, { AxiosError } from 'axios';
 const router = express.Router();
 
 // Real plain text domain and credentials, need to replace with user input during login!!!
-const API_BASE = 'https://fbc403.soxbox.co';
-const API_USERNAME = 'cse403';
-const API_PASSWORD = 'connect403';
-const LOCATION_ID = 1;
+const API_BASE = process.env.API_BASE!;
+const API_USERNAME = process.env.API_USERNAME!;
+const API_PASSWORD = process.env.API_PASSWORD!;
+const LOCATION_ID = Number(process.env.LOCATION_ID);
 
 interface HouseholdMember {
   name?: string;
@@ -33,6 +33,7 @@ interface Guest {
 
 // Helper to get a token
 async function getToken() {
+  console.log("API_BASE env:", process.env.API_BASE);
   const res = await axios.post(`${API_BASE}/rest-api/token`, {
     username: API_USERNAME,
     password: API_PASSWORD,
