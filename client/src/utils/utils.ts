@@ -59,6 +59,7 @@ export function findDuplicates(guests: FBMGuest[]): FBMGuest[] {
   return duplicates;
 }
 
+// Helper function to validate guest data
 export function isValidGuest(guest: FBMGuest): boolean {
   if (typeof guest.firstname !== "string" || guest.firstname.trim() === "") {
     console.error("Invalid firstname:", guest.firstname);
@@ -82,3 +83,4 @@ export function isValidGuest(guest: FBMGuest): boolean {
   }
   return true;
 }
+

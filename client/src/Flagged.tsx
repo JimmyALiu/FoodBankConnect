@@ -12,7 +12,7 @@ function Flagged({
   setCurrentPage: (page: string) => void;
 }) {
 
-  // State to hold the clients data
+  // State to hold the clients 
   const [clients, setClients] = useState<FBMGuest[]>([])
 
   // State to hold the flagged clients
@@ -26,18 +26,24 @@ function Flagged({
 
   // Helper function to add a guest to DB
   function onAdd(index: number) {
-    const guestToAdd = flaggedEntries[index];
-    const { notes, ...payload } = guestToAdd;
+    setFadingIndex(index); 
+    setTimeout(() => {
+      const guestToAdd = flaggedEntries[index];
+      const { notes, ...payload } = guestToAdd;
   
-    axios
-      .post("http://localhost:3000/api/fbm/guests/add", payload)
-      .then((res) => {
-        console.log("Added guest:", res.data);
-        setEntries((prev) => prev.filter((_, i) => i !== index));
-      })
-      .catch((err) => {
-        console.error("Failed to add guest:", err);
-      });
+      axios
+        .post("http://localhost:3000/api/fbm/guests/add", payload)
+        .then((res) => {
+          console.log("Added guest:", res.data);
+          setEntries((prev) => prev.filter((_, i) => i !== index)); 
+        })
+        .catch((err) => {
+          console.error("Failed to add guest:", err);
+        })
+        .finally(() => {
+          setFadingIndex(null); 
+        });
+    }, 300); 
   }
 
   // Helper function to remove the entry from the flagged clients and fade it out

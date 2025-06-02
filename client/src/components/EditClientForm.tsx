@@ -1,22 +1,9 @@
 import React, { useState } from "react";
+import type { FBMGuest } from "../../../server/routes/helper";
 
 interface EditClientProps {
-  client: {
-    firstname: string;
-    lastname: string;
-    street_address: string;
-    city: string;
-    state: string;
-    notes: string;
-  };
-  onSave?: (updatedClient: {
-    firstname: string;
-    lastname: string;
-    street_address: string;
-    city: string;
-    state: string;
-    notes: string;
-  }) => void;
+  client: FBMGuest;
+  onSave?: (client: FBMGuest) => void;
 }
 
 const EditClient: React.FC<EditClientProps> = ({ client, onSave }) => {
@@ -31,7 +18,7 @@ const EditClient: React.FC<EditClientProps> = ({ client, onSave }) => {
   };
 
   return (
-    <div className="bg-white rounded-2xl shadow-lg p-6 relative w-[90%] max-w-xl max-h-[90%] overflow-y-auto">
+    <div className="bg-white rounded-2xl shadow-lg p-6 relative w-[90%] max-w-xl max-h-[90%]">
       <h2 className="text-2xl font-bold mb-4">Edit Client</h2>
       <form>
         {/* First Name */}
@@ -104,7 +91,7 @@ const EditClient: React.FC<EditClientProps> = ({ client, onSave }) => {
           />
         </div>
 
-        {/* (Optional) Notes */}
+        {/* Notes */}
         <div className="mb-4">
           <label className="block text-sm font-medium text-gray-700 mb-1">
             Notes
