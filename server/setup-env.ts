@@ -17,4 +17,4 @@ const envPath = fs.existsSync(serverEnvPath)
 
 dotenv.config({ path: envPath });
 
-console.log('Jest setup: API_BASE =', process.env.API_BASE);
+//console.log('Jest setup: API_BASE =', process.env.API_BASE);
