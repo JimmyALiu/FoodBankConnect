@@ -118,33 +118,37 @@ export type Erroneous = {
         tenPlus: boolean; // indicates if the client has more than 10 members in the household
         invalid: boolean; // indicates if the client is invalid
         erroneous: boolean; // indicates if the client has erroneous fields
+        hohInMembers: boolean; // indicates if the client has household members
     };
 }
 
 /**the bare minimum guest fields are fille out with no information provided */
-export const emptyFBMGuest: FBMGuest = {
-    firstname: '',
-    lastname: '',
-    dob: '',
-    city: '',
-    zipcode: '',
-    county: '',
-    street_address: '',
-    household_total: 0,
-    state: '',
-    cf_guests_901d83d3c7: undefined,
-    cf_guests_1fb4745f10: ['Provided'],
-    cf_guests_45ae5f86e4: 'Out of County',
-    cf_guests_8e6f172090: 'Small- 1 to 3',
-    cf_guests_e8827ca4cf: '0',
-};
+export function emptyFBMGuest(): FBMGuest {
+    return {
+        firstname: '',
+        lastname: '',
+        dob: '',
+        city: '',
+        zipcode: '',
+        county: '',
+        street_address: '',
+        household_total: 0,
+        state: '',
+        cf_guests_901d83d3c7: undefined,
+        cf_guests_1fb4745f10: ['Provided'],
+        cf_guests_45ae5f86e4: 'Out of County',
+        cf_guests_8e6f172090: 'Small- 1 to 3',
+        cf_guests_e8827ca4cf: '0',
+        cf_guests_459373e1d1: [],
+    };
+}
 
 /**
  * returns a new Erroneous object with empty FBMGuest and no erroneous fields.
  */
 export function emptyErroneous(): Erroneous {
     return {
-        FBMGuest: emptyFBMGuest,
+        FBMGuest: emptyFBMGuest(),
         fields_invalid: new Set<string>(),
         fields_erroneous_n_description: new Map<string, string>(),
         flags: {
@@ -153,8 +157,10 @@ export function emptyErroneous(): Erroneous {
             timestamp_missing: false,
             tenPlus: false,
             invalid: false,
-            erroneous: false
+            erroneous: false,
+            hohInMembers: false
         }
+
     };
 }
 
@@ -171,7 +177,10 @@ export function copyErroneous(erroneous: Erroneous): Erroneous {
 
 };
 
-
+/**
+ * This helps with direct translation of the field names to the FBMGuest object.
+ * note that not all fields are covered, and street and house number are combined into street_address in FBMGuest
+ */
 export const fieldMap: Record<string, string> = {
     'Head of Household First Name': 'firstname',
     'Head of Household Last Name': 'lastname',
@@ -181,6 +190,11 @@ export const fieldMap: Record<string, string> = {
     'Head of Household County:': 'county',
     'Other than the Head of Household, how many people in their/your household?': 'household_total',
     'Timestamp': 'timestamp',
+    'Head of Household Street:': 'street',
+    'Head of Household House Number:': 'house_number',
+    'Head of Household APT # (if Applicable):': 'apartment',
+
+
 };
 
 
