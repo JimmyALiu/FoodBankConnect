@@ -2,6 +2,9 @@ import assert from "assert";
 import { Clients, headers } from "./custom_types";
 import { FBMGuest, HouseholdMember } from "../../routes/helper";
 
+/**
+ * Converts a set of clients to an array of FBMGuest objects. a shitty direct translater.
+ */
 export function convertClientsToFBM(clients: Clients): FBMGuest[] {
     const fbmGuests: FBMGuest[] = [];
 
