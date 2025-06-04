@@ -122,18 +122,26 @@ To write your own server side Jest tests:
 - Locate that `__test__` folder under `server/__test__`
 - If you wish to set up your own tests, right click the `__test__` folder and select New File. Otherwise edit or add to the existing tests we have.
 - Use this template to write your tests. We do not require any specific guidelines, but your tests should be modular, readable, and well documented.
+- following the describe.each format makes it easier to add test cases and paramerize input. optionally you can create your own name for the test case, or you can just put the inputs as $input
+-for large mock data use a .ts file to declare and export it to not dirty the test scripts with an insummountable amount of information
 
 ```Javascript
-import assert from 'assert';
-import { describe, test, expect, beforeAll } from '@jest/globals';
-import nock from 'nock';  // we use nock for mock http requests
+import {expect, test} from 'vitest';
+import { demo_sum } from '../utils/utils';  // import what you want to test
+describe.each([
+    {
+      name: 'descriptivename'
+      input: 'values'
+      expect: 'expected output'
+    }])('function_name - $name', ({ input, expected }) => {
+it('descriptive subtest name', () => {
+  expect(demo_sum(values)).toBe(expected)  // expects the return value of demo_sum(1, 2) to be 3
 
-// sync tests
-test('A descriptive test name', () => {
-    expect(1 + 1).toBe(2);
+  // similar tests should be grouped together
+});
 });
 
-// async test
+// async test for data pipelining can be written in a single test format
 test('A descriptive async test name', async () => {
     const result = await foo();
     expect(result).toBe(true);
