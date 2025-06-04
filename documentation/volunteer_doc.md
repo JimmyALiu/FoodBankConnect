@@ -44,7 +44,7 @@ To log-in, first create a *Google* account if you do not have one, then:
 2. Press the button.
 3. Follow the instructions *Google* gives you to log in to your google account.
 4. If you do not see this screen, please see the system administrator:
-![A home screen is shown with a bar at the top and two buttons below (one red, one blue).](./images/volunteer/volunteer-hub-home-screen-search.jpg)
+![A home screen is shown with a bar at the top and two buttons below (one red, one blue).](./images/volunteer/volunteer-hub-home-screen.jpg)
 
 Congradulations, you have logged in!
 
