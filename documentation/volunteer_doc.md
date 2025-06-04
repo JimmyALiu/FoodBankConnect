@@ -32,12 +32,21 @@ If FoodBank Connect is not currently running, perform these steps:
 
 
 ## Logging In
-This feature is not currently supported.
+When you open the Volunteer Hub, you will be directed to a
+login page that looks like this:
+![A log in window with several fields, a submit button, and a "Continue with Google" button.](./images/volunteer/volunteer-hub-login.jpg)
 
-<!--
-To log-in:
-1. ...
--->
+
+
+To log-in, first create a *Google* account if you do not have one, then:
+1. Identify the "Continue with *Google*" button:
+![A log in window with several fields, a submit button, and a highlighted "Continue with Google" button.](./images/volunteer/volunteer-hub-login-google-ref.jpg)
+2. Press the button.
+3. Follow the instructions *Google* gives you to log in to your google account.
+4. If you do not see this screen, please see the system administrator:
+![A home screen is shown with a bar at the top and two buttons below (one red, one blue).](./images/volunteer/volunteer-hub-home-screen-search.jpg)
+
+Congradulations, you have logged in!
 
 ## Finding a Specific Household
 1. Identify the search button, it looks like this:
