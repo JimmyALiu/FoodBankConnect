@@ -96,6 +96,7 @@ export function _invalidChecker(client: Client, inputErroneousFields: Erroneous)
 /**
  * Checks if the timestamp is valid.
  * A timestamp is invalid if it is null, empty, whitespace, not a valid date, or is in the future.
+ * also adds timestamp to the timestamp field in erroneousFields object
  * @param timestamp - The timestamp to be checked, expected in the format 'MM/DD/YYYY HH:mm:ss'.
  * @param inputErroneousFields - The current erroneous fields to be updated.
  * @returns The updated erroneous fields.
@@ -117,6 +118,9 @@ export function isValidTimestamp(timestamp: string | null | undefined, inputErro
             erroneousFields.flags['invalid'] = true;
             erroneousFields.fields_invalid.add('Timestamp');
             erroneousFields.fields_erroneous_n_description.set('Timestamp', 'Invalid: Timestamp is in the future.');
+        }
+        else {
+            erroneousFields.timestamp = date.getTime(); // Convert to ISO format for FBM
         }
     }
     //dont add timestamp to fbm
@@ -193,21 +197,12 @@ export function isValidLastName(lastName: string | null | undefined, inputErrone
 export function isValidDateOfBirth(dob: string | null | undefined, inputErroneousFields: Erroneous): Erroneous {
     const erroneousFields = copyErroneous(inputErroneousFields);
     const initialdob = dob;
-    //just in case
-    if (dob && /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/.test(dob)) {
-        // Convert 'YYYY-MM-DD HH:mm:ss' to 'YYYY-MM-DDTHH:mm:ss'
-        dob = dob.replace(' ', 'T');
-    }
 
-    //now check formatting
-    if (dob && /^\d{4}-\d{2}-\d{2}$/.test(dob)) {
-        // Convert 'YYYY-MM-DD' to 'YYYY-MM-DDTHH:mm:ss'
-        dob = dob + 'T00:00:00'; // Add time part to make it a valid date string
-    }
+    dob = toISOFormat(dob); // Convert to ISO format, which is 'YYYY-MM-DDTHH:mm:ss' for FBM
 
     //now all formating must conform to the structure of 'YYYY-MM-DDTHH:mm:ss'
 
-    if (!dob || !/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}$/.test(dob)) {
+    if (!dob || !/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/.test(dob)) {
         erroneousFields.flags['invalid'] = true;
         erroneousFields.fields_invalid.add('dob');
         erroneousFields.fields_erroneous_n_description.set('dob', 'Invalid: dob is in the wrong format.');
@@ -244,6 +239,71 @@ export function isValidDateOfBirth(dob: string | null | undefined, inputErroneou
     }
 
     return erroneousFields;
+}
+
+/**
+ * Converts any time into a format of 'YYYY-MM-DDTHH:mm:ssZ'.
+ * it will be in UTC time
+ * if inputed date is a date object then will create a new date object in UTC time
+ * if inputed date is a string then will convert it to a date object in UTC time unless a Z trails it
+ * @param date - a string of a potential date to be converted
+ * @returns The formatted date string in ISO format. Or if not possible undefined. UTC
+ */
+export function toISOFormat(date: string | Date | null | undefined): string | undefined {
+    if (typeof date === 'string') {
+        //trim it
+        date = date.trim();
+        if (!date || date === '') {
+            return undefined; // Return undefined if the date is empty
+        }
+        //convert / and _ to - in case the date is different
+        date = date.replace(/[/_]/g, '-'); // Replace '/' and '_' with '-' to conform to ISO format
+        //get rid of white spaces surrounding dashes
+        date = date.replace(/(\s*-\s*)/g, '-'); // Remove whitespace around dashes
+        //remove white spaces around colons
+        date = date.replace(/(\s*:\s*)/g, ':'); // Remove whitespace around colons
+
+        //should all not have this if already in ISO format
+        //convert all white spaces to T
+        date = date.replace(/\s+/g, 'T'); // Replace all whitespace with 'T' to conform to ISO format
+
+
+        // Check if the date is in 'MM-DD-YYYY*' format then convert it to 'YYYY-MM-DD*'
+        date = date.replace(/^(\d{1,2})-(\d{1,2})-(\d{4})(.*)$/, '$3-$1-$2$4'); // Convert 'MM-DD-YYYY' to 'YYYY-MM-DD'
+
+        //check if the date is in a valid iso format
+        if (!/^\d{4}-\d{2}-\d{2}(.*)$/.test(date)) {
+            return undefined; // Return undefined if the date is not in a valid ISO format
+        }
+
+        //append 'T00:00:00' if the time is not specified
+        if (!date.includes('T')) {
+            date += 'T00:00:00'; // Append 'T00:00:00' if time is not specified
+        }
+        //if date indludes a timezone, then transform date into a time object
+        //Z is standard for UTC
+        //also + and - are used for timezones
+        if (!date.includes('Z') || date.includes('+') || date.includes('-')) {
+            //if the date is in UTC format, then need to use UTC method
+            const utcDate = new Date(date);
+            date = utcDate.toISOString().split('.')[0] + 'Z'; // Convert to ISO format 'YYYY-MM-DDTHH:mm:ss'
+        } else {
+            //it must be now in iso format so just return it
+            //date=date
+
+        }
+
+
+    } else {
+        if (!date || isNaN(date.getTime())) {
+            return undefined; // Return undefined if the date is invalid
+        }
+    }
+    if (typeof date === 'string') {
+        return date.slice(0, 20); // Return the first 19 characters to get 'YYYY-MM-DDTHH:mm:ss'
+    }
+    // Convert to ISO format 'YYYY-MM-DDTHH:mm:ss'
+    return date.toISOString().split('.')[0] + 'Z';
 }
 
 /**
