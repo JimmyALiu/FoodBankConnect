@@ -4,6 +4,8 @@ import foodbankManagerRoutes from './routes/foodbankManager.js';
 import checkJwt from './routes/authentication.js';
 import dotenv from 'dotenv';
 import { Request, Response } from 'express';
+import { internalFormGuests } from './inMemoryStorage/cache.js';
+import { startInternalTimer } from './internalTimer.js';
 
 dotenv.config();
 
@@ -41,6 +43,12 @@ app.get('/logout', (req, res) => {
   res.redirect(logoutUrl);
 });
 
+//get stored filled out form data
+//this is currently unmodifiable, only gets it from the forms
+app.get('/get-form-data', (req: Request, res: Response) => {
+  res.json(Array.from(internalFormGuests));
+});
+
 // Protected route
 app.get('/protected', checkJwt, (req, res) => {
   res.send('This is a protected route.');
@@ -58,3 +66,6 @@ app.get('/', (_req, _res) => {
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}/`);
 });
+
+//internal background logic to update the internal cache
+startInternalTimer(); // kicks off interval
