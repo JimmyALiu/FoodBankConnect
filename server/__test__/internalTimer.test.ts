@@ -29,7 +29,7 @@ const client2: Erroneous = _invalidChecker(mockClientMissingOneRequiredNull, emp
 const client3: Erroneous = _invalidChecker(onlyHeadOfHousehold, emptyErroneous() as Erroneous);
 const client4: Erroneous = _invalidChecker(headOfHouseholdWithOneMember, emptyErroneous() as Erroneous);
 
-
+const now: number = Date.now();
 const clients = [client1, client2, client3, client4];
 
 describe.each([
@@ -37,17 +37,17 @@ describe.each([
         description: "should remove clients older than 30 days",
         days: 30,
         initialClients: [
-            { ...clients[0], timestamp: Date.now() - 31 * 24 * 60 * 60 * 1000 }, // older than 30 days
-            { ...clients[1], timestamp: Date.now() - 29 * 24 * 60 * 60 * 1000 }, // within 30 days
+            { ...clients[0], timestamp: now - 31 * 24 * 60 * 60 * 1000 }, // older than 30 days
+            { ...clients[1], timestamp: now - 29 * 24 * 60 * 60 * 1000 }, // within 30 days
         ],
-        expectedRemainingClients: [{ ...clients[1], timestamp: Date.now() - 29 * 24 * 60 * 60 * 1000 }],
+        expectedRemainingClients: [{ ...clients[1], timestamp: now - 29 * 24 * 60 * 60 * 1000 }],
     },
     {
         description: "should remove clients older than 60 days",
         days: 60,
         initialClients: [
-            { ...clients[0], timestamp: Date.now() - 61 * 24 * 60 * 60 * 1000 }, // older than 60 days
-            { ...clients[1], timestamp: Date.now() - 59 * 24 * 60 * 60 * 1000 }, // within 60 days
+            { ...clients[0], timestamp: now - 61 * 24 * 60 * 60 * 1000 }, // older than 60 days
+            { ...clients[1], timestamp: now - 59 * 24 * 60 * 60 * 1000 }, // within 60 days
         ],
         expectedRemainingClients: [{ ...clients[1], timestamp: Date.now() - 59 * 24 * 60 * 60 * 1000 }],
     },
@@ -55,44 +55,44 @@ describe.each([
         description: "should remove clients if within 1 day",
         days: 1,
         initialClients: [
-            { ...clients[2], timestamp: Date.now() - 2 * 24 * 60 * 60 * 1000 }, // older than 1 day
-            { ...clients[3], timestamp: Date.now() - 12 * 60 * 60 * 1000 }, // within 1 day
+            { ...clients[2], timestamp: now - 2 * 24 * 60 * 60 * 1000 }, // older than 1 day
+            { ...clients[3], timestamp: now - 12 * 60 * 60 * 1000 }, // within 1 day
         ],
-        expectedRemainingClients: [{ ...clients[3], timestamp: Date.now() - 12 * 60 * 60 * 1000 }],
+        expectedRemainingClients: [{ ...clients[3], timestamp: now - 12 * 60 * 60 * 1000 }],
     },
     {
         description: "should remove clients older than 90 days",
         days: 90,
         initialClients: [
-            { ...clients[0], timestamp: Date.now() - 91 * 24 * 60 * 60 * 1000 }, // older than 90 days
-            { ...clients[1], timestamp: Date.now() - 89 * 24 * 60 * 60 * 1000 }, // within 90 days
+            { ...clients[0], timestamp: now - 91 * 24 * 60 * 60 * 1000 }, // older than 90 days
+            { ...clients[1], timestamp: now - 89 * 24 * 60 * 60 * 1000 }, // within 90 days
         ],
-        expectedRemainingClients: [{ ...clients[1], timestamp: Date.now() - 89 * 24 * 60 * 60 * 1000 }],
+        expectedRemainingClients: [{ ...clients[1], timestamp: now - 89 * 24 * 60 * 60 * 1000 }],
     },
     {
         description: "should remove 4 clients older than specified days",
         days: 15,
         initialClients: [
-            { ...clients[0], timestamp: Date.now() - 20 * 24 * 60 * 60 * 1000 }, // older than specified days
-            { ...clients[1], timestamp: Date.now() - 10 * 24 * 60 * 60 * 1000 }, // within specified days
-            { ...clients[2], timestamp: Date.now() - 16 * 24 * 60 * 60 * 1000 }, // older than specified days
-            { ...clients[3], timestamp: Date.now() - 5 * 24 * 60 * 60 * 1000 }, // within specified days
+            { ...clients[0], timestamp: now - 20 * 24 * 60 * 60 * 1000 }, // older than specified days
+            { ...clients[1], timestamp: now - 10 * 24 * 60 * 60 * 1000 }, // within specified days
+            { ...clients[2], timestamp: now - 16 * 24 * 60 * 60 * 1000 }, // older than specified days
+            { ...clients[3], timestamp: now - 5 * 24 * 60 * 60 * 1000 }, // within specified days
         ],
         expectedRemainingClients: [
-            { ...clients[1], timestamp: Date.now() - 10 * 24 * 60 * 60 * 1000 },
-            { ...clients[3], timestamp: Date.now() - 5 * 24 * 60 * 60 * 1000 },
+            { ...clients[1], timestamp: now - 10 * 24 * 60 * 60 * 1000 },
+            { ...clients[3], timestamp: now - 5 * 24 * 60 * 60 * 1000 },
         ],
     },
     {
         description: "should not remove clients if all are within the specified days",
         days: 15,
         initialClients: [
-            { ...clients[2], timestamp: Date.now() - 10 * 24 * 60 * 60 * 1000 }, // within 15 days
-            { ...clients[3], timestamp: Date.now() - 5 * 24 * 60 * 60 * 1000 }, // within 15 days
+            { ...clients[2], timestamp: now - 10 * 24 * 60 * 60 * 1000 }, // within 15 days
+            { ...clients[3], timestamp: now - 5 * 24 * 60 * 60 * 1000 }, // within 15 days
         ],
         expectedRemainingClients: [
-            { ...clients[2], timestamp: Date.now() - 10 * 24 * 60 * 60 * 1000 },
-            { ...clients[3], timestamp: Date.now() - 5 * 24 * 60 * 60 * 1000 },
+            { ...clients[2], timestamp: now - 10 * 24 * 60 * 60 * 1000 },
+            { ...clients[3], timestamp: now - 5 * 24 * 60 * 60 * 1000 },
         ],
     },
     {
@@ -117,8 +117,8 @@ describe.each([
         description: "should delete all clients if they are all older than the specified days",
         days: 5,
         initialClients: [
-            { ...clients[0], timestamp: Date.now() - 10 * 24 * 60 * 60 * 1000 }, // older than 5 days
-            { ...clients[1], timestamp: Date.now() - 6 * 24 * 60 * 60 * 1000 }, // older than 5 days
+            { ...clients[0], timestamp: now - 10 * 24 * 60 * 60 * 1000 }, // older than 5 days
+            { ...clients[1], timestamp: now - 6 * 24 * 60 * 60 * 1000 }, // older than 5 days
         ],
         expectedRemainingClients: [],
     },
