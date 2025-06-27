@@ -4,7 +4,7 @@ import { getClients } from "../src/intake_forms/client_intake";
 import { _invalidChecker, flagger } from "../src/intake_forms/flagger";
 import { Clients, emptyErroneous, Erroneous } from "../src/intake_forms/custom_types";
 import { headOfHouseholdWithOneMember, mockClientComplete, mockClientMissingOneRequiredNull, onlyHeadOfHousehold } from "./mock_clients";
-import { _checkForDuplicates, _removeOldClients } from "../internalTimer";
+import { _checkForDuplicates, _removeOldClients } from "../src/internalTimer";
 
 jest.mock("../inMemoryStorage/cache", () => ({
     internalFormGuests: new Set(),

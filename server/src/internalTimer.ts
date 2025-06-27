@@ -1,8 +1,8 @@
 import { get } from "http";
-import { internalFormGuests } from "./inMemoryStorage/cache";
-import { getClients } from "./src/intake_forms/client_intake";
-import { Clients, Erroneous } from "./src/intake_forms/custom_types";
-import { flagger } from "./src/intake_forms/flagger";
+import { internalFormGuests } from "../inMemoryStorage/cache";
+import { getClients } from "./intake_forms/client_intake";
+import { Clients, Erroneous } from "./intake_forms/custom_types";
+import { flagger } from "./intake_forms/flagger";
 import { assert } from "console";
 
 /**
@@ -53,7 +53,7 @@ export async function _getClientsFromForm(): Promise<Set<Erroneous> | undefined>
 }
 
 /**
- * Checks the clients from the form against the internal storage.
+ * Checks the clients from the form against the internal storage. Not the database. That is a different function and why this is a private helper.
  * @returns a record of the duplicates found in the form and the nonduplicates
  */
 export function _checkForDuplicates(clientsPulledFromForm: Set<Erroneous>): { duplicates: Set<Erroneous>, nonDuplicates: Set<Erroneous> } {

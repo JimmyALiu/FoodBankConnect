@@ -5,7 +5,7 @@ import checkJwt from './routes/authentication.js';
 import dotenv from 'dotenv';
 import { Request, Response } from 'express';
 import { internalFormGuests } from './inMemoryStorage/cache.js';
-import { startInternalTimer } from './internalTimer.js';
+import { startInternalTimer } from './src/internalTimer.js';
 
 dotenv.config();
 
