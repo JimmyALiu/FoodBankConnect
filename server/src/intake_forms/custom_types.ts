@@ -117,18 +117,49 @@ export const requiredFields = [
  *     note: description is for developer, will be subject to change
  */
 export type Erroneous = {
-    timestamp?: number //it is the timestamp of the guest submission, ensures we dont copy over the same data and put it onto our server
+    timestamp?: number; // it is the timestamp of the guest submission, ensures we don't copy over the same data and put it onto our server
     FBMGuest: FBMGuest;
     fields_invalid: Set<string>;
     fields_erroneous_n_description: Map<string, string>;
     flags: {
         duplicate: boolean; // indicates if the client is a duplicate
         severeAllergy: boolean; // indicates if the client has an allergy
-        timestamp_missing: boolean; // indicates if the timestamp is valid, meaning an injection may have occured
+        timestamp_missing: boolean; // indicates if the timestamp is valid, meaning an injection may have occurred
         tenPlus: boolean; // indicates if the client has more than 10 members in the household
         invalid: boolean; // indicates if the client is invalid
         erroneous: boolean; // indicates if the client has erroneous fields
         hohInMembers: boolean; // indicates if the client has household members
+    };
+};
+
+/**
+ * Stringifies an Erroneous object.
+ * @param erroneous the Erroneous object to stringify
+ * @returns the stringified Erroneous object
+ */
+export function stringifyErroneous(erroneous: Erroneous): string {
+    return JSON.stringify({
+        timestamp: erroneous.timestamp,
+        FBMGuest: erroneous.FBMGuest,
+        fields_invalid: Array.from(erroneous.fields_invalid),
+        fields_erroneous_n_description: Object.fromEntries(erroneous.fields_erroneous_n_description),
+        flags: { ...erroneous.flags }
+    });
+}
+
+/**
+ * Parses a JSON string into an Erroneous object.
+ * @param json the JSON string to parse
+ * @returns the parsed Erroneous object
+ */
+export function parseErroneous(json: string): Erroneous {
+    const parsed = JSON.parse(json);
+    return {
+        timestamp: parsed.timestamp,
+        FBMGuest: parsed.FBMGuest,
+        fields_invalid: new Set(parsed.fields_invalid),
+        fields_erroneous_n_description: new Map(Object.entries(parsed.fields_erroneous_n_description)),
+        flags: parsed.flags
     };
 }
 
