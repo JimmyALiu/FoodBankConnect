@@ -6,21 +6,11 @@ import { Clients, emptyErroneous, Erroneous } from "../src/intake_forms/custom_t
 import { headOfHouseholdWithOneMember, mockClientComplete, mockClientMissingOneRequiredNull, onlyHeadOfHousehold } from "./mock_clients";
 import { _checkForDuplicates, _removeOldClients } from "../src/internalTimer";
 
+const testingSet = new Set<Erroneous>();
+
 jest.mock("../inMemoryStorage/cache", () => ({
-    internalFormGuests: new Set(),
+    internalFormGuests: testingSet,
 }));
-
-jest.mock("../src/intake_forms/client_intake", () => ({
-    getClients: jest.fn(),
-}));
-
-jest.mock("../src/intake_forms/flagger", () => ({
-    flagger: jest.fn(),
-}));
-jest.mock("../inMemoryStorage/cache", () => ({
-    internalFormGuests: new Set(),
-}));
-
 
 //mock erroneous clients
 //invalid checker is the current function that flags all relevant fields
@@ -49,7 +39,7 @@ describe.each([
             { ...clients[0], timestamp: now - 61 * 24 * 60 * 60 * 1000 }, // older than 60 days
             { ...clients[1], timestamp: now - 59 * 24 * 60 * 60 * 1000 }, // within 60 days
         ],
-        expectedRemainingClients: [{ ...clients[1], timestamp: Date.now() - 59 * 24 * 60 * 60 * 1000 }],
+        expectedRemainingClients: [{ ...clients[1], timestamp: now - 59 * 24 * 60 * 60 * 1000 }],
     },
     {
         description: "should remove clients if within 1 day",
