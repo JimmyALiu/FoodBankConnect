@@ -1,6 +1,7 @@
 /**mock clients used for testing are all located in this module */
 
-import { Client } from "../src/intake_forms/custom_types";
+import { Client, emptyErroneous, Erroneous } from "../src/intake_forms/custom_types";
+import { _invalidChecker } from "../src/intake_forms/flagger";
 
 //mock clients here:
 export const mockClientComplete: Client = new Map([
@@ -249,3 +250,8 @@ export const headOfHouseholdWithOneMember: Client = new Map([
     ['10th member\'s age', null],
     ['Yes, I have over 10 individuals in my household', null]
 ]);
+
+export const client1: Erroneous = _invalidChecker(mockClientComplete, emptyErroneous() as Erroneous);
+export const client2: Erroneous = _invalidChecker(mockClientMissingOneRequiredNull, emptyErroneous() as Erroneous);
+export const client3: Erroneous = _invalidChecker(onlyHeadOfHousehold, emptyErroneous() as Erroneous);
+export const client4: Erroneous = _invalidChecker(headOfHouseholdWithOneMember, emptyErroneous() as Erroneous);
