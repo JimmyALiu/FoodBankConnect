@@ -11,14 +11,12 @@ import { assert } from "console";
  */
 export function startInternalTimer() {
     setInterval(async () => {
-
         const clientsPulledFromForm: Set<Erroneous> | undefined = await _getClientsFromForm();
         assert(clientsPulledFromForm !== undefined, "Clients pulled from form should not be undefined");
         if (clientsPulledFromForm === undefined) {
             console.error("Failed to pull clients from form.");
             return;
         }
-
         //check for duplicates that already exist in the internalFormGuests
         const { duplicates, nonDuplicates } = _checkForDuplicates(clientsPulledFromForm);
 
