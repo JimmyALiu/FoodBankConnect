@@ -5,7 +5,7 @@ import { internalFormGuests } from '../inMemoryStorage/cache';
 
 const __dirname = path.dirname(new URL(import.meta.url).pathname);
 console.log(`dirname: ${__dirname}`);
-export const BACKUP_FILE: string = path.join(__dirname.replace(/^\/[A-Za-z]:/, ''), '../inMemoryStorage/backup.json');
+export const BACKUP_FILE: string = path.join(__dirname.replace(/^\/[A-Za-z]:/, ''), '../inMemoryStorage/backup/formIntake.json');
 
 // Initial in-memory data
 
