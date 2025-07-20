@@ -102,12 +102,22 @@ export const requiredFields = [
 /**
  * @fields_invalid is a set of field names that are invalid, basically means the form messed up
  * @FBMGuest will have '\0' for keys which are required but not present
+ * @timestamp this is the uid! The stored time value in milliseconds since midnight, January 1, 1970 UTC of when form was submitted.
+ * @flags
+ *  - duplicate: indicates if the client is a duplicate
+ * - severeAllergy: indicates if the client has an allergy
+ * - timestamp_missing: indicates if the timestamp is valid, meaning an injection may have occured
+ * - tenPlus: indicates if the client has more than 10 members in the household
+ * - invalid: indicates if the client has invalid fields
+ * - erroneous: indicates if the client has erroneous fields
+ * - hohInMembers: indicates if the client has household members
  * @fields_erroneous_n_description is a map of field name to description of the error, 
  *     could be empty or more than one this may have unrequired fields, 
  *     but only fields that have data. Perhaps have volunteers decide to discard invalid fields
  *     note: description is for developer, will be subject to change
  */
 export type Erroneous = {
+    timestamp?: number //it is the timestamp of the guest submission, ensures we dont copy over the same data and put it onto our server
     FBMGuest: FBMGuest;
     fields_invalid: Set<string>;
     fields_erroneous_n_description: Map<string, string>;

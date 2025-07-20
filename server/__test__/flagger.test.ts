@@ -1,8 +1,9 @@
-import { _allRequiredFieldsThere, _checkTrueHouseholdSize, _requiredFieldsToFBM, isHeadOfHouseholdMember, isMemberMissingImportantField, isValidAcknowledgment, isValidAllergies, isValidApartment, isValidBabyFood, isValidBabyFormula, isValidBabyServices, isValidCatFood, isValidCity, isValidCounty, isValidDateOfBirth, isValidDiaperSize, isValidDietaryInformation, isValidDogFood, isValidEthnicFoodPreference, isValidFirstName, isValidFoodModification, isValidHouseholdMembers, isValidHouseholdSize, isValidHouseNumber, isValidLastName, isValidLifeThreateningAllergy, isValidMeatPreference, isValidMemberAge, isValidMemberFirstName, isValidMemberLastName, isValidStreet, isValidTimestamp, isValidZipCode } from '../src/intake_forms/flagger';
+import { _allRequiredFieldsThere, _checkTrueHouseholdSize, _requiredFieldsToFBM, isHeadOfHouseholdMember, isMemberMissingImportantField, isValidAcknowledgment, isValidAllergies, isValidApartment, isValidBabyFood, isValidBabyFormula, isValidBabyServices, isValidCatFood, isValidCity, isValidCounty, isValidDateOfBirth, isValidDiaperSize, isValidDietaryInformation, isValidDogFood, isValidEthnicFoodPreference, isValidFirstName, isValidFoodModification, isValidHouseholdMembers, isValidHouseholdSize, isValidHouseNumber, isValidLastName, isValidLifeThreateningAllergy, isValidMeatPreference, isValidMemberAge, isValidMemberFirstName, isValidMemberLastName, isValidStreet, isValidTimestamp, isValidZipCode, toISOFormat } from '../src/intake_forms/flagger';
 import { copyErroneous, emptyErroneous, emptyFBMGuest, fieldMap, requiredFields } from '../src/intake_forms/custom_types';
 import { mockClientComplete, mockClientMissingSomeRequiredNull, mockClientSomeRequiredEmpty, mockClientMissingAllRequiredNull, mockClientMissingAllRequiredEmptyString, mockClientMissingAllRequiredUndefined, onlyHeadOfHousehold, mockClientMissingOneRequiredNull } from './mock_clients';
 import { Erroneous, Client } from '../src/intake_forms/custom_types';
 import { FBMGuest } from '../routes/helper';
+import { time } from 'console';
 function createClient(fields: Record<string, any>): Map<string, any> {
     return new Map(Object.entries(fields));
 }
@@ -537,18 +538,31 @@ describe.each([
             invalid: true,
         }
     }
+
+
 ])('isValidTimestamp - $name', ({ timestamp, inputErroneousFields, expectedInvalid, expectedDescriptions, expectedFlags }) => {
+    const erroneousFields = isValidTimestamp(timestamp, inputErroneousFields);
     it('produces correct erroneous fields and flags', () => {
-        const erroneousFields = isValidTimestamp(timestamp, inputErroneousFields);
+
 
         expect(Array.from(erroneousFields.fields_invalid)).toEqual(Array.from(expectedInvalid));
         expect(erroneousFields.fields_erroneous_n_description.size).toBe(expectedDescriptions.size);
         expectedInvalid.forEach((field) => {
             expect(erroneousFields.fields_erroneous_n_description.get(field)).not.toBeNull();
         });
-
         expect(erroneousFields.flags.invalid).toBe(expectedFlags.invalid);
         expect(erroneousFields.FBMGuest).toEqual(inputErroneousFields.FBMGuest); // Ensure FBMGuest is preserved
+    });
+    it('UTC error for test', () => {
+        if (!expectedFlags.invalid) {
+            if (!timestamp) {
+                throw new Error('Timestamp is undefined, cannot parse.');
+            }
+            const expectedUTCTime: number = Date.parse(timestamp);
+            if (expectedUTCTime) {
+                expect(erroneousFields.timestamp).toBe(expectedUTCTime);
+            }
+        }
     });
 });
 
@@ -640,6 +654,192 @@ describe.each([
         expect(erroneousFields.flags.invalid).toBe(expectedFlags.invalid);
         expect(erroneousFields.FBMGuest.lastname).toEqual(expectedFBMGuestname); // Ensure FBMGuest name is set correctly
     });
+});
+
+describe.each([
+    {
+        name: 'valid date string',
+        date: '2023-10-01T12:00:00Z',
+        expected: '2023-10-01T12:00:00Z'
+    },
+    {
+        name: 'valid date object',
+        date: new Date('2023-10-01T12:00:00Z'),
+        expected: '2023-10-01T12:00:00Z'
+    },
+    {
+        name: 'valid date string with timezone',
+        date: '2023-10-01T12:00:00+02:00',
+        expected: '2023-10-01T10:00:00Z' // Adjusted to UTC
+    },
+    {
+        name: 'valid date object with + timezone',
+        date: new Date('2023-10-01T12:00:00+02:00'),
+        expected: '2023-10-01T10:00:00Z' // Adjusted to UTC
+    },
+    {
+        name: 'valid date object with - timezone',
+        date: new Date('2023-10-01T12:00:00-02:00'),
+        expected: '2023-10-01T14:00:00Z' // Adjusted to UTC
+    },
+    {
+        name: 'valid date string without time, assumes input was from local timezone',
+        date: '2023-10-01',
+        expected: '2023-10-01T00:00:00'
+    },
+    {
+        name: 'date object without specified time takes on midnight at UTC timezone',
+        date: new Date('2023-10-01'),
+        expected: '2023-10-01T00:00:00Z' // Adjusted to UTC
+    },
+    {
+        name: 'valid date string with milliseconds',
+        date: '2023-10-01T12:00:00.123Z',
+        expected: '2023-10-01T12:00:00Z'
+    },
+    {
+        name: 'valid date object with milliseconds',
+        date: new Date('2023-10-01T12:00:00.123Z'),
+        expected: '2023-10-01T12:00:00Z'
+    },
+    {
+        name: 'null date',
+        date: null,
+        expected: undefined
+    },
+    {
+        name: 'invalid date string',
+        date: 'invalid-date',
+        expected: undefined
+    },
+    {
+        name: 'empty string',
+        date: '',
+        expected: undefined
+    },
+    {
+        name: 'whitespace string',
+        date: '   ',
+        expected: undefined
+    },
+    {
+        name: 'date in the past',
+        date: '2000-01-01T00:00:00Z',
+        expected: '2000-01-01T00:00:00Z'
+    },
+    {
+        name: 'date in the future',
+        date: '3023-01-01T00:00:00Z',
+        expected: '3023-01-01T00:00:00Z'
+    },
+    {
+        name: 'date object with invalid time',
+        date: new Date('invalid-date'),
+        expected: undefined
+    },
+    {
+        name: 'string with space instead of T',
+        date: '2023-10-01 12:00:00Z',
+        expected: '2023-10-01T12:00:00Z'
+    },
+    {
+        name: 'valid date string with slashes',
+        date: '10/01/2023 12:00:00',
+        expected: '2023-10-01T12:00:00'
+    },
+    {
+        name: 'valid date string with underscores',
+        date: '10_01_2023 12:00:00',
+        expected: '2023-10-01T12:00:00'
+    },
+    {
+        name: 'valid date string in MM-DD-YYYY format',
+        date: '10-01-2023 12:00:00',
+        expected: '2023-10-01T12:00:00'
+    },
+    {
+        name: 'valid date string in MM-DD-YYYY format without time',
+        date: '10-01-2023',
+        expected: '2023-10-01T00:00:00'
+    },
+    {
+        name: 'valid date string with mixed whitespace and slashes',
+        date: ' 10 / 01 / 2023 12 : 00 : 00 ',
+        expected: '2023-10-01T12:00:00'
+    },
+    {
+        name: 'valid date string with mixed whitespace and underscores',
+        date: ' 10 _ 01 _ 2023 12 : 00 : 00 ',
+        expected: '2023-10-01T12:00:00'
+    },
+    {
+        name: 'valid date string in MM-DD-YYYY format with mixed whitespace',
+        date: ' 10 - 01 - 2023 12 : 00 : 00 ',
+        expected: '2023-10-01T12:00:00'
+    },
+    {
+        name: 'valid date string in MM-DD-YYYY format with leading/trailing whitespace',
+        date: '   10-01-2023 12:00:00   ',
+        expected: '2023-10-01T12:00:00'
+    },
+    {
+        name: 'valid date string in MM-DD-YYYY format with only date',
+        date: '10-01-2023',
+        expected: '2023-10-01T00:00:00'
+    },
+    {
+        name: 'valid date string in MM/DD/YYYY format',
+        date: '10/01/2023',
+        expected: '2023-10-01T00:00:00'
+    },
+    {
+        name: 'valid date string in MM/DD/YYYY format with time',
+        date: '10/01/2023 12:00:00',
+        expected: '2023-10-01T12:00:00'
+    },
+    {
+        name: 'valid date string in MM/DD/YYYY format with leading/trailing whitespace',
+        date: '   10/01/2023 12:00:00   ',
+        expected: '2023-10-01T12:00:00'
+    },
+    {
+        name: 'valid date string in MM/DD/YYYY format with only date',
+        date: '10/01/2023',
+        expected: '2023-10-01T00:00:00'
+    },
+    {
+        name: 'valid date string in MM-DD-YYYY format with underscores',
+        date: '10_01_2023',
+        expected: '2023-10-01T00:00:00'
+    },
+    {
+        name: 'valid date string in MM-DD-YYYY format with underscores and time',
+        date: '10_01_2023 12:00:00',
+        expected: '2023-10-01T12:00:00'
+    },
+    {
+        name: 'valid date string in MM-DD-YYYY format with underscores and leading/trailing whitespace',
+        date: '   10_01_2023 12:00:00   ',
+        expected: '2023-10-01T12:00:00'
+    },
+    {
+        name: 'valid date string in MM-DD-YYYY format with underscores and only date',
+        date: '10_01_2023',
+        expected: '2023-10-01T00:00:00'
+    }
+])('toISOFormat - $name', ({ date, expected }) => {
+    it('returns the correct ISO format or undefined', () => {
+        //need to convert expected to local timezone as everything runs on utc
+        if (expected === undefined) {
+            expect(toISOFormat(date)).toBeUndefined();
+            return;
+        }
+        const expectedDate = new Date(expected);
+        // // Convert expected date to UTC to match the function's output
+        // const expectedUTC = new Date(expectedDate.getTime() - expectedDate.getTimezoneOffset() * 60000);
+        expect(toISOFormat(date)).toBe(expectedDate.toISOString().slice(0, 19) + 'Z'); // Slice to remove milliseconds
+    });
+
 });
 
 describe.each([
