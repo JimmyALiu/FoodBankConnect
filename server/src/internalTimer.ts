@@ -1,4 +1,3 @@
-import { get } from "http";
 import { internalFormGuests } from "../inMemoryStorage/cache";
 import { getClients } from "./intake_forms/client_intake";
 import { Clients, Erroneous } from "./intake_forms/custom_types";

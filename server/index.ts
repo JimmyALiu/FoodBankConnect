@@ -1,11 +1,11 @@
 import express from 'express';
 import cors from 'cors';
-import foodbankManagerRoutes from './routes/foodbankManager.js';
-import checkJwt from './routes/authentication.js';
+import foodbankManagerRoutes from './routes/foodbankManager';
+import checkJwt from './routes/authentication';
 import dotenv from 'dotenv';
 import { Request, Response } from 'express';
-import { internalFormGuests } from './inMemoryStorage/cache.js';
-import { startInternalTimer } from './src/internalTimer.js';
+import { internalFormGuests } from './inMemoryStorage/cache';
+import { startInternalTimer } from './src/internalTimer';
 
 dotenv.config();
 

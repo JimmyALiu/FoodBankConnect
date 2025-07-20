@@ -4,11 +4,13 @@
   "description": "",
   "main": "index.ts",
   "scripts": {
-    "test": "node run-jest.cjs",
-    "start": "node --loader ts-node/esm index.ts",
+    "test": "node scripts/run-jest.cjs",
+    "start": "node build/index.js",
     "dev": "nodemon index.ts",
     "clean": "tsc -b --clean",
-    "build": "tsc -b",
+    "build": "npm run build:rawnode && npm run build:extensions",
+    "build:rawnode": "tsc -b",
+    "build:extensions": "node scripts/fix-import-extensions.js",
     "start:intake": "node build/src/intake_forms/retrieve_intake_data.js"
   },
   "type": "module",
