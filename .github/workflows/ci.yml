@@ -45,3 +45,14 @@ jobs:
       - name: Run Server Tests
         working-directory: ./server
         run: npm run test -- --ci
+
+      - name: Build Server
+        working-directory: ./server
+        run: npm run build
+
+      - name: Start Server
+        working-directory: ./server
+        run: |
+          nohup npm start > server.log 2>&1 &
+          sleep 10
+          kill $(lsof -t -i:3000)

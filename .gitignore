@@ -137,3 +137,6 @@ build
 .pnp.*
 
 #keys
+
+#internal backup files
+server/inMemoryStorage/backup/*
