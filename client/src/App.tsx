@@ -3,10 +3,21 @@ import Dashboard from './components/Dashboard'
 import Home from "./Home";
 import Flagged from "./Flagged";
 import Search from "./Search";
+import { useAuth0 } from '@auth0/auth0-react';
 
 function App() {
-  const [currentPage, setCurrentPage] = useState("Home");
+  // authentication
+  const { isLoading, isAuthenticated } = useAuth0();
+  if (isLoading) {
+    return <></>
+  }
 
+  if (!isAuthenticated) {
+    const { loginWithRedirect } = useAuth0();
+    loginWithRedirect();
+  }
+
+  const [currentPage, setCurrentPage] = useState("Home");
   const renderPage = () => {
     switch (currentPage) {
       case "Home":
@@ -21,9 +32,9 @@ function App() {
   };
 
   return (
-  <div className="flex flex-auto w-[100vw]">
+  <div className="flex flex-col w-[100%]">
     <Dashboard setCurrentPage={setCurrentPage} />
-    <div className="flex-auto items-center justify-center pt-[5%]">
+    <div className="flex-auto items-center justify-center pt-[5%] px-0">
       {renderPage()}
     </div>
   </div>

@@ -134,9 +134,3 @@ export interface FBMGuest {
   //No and add, not boolean
   //gluten free only versus add
 }
-export type FBMGuestFlagged = {
-  description: string;//Todo: maybe put all the possible flags here
-  guest: FBMGuest;
-  created_at: Date;
-  updated_at: Date;
-}
