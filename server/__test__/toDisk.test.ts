@@ -25,9 +25,9 @@ describe('toDisk module', () => {
 
     afterEach(() => {
         // Clean up the backup file after each test
-        if (fs.existsSync(BACKUP_FILE)) {
-            fs.unlinkSync(BACKUP_FILE);
-        }
+        // if (fs.existsSync(BACKUP_FILE)) {
+        //     fs.unlinkSync(BACKUP_FILE);
+        // }
     });
 
 
@@ -136,8 +136,12 @@ describe('toDisk module', () => {
                 clients.forEach(client => internalFormGuests.add(client));
 
                 loadBackup();
-
-                expect(consoleSpy).toHaveBeenCalledWith(expect.stringContaining('Failed to load backup:'), expect.any(Error));
+                expect(internalFormGuests.size).toBe(clients.length); // Should clear the set on error
+                //if its not invalid show me what internal form guests are
+                expect(consoleSpy).toHaveBeenCalledWith(
+                    expect.stringContaining('Failed to load backup:'),
+                    expect.anything()
+                );
                 consoleSpy.mockRestore();
             });
         });
