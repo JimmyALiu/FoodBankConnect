@@ -156,6 +156,7 @@ export function createKeyAndIV(plaintext: string): { key: Buffer, iv: Buffer, en
 
 /**
  * decrypts the data if a backup file is being restored
+ * throws error if not in hex format
  * @param key 256-bit key used for decryption
  * @param iv 96-bit IV used for decryption
  * @param encrypted Encrypted data to decrypt
@@ -163,6 +164,9 @@ export function createKeyAndIV(plaintext: string): { key: Buffer, iv: Buffer, en
  * @returns Decrypted json file as a string
  */
 export function decryptData(key: Buffer, iv: Buffer, encrypted: string, authTag: Buffer): string {
+    if (!/^[0-9a-f]+$/i.test(encrypted) || encrypted.length % 2 !== 0) {
+        throw new Error("Encrypted string is not valid hex.");
+    }
     const decipher: crypto.DecipherGCM = crypto.createDecipheriv('aes-256-gcm', key, iv);
     decipher.setAuthTag(authTag);
     let decrypted: string = decipher.update(encrypted, 'hex', 'utf8');

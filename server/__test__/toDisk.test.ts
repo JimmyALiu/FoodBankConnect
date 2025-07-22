@@ -128,21 +128,28 @@ describe('toDisk module', () => {
             });
 
             it('should log an error if the backup file contains invalid JSON', () => {
-                const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => { });
-                // create file at backup location with invalid JSON
-                const backupFilePath = BACKUP_FILE;
-                fs.writeFileSync(backupFilePath, 'invalid json', 'utf-8');
-                internalFormGuests.clear();
-                clients.forEach(client => internalFormGuests.add(client));
+                const invalid_examples = [
+                    { invalid: 'invalid json', message: 'not hex' },
+                    { invalid: '12345', message: 'literally sequence of numbers' }
+                ];
+                for (const content of invalid_examples) {
 
-                loadBackup();
-                expect(internalFormGuests.size).toBe(clients.length); // Should clear the set on error
-                //if its not invalid show me what internal form guests are
-                expect(consoleSpy).toHaveBeenCalledWith(
-                    expect.stringContaining('Failed to load backup:'),
-                    expect.anything()
-                );
-                consoleSpy.mockRestore();
+                    const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => { });
+                    // create file at backup location with invalid JSON
+                    const backupFilePath = BACKUP_FILE;
+                    fs.writeFileSync(backupFilePath, content.invalid, 'utf-8');
+                    internalFormGuests.clear();
+                    clients.forEach(client => internalFormGuests.add(client));
+
+                    loadBackup();
+                    expect(internalFormGuests.size).toBe(clients.length); // Should clear the set on error
+                    //if its not invalid show me what internal form guests are
+                    expect(consoleSpy).toHaveBeenCalledWith(
+                        expect.stringContaining('Failed to load backup:'),
+                        expect.anything()
+                    );
+                    consoleSpy.mockRestore();
+                }
             });
         });
     });

@@ -140,3 +140,4 @@ build
 
 #internal backup files
 server/inMemoryStorage/backup/*
+server/.key
