@@ -16,7 +16,7 @@ Our 4 core features are
 We are actively working on a smarter search feature. We are also working on a feature that allows for editing entries within the Volunteer Hub.
 
 ## Repository Layout
-There are two directories, a frontend `client` and a `backend server`. Each is it's own project, detailed below. In addition, there is a `documentation` directory that provides further details about our project. Development, building, and testing will be detailed below under [Usage](#Usage).
+There are 3 directories, a frontend `client,` a `backend server` and the form intake form code. Each is it's own project, detailed below. In addition, there is a `documentation` directory that provides further details about our project. Development, building, and testing will be detailed below under [Usage](#Usage).
 
 ### documentation/
 This is a container for documentation useful to those that interact with the repository.  Includes:
@@ -64,7 +64,8 @@ API_USERNAME=
 API_PASSWORD=
 LOCATION_ID=
 ```
-
+3. within the server directory you need a .key file with the specific encryption key you will be using to encrypt your data. You can generate this or use the same key as everyone else
+4. 
 ### Dependencies
 To install requried dependencies:
 1. `cd server` to enter the server directory
