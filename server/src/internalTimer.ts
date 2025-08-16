@@ -1,6 +1,6 @@
 import { internalFormGuests } from "../inMemoryStorage/cache";
 import { getClients } from "./intake_forms/client_intake";
-import { Clients, Erroneous } from "./intake_forms/custom_types";
+import { Clients, Erroneous, stringifyErroneous } from "./intake_forms/custom_types";
 import { flagger } from "./intake_forms/flagger";
 import { assert } from "console";
 
@@ -59,10 +59,18 @@ export function _checkForDuplicates(clientsPulledFromForm: Set<Erroneous>): { du
     const nonDuplicates: Set<Erroneous> = new Set();
 
     clientsPulledFromForm.forEach((client) => {
+        //checks exact element
         if (internalFormGuests.has(client)) {
             duplicates.add(client);
             console.log("Duplicate client found:", client);
         } else {
+            //checks for deep equality
+            const clientString: String = stringifyErroneous(client);
+            if ([...internalFormGuests].some(existingClient => stringifyErroneous(existingClient) === clientString)) {
+                duplicates.add(client);
+                console.log("Duplicate client found by deep equality:", client);
+                return; // Exit early if a duplicate is found
+            }
             nonDuplicates.add(client);
             console.log("New client added:", client);
         }
