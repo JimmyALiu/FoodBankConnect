@@ -1,6 +1,14 @@
-Welcome the Lynnwood Food Bank's online intake system!
+#Welcome the Lynnwood Food Bank's online intake system!
 
-Thank you for filling out our intake form online.
+Thank you for deciding to filling out our intake form online.
+> [!CAUTION]
+> If you find yourself vulnerable to government actors in any way,
+> please do not use our online intake form.  Volunteers will be able to assist
+> you in person.
+>
+> By not filling out this form, you keep your household data from *Google* and are
+> less likely to find your data leaked.  The privacy of the form is not currently adequate
+> to protect you from data leakage, especially when sought by government actors.
 
 By following these steps on the day before your first visit, 
 you will help volunteers serve you and others faster:
@@ -17,14 +25,6 @@ You should see this Google Form:
 
 
 3. Fill out the form with data pertaining to your household. 
-> [!CAUTION]
-> If you find yourself vulnerable to government actors in any way,
-> please do not use our online intake form.  Volunteers will be able to assist
-> you in person.
->
-> By not filling out this form, you keep your household data from *Google* and are
-> less likely to find your data leaked.  The privacy of the form is not currently adequate
-> to protect you from data leakage, especially when sought by government actors.
 
 4. Click submit, found on bottom right:
 ![image](https://github.com/user-attachments/assets/9b9e28cd-6fae-4efc-945e-2f0b3c96a02c)

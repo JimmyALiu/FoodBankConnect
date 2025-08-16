@@ -1,25 +1,50 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { findDuplicates } from "./utils/utils";
+import { findDuplicates, isValidGuest } from "./utils/utils";
+import Modal from "./components/Modal";
+import EditClientForm from "./components/EditClientForm";
+import type { FBMGuest } from "../../server/routes/helper";
+
 
 function Flagged({
   setCurrentPage,
 }: {
   setCurrentPage: (page: string) => void;
 }) {
-  // State to hold the fetched guests data
-  const [guests, setGuests] = useState<any>(null);
+
+  // State to hold the clients 
+  const [clients, setClients] = useState<FBMGuest[]>([])
 
   // State to hold the flagged clients
-  const [flaggedEntries, setEntries] = useState<{ [key: string]: string }[]>(
-    []
-  );
+  const [flaggedEntries, setEntries] = useState<FBMGuest[]>([]);
+
+  // Controls popup modal for client review
+  const [activeClientIndex, setActiveClientIndex] = useState<number | null>(null);
 
   // State to hold the index of the dismissed client to fade out
   const [fadingIndex, setFadingIndex] = useState<number | null>(null);
 
-  // State to hold the index of the expanded entry when the review button is clicked
-  const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
+  // Helper function to add a guest to DB
+  function onAdd(index: number) {
+    setFadingIndex(index); 
+    setTimeout(() => {
+      const guestToAdd = flaggedEntries[index];
+      const { notes, ...payload } = guestToAdd;
+  
+      axios
+        .post("http://localhost:3000/api/fbm/guests/add", payload)
+        .then((res) => {
+          console.log("Added guest:", res.data);
+          setEntries((prev) => prev.filter((_, i) => i !== index)); 
+        })
+        .catch((err) => {
+          console.error("Failed to add guest:", err);
+        })
+        .finally(() => {
+          setFadingIndex(null); 
+        });
+    }, 300); 
+  }
 
   // Helper function to remove the entry from the flagged clients and fade it out
   function onDismiss(index: number) {
@@ -35,7 +60,7 @@ function Flagged({
     async function fetchGuests() {
       try {
         const res = await axios.get("http://localhost:3000/api/fbm/guests");
-        setGuests(res.data);
+        setClients(res.data.items);
         console.log("Check:", res.data);
       } catch (err) {
         console.error("Error fetching guests:", err);
@@ -47,25 +72,26 @@ function Flagged({
   // Get duplicates from the guests data
   // Also checks to see if guests is populated
   useEffect(() => {
-    if (!guests || flaggedEntries.length > 0) return;
-    const obj = JSON.parse(JSON.stringify(guests));
-    const guestEntries: { [key: string]: string }[] = [];
-    for (let i = 0; i < obj.items.length; i++) {
-      const entry = {
-        "First Name": obj.items[i].firstname,
-        "Last Name": obj.items[i].lastname,
-        Address: obj.items[i].street_address,
-        City: obj.items[i].city,
-        State: obj.items[i].state,
-      };
-      guestEntries.push(entry);
+    if (!clients || flaggedEntries.length > 0) return;
+    const clientEntries: FBMGuest[] = [];
+    for (let i = 0; i < clients.length; i++) {
+      if (!isValidGuest(clients[i])) {
+        console.error("Invalid guest data:", clients[i]);
+        continue; 
+      } else {
+        clientEntries.push(clients[i]);
+      }
     }
-    const duplicates = findDuplicates(guestEntries);
-    setEntries(duplicates);
-  }, [guests]);
+    const duplicates: FBMGuest[] = findDuplicates(clientEntries);
+    if (duplicates.length > 0) {
+      setEntries(duplicates);
+    } else {
+      console.log("No duplicates found");
+    }
+  }, [clients]);
 
   // Determines if component is loading
-  if (!guests) {
+  if (!flaggedEntries) {
     return (
       <div>
         <main className="flex flex-col items-center justify-center p-6">
@@ -111,24 +137,22 @@ function Flagged({
                   Flagged Client
                 </p>
                 <p>
-                  <strong>Name:</strong> {entry["First Name"]}{" "}
-                  {entry["Last Name"]}
+                  <strong>Name:</strong> {entry.firstname}{" "}
+                  {entry.lastname}
                 </p>
                 <p>
-                  <strong>Location:</strong> {entry["Address"]}, {entry["City"]}
-                  , {entry["State"]}
+                  <strong>Location:</strong> {entry.street_address}, {entry.city}
+                  , {entry.state}
                 </p>
                 <p>
-                  <strong>⚠️ Issue:</strong> {entry["Issue"]}
+                  <strong>⚠️ Issue:</strong> {entry.notes}
                 </p>
                 <div className="mt-3 flex gap-2">
                   <button
                     className="bg-blue-500 text-blue-500 px-3 py-1 rounded hover:bg-blue-600"
-                    onClick={() =>
-                      setExpandedIndex(expandedIndex === index ? null : index)
-                    }
+                    onClick={() => setActiveClientIndex(index)}
                   >
-                    {expandedIndex === index ? "Close" : "Review"}
+                    Review
                   </button>
                   <button
                     className="bg-gray-300 text-blue-500 px-3 py-1 rounded hover:bg-gray-400"
@@ -136,18 +160,29 @@ function Flagged({
                   >
                     Dismiss
                   </button>
+                  <button
+                    className="bg-gray-300 text-blue-500 px-3 py-1 rounded hover:bg-gray-400"
+                    onClick={() => onAdd(index)}
+                  >
+                    Add
+                  </button>
                 </div>
-                {expandedIndex === index && (
-                  <div className="mt-2 text-sm text-gray-700 transition-all duration-300 ease-in-out">
-                    <p>📋 Review</p>
-                    <p>Name: {entry["First Name"]}</p>
-                    <p>Address: {entry["Address"]}</p>
-                    <p>City: {entry["City"]}</p>
-                    <p>State: {entry["State"]}</p>
-                  </div>
-                )}
               </div>
             ))}
+            {/* Modal for editing client */}
+            {activeClientIndex !== null && (
+              <Modal isOpen={true} onClose={() => setActiveClientIndex(null)}>
+                <EditClientForm
+                  client={flaggedEntries[activeClientIndex]}
+                  onSave={(updatedClient) => {
+                    const updatedEntries = [...flaggedEntries];
+                    updatedEntries[activeClientIndex] = updatedClient;
+                    setEntries(updatedEntries);
+                    setActiveClientIndex(null); 
+                  }}
+                />
+              </Modal>
+            )}
           </div>
         </main>
       </div>
