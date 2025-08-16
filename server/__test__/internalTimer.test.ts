@@ -2,9 +2,11 @@ import { jest } from "@jest/globals";
 import { internalFormGuests } from "../inMemoryStorage/cache";
 import { getClients } from "../src/intake_forms/client_intake";
 import { _invalidChecker, flagger } from "../src/intake_forms/flagger";
-import { Clients, emptyErroneous, Erroneous } from "../src/intake_forms/custom_types";
+import { Clients, emptyErroneous, Erroneous, stringifyErroneous } from "../src/intake_forms/custom_types";
 import { headOfHouseholdWithOneMember, mockClientComplete, mockClientMissingOneRequiredNull, onlyHeadOfHousehold } from "./mock_clients";
 import { _checkForDuplicates, _removeOldClients } from "../src/internalTimer";
+import { timeStamp } from "console";
+import { stringify } from "querystring";
 
 const testingSet = new Set<Erroneous>();
 
@@ -148,66 +150,66 @@ describe.each([
 describe.each([
     {
         description: "should identify duplicates and non-duplicates correctly",
-        initialInternalGuests: new Set([clients[0]]),
-        clientsPulledFromForm: new Set([clients[0], clients[1]]),
-        expectedDuplicates: new Set([clients[0]]),
-        expectedNonDuplicates: new Set([clients[1]]),
+        initialInternalGuests: new Set<Erroneous>([clients[0]]),
+        clientsPulledFromForm: new Set<Erroneous>([clients[0], clients[1]]),
+        expectedDuplicates: new Set<Erroneous>([clients[0]]),
+        expectedNonDuplicates: new Set<Erroneous>([clients[1]]),
     },
     {
         description: "should identify multiple duplicates and multiple non-duplicates",
-        initialInternalGuests: new Set([clients[0], clients[1]]),
-        clientsPulledFromForm: new Set([clients[0], clients[1], clients[2], clients[3]]),
-        expectedDuplicates: new Set([clients[0], clients[1]]),
-        expectedNonDuplicates: new Set([clients[2], clients[3]]),
+        initialInternalGuests: new Set<Erroneous>([clients[0], clients[1]]),
+        clientsPulledFromForm: new Set<Erroneous>([clients[0], clients[1], clients[2], clients[3]]),
+        expectedDuplicates: new Set<Erroneous>([clients[0], clients[1]]),
+        expectedNonDuplicates: new Set<Erroneous>([clients[2], clients[3]]),
     },
     {
         description: "should handle an empty set of clients",
-        initialInternalGuests: new Set(),
-        clientsPulledFromForm: new Set(),
-        expectedDuplicates: new Set(),
-        expectedNonDuplicates: new Set(),
+        initialInternalGuests: new Set<Erroneous>(),
+        clientsPulledFromForm: new Set<Erroneous>(),
+        expectedDuplicates: new Set<Erroneous>(),
+        expectedNonDuplicates: new Set<Erroneous>(),
     },
     {
         description: "should add a single client as non-duplicate if internal storage is empty",
-        initialInternalGuests: new Set(),
-        clientsPulledFromForm: new Set([clients[0]]),
-        expectedDuplicates: new Set(),
-        expectedNonDuplicates: new Set([clients[0]]),
+        initialInternalGuests: new Set<Erroneous>(),
+        clientsPulledFromForm: new Set<Erroneous>([clients[0]]),
+        expectedDuplicates: new Set<Erroneous>(),
+        expectedNonDuplicates: new Set<Erroneous>([clients[0]]),
     },
     {
         description: "should mark a single client as a duplicate",
-        initialInternalGuests: new Set([clients[0]]),
-        clientsPulledFromForm: new Set([clients[0]]),
-        expectedDuplicates: new Set([clients[0]]),
-        expectedNonDuplicates: new Set(),
+        initialInternalGuests: new Set<Erroneous>([clients[0]]),
+        clientsPulledFromForm: new Set<Erroneous>([clients[0]]),
+        expectedDuplicates: new Set<Erroneous>([clients[0]]),
+        expectedNonDuplicates: new Set<Erroneous>(),
     },
     {
         description: "should handle multiple clients that are duplicates",
-        initialInternalGuests: new Set([clients[0], clients[1]]),
-        clientsPulledFromForm: new Set([clients[0], clients[1]]),
-        expectedDuplicates: new Set([clients[0], clients[1]]),
-        expectedNonDuplicates: new Set(),
+        initialInternalGuests: new Set<Erroneous>([clients[0], clients[1]]),
+        clientsPulledFromForm: new Set<Erroneous>([clients[0], clients[1]]),
+        expectedDuplicates: new Set<Erroneous>([clients[0], clients[1]]),
+        expectedNonDuplicates: new Set<Erroneous>(),
     },
     {
         description: "should handle a single client that is not a duplicate",
-        initialInternalGuests: new Set([clients[0]]),
-        clientsPulledFromForm: new Set([clients[1]]),
-        expectedDuplicates: new Set(),
-        expectedNonDuplicates: new Set([clients[1]]),
+        initialInternalGuests: new Set<Erroneous>([clients[0]]),
+        clientsPulledFromForm: new Set<Erroneous>([clients[1]]),
+        expectedDuplicates: new Set<Erroneous>(),
+        expectedNonDuplicates: new Set<Erroneous>([clients[1]]),
     },
     {
         description: "should handle no duplicates when all clients are new",
-        initialInternalGuests: new Set(),
-        clientsPulledFromForm: new Set([clients[2], clients[3]]),
-        expectedDuplicates: new Set(),
-        expectedNonDuplicates: new Set([clients[2], clients[3]]),
+        initialInternalGuests: new Set<Erroneous>(),
+        clientsPulledFromForm: new Set<Erroneous>([clients[2], clients[3]]),
+        expectedDuplicates: new Set<Erroneous>(),
+        expectedNonDuplicates: new Set<Erroneous>([clients[2], clients[3]]),
     },
     {
         description: "should handle multiple duplicates and non-duplicates",
-        initialInternalGuests: new Set([clients[0], clients[1]]),
-        clientsPulledFromForm: new Set([clients[0], clients[1], clients[2]]),
-        expectedDuplicates: new Set([clients[0], clients[1]]),
-        expectedNonDuplicates: new Set([clients[2]]),
+        initialInternalGuests: new Set<Erroneous>([clients[0], clients[1]]),
+        clientsPulledFromForm: new Set<Erroneous>([clients[0], clients[1], clients[2]]),
+        expectedDuplicates: new Set<Erroneous>([clients[0], clients[1]]),
+        expectedNonDuplicates: new Set<Erroneous>([clients[2]]),
     }
 ])("$description", ({ initialInternalGuests, clientsPulledFromForm, expectedDuplicates, expectedNonDuplicates }) => {
     beforeEach(() => {
@@ -256,19 +258,42 @@ describe.each([
         expect(logSpy).toHaveBeenCalledWith(`Found ${duplicates.size} duplicates and ${nonDuplicates.size} non-duplicates.`);
     });
     it("should check for deep equality of Erroneous objects", () => {
-        const client1Copy = { ...client1, FBMGuest: { ...client1.FBMGuest } };
-        const client2Copy = { ...client2, FBMGuest: { ...client2.FBMGuest } };
-        const client3Copy = { ...client3, FBMGuest: { ...client3.FBMGuest } };
-        const client4Copy = { ...client4, FBMGuest: { ...client4.FBMGuest } };
+        // Create copies of the clients to ensure deep equality check works
+        const copiedDuplicates: Set<Erroneous> = new Set(
+            Array.from(expectedDuplicates, clientraw => ({
+                timestamp: clientraw.timestamp,
+                FBMGuest: typeof clientraw.FBMGuest === "object" ? { ...clientraw.FBMGuest } : clientraw.FBMGuest,
+                flags: { ...clientraw.flags },
+                fields_invalid: new Set(clientraw.fields_invalid),
+                fields_erroneous_n_description: new Map(clientraw.fields_erroneous_n_description),
+            }))
+        );
+        const copiedNonDuplicates: Set<Erroneous> = new Set(
+            Array.from(expectedNonDuplicates, clientraw => ({
+                timestamp: clientraw.timestamp,
+                FBMGuest: typeof clientraw.FBMGuest === "object" ? { ...clientraw.FBMGuest } : clientraw.FBMGuest,
+                flags: { ...clientraw.flags },
+                fields_invalid: new Set(clientraw.fields_invalid),
+                fields_erroneous_n_description: new Map(clientraw.fields_erroneous_n_description),
+            }))
+        );
+        const input = new Set<Erroneous>([...copiedDuplicates, ...Array.from(copiedNonDuplicates)]);
+        const { duplicates, nonDuplicates } = _checkForDuplicates(input);
+        //assert that the copied duplicates and non-duplicates are equal to the expected duplicates and non-duplicates
+        expect(normalizeSet(duplicates)).toEqual(normalizeSet(copiedDuplicates));      // should FAIL until deep-equality is implemented
+        expect(normalizeSet(nonDuplicates)).toEqual(normalizeSet(copiedNonDuplicates));
 
-        expect(_checkForDuplicates(new Set([client1Copy, client2Copy]))).toEqual({
-            duplicates: new Set([client1Copy]),
-            nonDuplicates: new Set([client2Copy])
-        });
-        expect(_checkForDuplicates(new Set([client3Copy, client4Copy]))).toEqual({
-            duplicates: new Set(),
-            nonDuplicates: new Set([client3Copy, client4Copy])
-        });
+
     });
 
 });
+
+/**
+ * for testing purposes, this function normalizes the set of Erroneous objects by sorting them.
+ * This is useful for comparing sets of Erroneous objects in tests, as the order of the objects in the set does not matter.
+ * @param set Set of Erroneous objects to normalize
+ * @returns Array of normalized Erroneous objects
+ */
+function normalizeSet(set: Set<Erroneous>) {
+    return Array.from(set).sort();
+}
