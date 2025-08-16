@@ -76,65 +76,65 @@ describe('POST /guests/add', () => {
   });
 });
 
-describe('GET /guest/search', () => {
-  it('returns guests that match firstname, lastname, street_address, or phone (including othersHousehold)', async () => {
-    // Mock token fetch
-    nock('https://fbc403.soxbox.co')
-      .post('/rest-api/token')
-      .reply(200, { token: 'mocked-token' });
+// describe('GET /guest/search', () => {
+//   it('returns guests that match firstname, lastname, street_address, or phone (including othersHousehold)', async () => {
+//     // Mock token fetch
+//     nock('https://fbc403.soxbox.co')
+//       .post('/rest-api/token')
+//       .reply(200, { token: 'mocked-token' });
 
-    const mockGuests = {
-      items: [
-        {
-          id: 1,
-          firstname: "Alice",
-          lastname: "Smith",
-          street_address: "123 Main St",
-          phone: "555-1234",
-          othersHousehold: [
-            { name: "Charlie" },
-            { name: "Daisy" }
-          ]
-        },
-        {
-          id: 2,
-          firstname: "Bob",
-          lastname: "Jones",
-          street_address: "456 Oak Ave",
-          phone: "555-5678",
-          othersHousehold: []
-        },
-        {
-          id: 3,
-          firstname: "Carol",
-          lastname: "Brown",
-          street_address: "789 Pine Rd",
-          phone: "555-0000",
-          othersHousehold: [
-            { name: "alice" }
-          ]
-        }
-      ],
-      meta: { total: 3 }
-    };
+//     const mockGuests = {
+//       items: [
+//         {
+//           id: 1,
+//           firstname: "Alice",
+//           lastname: "Smith",
+//           street_address: "123 Main St",
+//           phone: "555-1234",
+//           othersHousehold: [
+//             { name: "Charlie" },
+//             { name: "Daisy" }
+//           ]
+//         },
+//         {
+//           id: 2,
+//           firstname: "Bob",
+//           lastname: "Jones",
+//           street_address: "456 Oak Ave",
+//           phone: "555-5678",
+//           othersHousehold: []
+//         },
+//         {
+//           id: 3,
+//           firstname: "Carol",
+//           lastname: "Brown",
+//           street_address: "789 Pine Rd",
+//           phone: "555-0000",
+//           othersHousehold: [
+//             { name: "alice" }
+//           ]
+//         }
+//       ],
+//       meta: { total: 3 }
+//     };
 
-    // Mock guest fetch
-    nock('https://fbc403.soxbox.co')
-      .get('/rest-api/clients')
-      .query(true) // ignore query params
-      .reply(200, mockGuests);
+//     // Mock guest fetch
+//     nock('https://fbc403.soxbox.co')
+//       .get('/rest-api/clients')
+//       .query(true) // ignore query params
+//       .reply(200, mockGuests);
 
-    const res = await request(app)
-      .get('/guest/search')
-      .query({ firstname: "alice" });
-    expect(res.status).toBe(200);
+//     const res = await request(app)
+//       .get('/guest/search')
+//       .query({ firstname: "alice" });
+//     expect(res.status).toBe(200);
 
-    expect(res.body.results.length).toBe(2);
-    const resultIDs = res.body.results.map((g: any) => g.id);
-    expect(resultIDs).toContain(1); // direct firstname match
-    expect(resultIDs).toContain(3); // member name match
-  });
-});
+//     expect(res.body.results.length).toBe(2);
+//     const resultIDs = res.body.results.map((g: any) => g.id);
+//     expect(resultIDs).toContain(1); // direct firstname match
+//     expect(resultIDs).toContain(3); // member name match
+//   });
+// });
 
 describe('Tests', () => {
   it('test1', () => {

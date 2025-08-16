@@ -4,17 +4,18 @@
 // node --loader ts-node/esm index.ts
 // EXAMPLE FIELDS:
 // {"id":2,"system_id":null,"snap_id":2,"public_user_id":null,"firstname":"Orange","middlename":"","lastname":"Mange","dob":"2025-05-10","homeless":0,"street_address":"","apartment":"","city":"Lynnwood","state":"WA","zipcode":"123","visit_exception":0,"visitor_type":null,"notes":null,"dobSet":1,"lng":null,"lat":null,"noMatch":0,"addrUpdated":0,"blackball":0,"profilePicture":"","saveCount":0,"household_total":3,"othersHousehold":[{"id":"e5d62f76-8a8a-462f-9d37-c6d8de07a12a","name":"Pineapple","age":"2025-05-11","rel":"","note":"","race":"","gender":"","created_at":"2025-05-11 22:24:09","updated_at":"2025-05-11 22:24:09"},{"id":"d280ed1b-e967-43c8-ba0e-9141b013221b","name":"Grape","age":"2025-05-12","rel":"","note":"","race":"","gender":"","created_at":"2025-05-11 22:24:09","updated_at":"2025-05-11 22:24:09"}],"updated_at":"2025-05-11 22:24:09","created_at":"2025-05-11 22:24:09","barcode":"","county":"","phone":"","language":"English","gender":"0","race":"0","incomeTotal":"0.00","expenseTotal":"0.00","netTotal":"0.00","custom1Field":"","cf_guests_901d83d3c7":"","cf_guests_1fb4745f10":[],"cf_guests_b70a510d7c":"","cf_guests_7d69b8c4d5":[],"cf_guests_9d6e374e65":"","cf_guests_36ccf4ecb9":"","cf_guests_ed8edf4e3d":"","cf_guests_e22b8fce8e":null,"cf_guests_24d312b3b6":"","cf_guests_45ae5f86e4":"In Country","cf_guests_8e6f172090":"Small- 1 to 3","cf_guests_e8827ca4cf":null,"cf_guests_459373e1d1":[]}
-
 import express from 'express';
 import axios, { AxiosError } from 'axios';
+import dotenv from 'dotenv';
+dotenv.config();
 
 const router = express.Router();
 
 // Real plain text domain and credentials, need to replace with user input during login!!!
-const API_BASE = 'https://fbc403.soxbox.co';
-const API_USERNAME = 'cse403';
-const API_PASSWORD = 'connect403';
-const LOCATION_ID = 1;
+const API_BASE = process.env.API_BASE!;
+const API_USERNAME = process.env.API_USERNAME!;
+const API_PASSWORD = process.env.API_PASSWORD!;
+const LOCATION_ID = Number(process.env.LOCATION_ID);
 
 interface HouseholdMember {
   name?: string;
@@ -33,6 +34,7 @@ interface Guest {
 
 // Helper to get a token
 async function getToken() {
+  //console.log("API_BASE env:", process.env.API_BASE);
   const res = await axios.post(`${API_BASE}/rest-api/token`, {
     username: API_USERNAME,
     password: API_PASSWORD,
@@ -48,7 +50,7 @@ async function getToken() {
 router.get('/guests', async (req, res) => {
   try {
     const token = await getToken();
-    console.log('Token:', token);
+    //console.log('Token:', token);
 
     const guestsRes = await axios.get(`${API_BASE}/rest-api/clients`, {
       headers: {
@@ -143,14 +145,29 @@ router.get('/guest/search', async (req, res) => {
 
     const { firstname, lastname, street_address, phone } = req.query;
 
-    // Fetch all guests (may want to filter on backend if address or phone is included)
-    const guestsRes = await axios.get(`${API_BASE}/rest-api/clients`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    let allGuests: Guest[] = [];
+    let page = 1;
+    const limit = 100; // Increase per-page size to reduce number of requests
 
-    const guests: Guest[] = guestsRes.data.items;
+    while (true) {
+      const guestsRes = await axios.get(`${API_BASE}/rest-api/clients`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        params: {
+          page,
+          limit,
+        },
+      });
+
+      const data = guestsRes.data;
+      const guests: Guest[] = data.items;
+      allGuests.push(...guests);
+
+      // If we're on the last page, stop
+      if (page >= data.meta.pages) break;
+      page++;
+    }
 
     // Normalize query
     const fName = firstname?.toString().toLowerCase() || '';
@@ -159,7 +176,7 @@ router.get('/guest/search', async (req, res) => {
     const ph = phone?.toString().toLowerCase() || '';
 
     // Filter guests
-    const matches = guests.filter((guest) => {
+    const matches = allGuests.filter((guest) => {
       const guestFirst = (guest.firstname || '').toLowerCase();
       const guestLast = (guest.lastname || '').toLowerCase();
       const guestAddr = (guest.street_address || '').toLowerCase();
@@ -180,7 +197,6 @@ router.get('/guest/search', async (req, res) => {
         );
       });
 
-      // Return true if any criteria matches
       return (
         (!fName || guestFirst.includes(fName) || othersMatch) &&
         (!lName || guestLast.includes(lName) || othersMatch) &&

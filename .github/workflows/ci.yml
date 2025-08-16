@@ -42,6 +42,29 @@ jobs:
         working-directory: ./server
         run: npm ci
 
+      - name: Create server/.env file
+        working-directory: ./server
+        run: |
+          echo "PORT=3000" > .env
+          echo "AUTH0_DOMAIN=${{ secrets.AUTH0_DOMAIN }}" >> .env
+          echo "AUTH0_AUDIENCE=${{ secrets.AUTH0_AUDIENCE }}" >> .env
+          echo "AUTH0_CLIENT_ID=${{ secrets.AUTH0_CLIENT_ID }}" >> .env
+          echo "AUTH0_CALLBACK_URL=${{ secrets.AUTH0_CALLBACK_URL }}" >> .env
+          echo "AUTH0_LOGOUT_REDIRECT_URI=${{ secrets.AUTH0_LOGOUT_REDIRECT_URI }}" >> .env
+          echo "API_BASE=${{ secrets.API_BASE }}" >> .env
+          echo "API_USERNAME=${{ secrets.API_USERNAME }}" >> .env
+          echo "API_PASSWORD=${{ secrets.API_PASSWORD }}" >> .env
+          echo "LOCATION_ID=${{ secrets.LOCATION_ID }}" >> .env
+
+      - name: Debug .env contents (optional)
+        working-directory: ./server
+        run: cat .env
+
+      - name: Create service account JSON
+        run: |
+          mkdir -p env
+          echo '${{ secrets.GOOGLE_CREDENTIALS }}' > env/food-bank-connect-b725637de6a2.json
+
       - name: Run Server Tests
         working-directory: ./server
         run: npm run test -- --ci
@@ -56,3 +79,4 @@ jobs:
           nohup npm start > server.log 2>&1 &
           sleep 10
           kill $(lsof -t -i:3000)
+
