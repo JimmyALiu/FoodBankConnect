@@ -4,11 +4,15 @@
   "description": "",
   "main": "index.ts",
   "scripts": {
-    "test": "node run-jest.cjs",
-    "start": "node --loader ts-node/esm index.ts",
+    "test": "node scripts/run-jest.cjs",
+    "test:debug": "node --inspect-brk scripts/run-jest.cjs",
+    "test:watch": "node scripts/run-jest.cjs --watch",
+    "start": "node build/index.js",
     "dev": "nodemon index.ts",
     "clean": "tsc -b --clean",
-    "build": "tsc -b",
+    "build": "npm run build:rawnode && npm run build:extensions",
+    "build:rawnode": "tsc -b",
+    "build:extensions": "node scripts/fix-import-extensions.js",
     "start:intake": "node build/src/intake_forms/retrieve_intake_data.js"
   },
   "type": "module",
@@ -20,7 +24,7 @@
     "@types/node": "^22.15.12",
     "axios": "^1.9.0",
     "cors": "^2.8.5",
-    "dotenv": "^16.5.0",
+    "dotenv": "^16.6.0",
     "express": "^5.1.0",
     "express-jwt": "^8.5.1",
     "gaxios": "^6.7.1",
@@ -45,7 +49,7 @@
     "nock": "^14.0.4",
     "nodemon": "^3.1.10",
     "supertest": "^7.1.0",
-    "ts-jest": "^29.3.2",
+    "ts-jest": "^29.4.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.3"
   }

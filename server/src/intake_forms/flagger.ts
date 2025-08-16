@@ -1320,12 +1320,10 @@ export function isValidAcknowledgment(acknowledgment: string | null | undefined,
  * Flags erroneous clients for further review.
  * sets the flag cache to a list of clients that are erroneous.
  * @param {Clients} clients - The set of clients to be processed.
- * @returns {Set<Erroneous>} - A set of clients that are not erroneous. ready to be sent to FBM.
+ * @returns {Set<Erroneous>} - A set of clients which are fully processed. Will have to check individual flags to understand what to do with them.
  */
 export function flagger(clients: Clients): Set<Erroneous> {
     const erroneousClients: Set<Erroneous> = new Set();
-    const validClients: Clients = new Set();
-    const invalidClients: Clients = new Set();
     //want to check if each client is erroneous
     for (const client of clients) {
         //check if the client is valid
