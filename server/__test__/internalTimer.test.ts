@@ -255,4 +255,20 @@ describe.each([
 
         expect(logSpy).toHaveBeenCalledWith(`Found ${duplicates.size} duplicates and ${nonDuplicates.size} non-duplicates.`);
     });
+    it("should check for deep equality of Erroneous objects", () => {
+        const client1Copy = { ...client1, FBMGuest: { ...client1.FBMGuest } };
+        const client2Copy = { ...client2, FBMGuest: { ...client2.FBMGuest } };
+        const client3Copy = { ...client3, FBMGuest: { ...client3.FBMGuest } };
+        const client4Copy = { ...client4, FBMGuest: { ...client4.FBMGuest } };
+
+        expect(_checkForDuplicates(new Set([client1Copy, client2Copy]))).toEqual({
+            duplicates: new Set([client1Copy]),
+            nonDuplicates: new Set([client2Copy])
+        });
+        expect(_checkForDuplicates(new Set([client3Copy, client4Copy]))).toEqual({
+            duplicates: new Set(),
+            nonDuplicates: new Set([client3Copy, client4Copy])
+        });
+    });
+
 });
