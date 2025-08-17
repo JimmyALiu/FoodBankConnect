@@ -1,6 +1,7 @@
 /**mock clients used for testing are all located in this module */
 
-import { Client } from "../src/intake_forms/custom_types";
+import { Client, emptyErroneous, Erroneous } from "../src/intake_forms/custom_types";
+import { _invalidChecker } from "../src/intake_forms/flagger";
 
 //mock clients here:
 export const mockClientComplete: Client = new Map([
@@ -190,4 +191,67 @@ export const onlyHeadOfHousehold: Client = new Map([
     ['Yes, I have over 10 individuals in my household', null]
 ]);
 
+export const headOfHouseholdWithOneMember: Client = new Map([
+    ['Timestamp', '2025-05-27T12:00:00Z'],
+    ['Head of Household First Name', 'Alice'],
+    ['Head of Household Last Name', 'Johnson'],
+    ['Head of Household Date of Birth', '1985-10-10'],
+    ['Head of Household House Number:', '123'],
+    ['Head of Household Street:', 'Main St'],
+    ['Head of Household APT # (if Applicable):', '5'],
+    ['Head of Household City:', 'Seattle'],
+    ['Head of Household Zip code:', '98101'],
+    ['Head of Household County:', 'King'],
+    ['Other than the Head of Household, how many people in their/your household?', '1'],
+    ['In terms of meat, does your family eat...', 'Chicken'],
+    ['Does your family have a preference for any of the following types of cultural or ethnic foods? ', 'Asian'],
+    ['Pick up food modification:', 'Low sodium'],
+    ['Allergies: please denote foods that should not appear in your ready to pick up bags', 'Peanuts'],
+    ['I have a life threatening Allergy and need individualized assistance to avoid cross contamination. (will follow up in person)', 'Yes'],
+    ['Any other dietary/ food choice information you would like us to add to your file (add notes about allergens not listed here)', 'i like grapes'],
+    ['Do you have a baby and want extra services?', 'No'],
+    ['Do you need adult diapers?', 'No'],
+    ['What size diapers does your baby(s) need?', 'new born'],
+    ['Do You Need Baby Food?', 'No'],
+    ['Do You Need Baby Formula?', 'No'],
+    ['If yes, what type?', 'formula'],
+    ['Do you need dog food?', 'Yes'],
+    ['Do you need cat food?', 'No'],
+    ['I acknowledge', 'Yes'],
+    ['1st member\'s first name', 'Bob'],
+    ['1st member\'s last name', 'Johnson'],
+    ['1st member\'s age', '10'],
+    ['2nd member\'s first name', null],
+    ['2nd member\'s last name', null],
+    ['2nd member\'s age', null],
+    ['3rd member\'s first name', null],
+    ['3rd member\'s last name', null],
+    ['3rd member\'s age', null],
+    ['4th member\'s first name', null],
+    ['4th member\'s last name', null],
+    ['4th member\'s age', null],
+    ['5th member\'s first name', null],
+    ['5th member\'s last name', null],
+    ['5th member\'s age', null],
+    ['6th member\'s first name', null],
+    ['6th member\'s last name', null],
+    ['6th member\'s age', null],
+    ['7th member\'s first name', null],
+    ['7th member\'s last name', null],
+    ['7th member\'s age', null],
+    ['8th member\'s first name', null],
+    ['8th member\'s last name', null],
+    ['8th member\'s age', null],
+    ['9th member\'s first name', null],
+    ['9th member\'s last name', null],
+    ['9th member\'s age', null],
+    ['10th member\'s first name', null],
+    ['10th member\'s last name', null],
+    ['10th member\'s age', null],
+    ['Yes, I have over 10 individuals in my household', null]
+]);
 
+export const client1: Erroneous = _invalidChecker(mockClientComplete, emptyErroneous() as Erroneous);
+export const client2: Erroneous = _invalidChecker(mockClientMissingOneRequiredNull, emptyErroneous() as Erroneous);
+export const client3: Erroneous = _invalidChecker(onlyHeadOfHousehold, emptyErroneous() as Erroneous);
+export const client4: Erroneous = _invalidChecker(headOfHouseholdWithOneMember, emptyErroneous() as Erroneous);
