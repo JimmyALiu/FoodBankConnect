@@ -209,6 +209,7 @@ export function emptyErroneous(): Erroneous {
 // Standalone function to copy an Erroneous object
 export function copyErroneous(erroneous: Erroneous): Erroneous {
     return {
+        timestamp: erroneous.timestamp,
         FBMGuest: { ...erroneous.FBMGuest },
         fields_invalid: new Set(erroneous.fields_invalid),
         fields_erroneous_n_description: new Map(erroneous.fields_erroneous_n_description),
